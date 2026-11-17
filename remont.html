@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#111216"><title>KRASKI DOSKI — Ремонт</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color-scheme:dark;background:#111216;color:#f5f5f7;--bg:#111216;--surface:#1c1d23;--surface2:#292a31;--stroke:#34353d;--inputstroke:#484952;--text:#f5f5f7;--muted:#a6a8b1;--red:#d71920;--blue:#6baeff}
+*{box-sizing:border-box}html{min-height:100%;background:var(--bg)}body{margin:0;min-height:100vh;background:var(--bg);color:var(--text)}body.light{color-scheme:light;--bg:#f4f5f7;--surface:#fff;--surface2:#f1f2f5;--stroke:#dfe1e6;--inputstroke:#d3d7de;--text:#202127;--muted:#646978;--blue:#2368b6}main{max-width:760px;margin:auto;padding:18px 12px 80px}.top,.line{display:flex;align-items:center;justify-content:space-between;gap:10px}.brand-header{background:var(--surface);border:1px solid var(--stroke);border-radius:18px;padding:12px;margin-bottom:13px;min-width:0}.brand-wrap{display:flex;align-items:center;gap:12px;min-width:0}.brand-icon{display:flex;flex:0 0 56px;width:56px;height:56px;border-radius:12px;background:#d71920;color:#fff;align-items:center;justify-content:center}.brand-icon svg{width:32px;height:32px;display:block}.brand-lines{display:flex;flex-direction:column;gap:3px;min-width:0}.brand-name{font-size:17px;font-weight:700;letter-spacing:0;line-height:1.3;color:var(--text);white-space:nowrap}.brand-subtitle{font-size:14px;line-height:1.3;color:var(--muted);white-space:nowrap}.theme-btn{flex:none}.card{background:var(--surface);border:1px solid var(--stroke);border-radius:18px;padding:17px;margin:13px 0}.tabs{display:flex;gap:7px;overflow-x:auto;padding:5px 0}.tabs button{flex:1;white-space:nowrap;background:var(--surface2);color:var(--text);min-height:41px}.tabs button.active{background:#d71920;color:#fff}h1{font-size:23px;margin:5px 0 12px}h2{font-size:18px;margin:0 0 13px}h3{font-size:15px;margin:8px 0}p{line-height:1.45}label{font-size:13px;color:var(--muted);display:block;margin:12px 0 5px}input,select,textarea,button{font:inherit}input,select,textarea{width:100%;min-width:0;border-radius:10px;border:1px solid var(--inputstroke);background:var(--surface2);color:var(--text);padding:11px 12px;min-height:44px}textarea{min-height:78px;resize:vertical}input:focus,select:focus,textarea:focus{outline:2px solid #628fce;outline-offset:1px}input[type=date]{font-variant-numeric:tabular-nums}input[type=checkbox]{width:auto;min-height:auto;accent-color:#d71920}button{border:0;border-radius:10px;padding:11px 14px;cursor:pointer;color:white;background:#d71920;font-weight:700}button.secondary{background:#343640;color:white}body.light button.secondary{background:#666c7b}button.ghost{background:transparent;color:var(--text);border:1px solid var(--stroke)}button.danger{background:#733139;color:#fff}button:disabled{opacity:.45;cursor:not-allowed}.smallbtn{font-size:12px;padding:7px 9px}.wide{width:100%}.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}.grid>*{min-width:0}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.hide{display:none!important}.muted,small{color:var(--muted)}small{font-size:12px}.total{background:var(--surface2);border-radius:12px;padding:15px;margin:16px 0}.sum{font-size:27px;font-weight:800;font-variant-numeric:tabular-nums}.tag{font-size:12px;border-radius:999px;padding:4px 9px;background:var(--surface2);color:var(--muted);white-space:nowrap}.tag.blue{background:#153c66;color:#79b7ff}.record.blue{border-color:#3578cb}.record{border:1px solid var(--stroke);border-radius:12px;padding:13px;margin:9px 0}.record p{margin:10px 0}.record .line{flex-wrap:wrap}.warning{font-size:12px;color:#e9b973}.notice{background:#46351e;border:1px solid #83603e;padding:12px;border-radius:10px;color:#ffdf9e;font-size:13px;line-height:1.5}body.light .notice{background:#fff2d8;color:#795014;border-color:#e3b678}.error{background:#4a252a;color:#ffd7db}.check{display:flex;align-items:center;gap:8px;margin-top:12px}.check label{margin:0}.listrow{display:flex;align-items:center;gap:7px;margin:8px 0}.listrow input{flex:1}.listrow button{flex:none}.settingsrow{padding:12px 0;border-bottom:1px solid var(--stroke)}.settingsrow:last-child{border:0}.settingsrow .grid{align-items:center}.pill{padding:4px 8px;background:var(--surface2);color:var(--muted);border-radius:100px;font-size:12px}hr{border:0;border-top:1px solid var(--stroke);margin:18px 0}.divider-title{padding-top:13px;border-top:1px solid var(--stroke);margin-top:21px}.row-actions{display:flex;justify-content:flex-end;gap:7px;margin-top:11px}.scrollnote{font-size:12px;line-height:1.45;color:var(--muted)}.rowtight{display:flex;align-items:center;gap:9px}.rowtight>*{min-width:0}.twolines{display:flex;flex-direction:column;gap:4px}.status{font-size:12px;color:var(--muted);margin-top:8px}.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:var(--surface2);border-radius:10px;padding:12px}.stat strong{display:block;font-size:20px}.stat small{display:block;margin-bottom:6px}.hr-note{font-size:12px;line-height:1.45;color:var(--muted);margin-top:7px}.filterrow{margin-top:5px}.nowrap{white-space:nowrap}#save{min-height:50px}.side-label{color:var(--blue)}.muted-divider{height:1px;background:var(--stroke);margin:8px 0}@media(max-width:420px){.brand-header{padding:10px;gap:7px}.brand-wrap{gap:9px}.brand-icon{width:46px;height:46px;flex-basis:46px;border-radius:11px}.brand-icon svg{width:27px;height:27px}.brand-name{font-size:15px}.brand-subtitle{font-size:12px}.theme-btn{font-size:11px;padding:7px}.card{padding:13px}.grid{gap:8px}.sum{font-size:24px}.tabs button{font-size:12px;padding:10px 8px}}@media(max-width:350px){.brand-name{font-size:13px}.brand-subtitle{font-size:11px}.tabs button{font-size:11px;padding:8px 5px}}@media print{.tabs,.theme-btn,button{display:none!important}body{background:#fff;color:#000}.card{break-inside:avoid}main{padding:0}}
+</style></head>
+<body><main>
+<header class="top brand-header"><div class="brand-wrap"><span class="brand-icon" role="img" aria-label="Малярная кисть"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14.622 17.897-10.68-2.913"/><path d="M18.376 2.622a1 1 0 1 1 3.002 3.002L17.36 9.643a.5.5 0 0 0 0 .707l.944.944a2.41 2.41 0 0 1 0 3.408l-.944.944a.5.5 0 0 1-.707 0L8.354 7.348a.5.5 0 0 1 0-.707l.944-.944a2.41 2.41 0 0 1 3.408 0l.944.944a.5.5 0 0 0 .707 0z"/><path d="M9 8c-1.804 2.71-3.97 3.46-6.583 3.948a.507.507 0 0 0-.302.819l7.32 8.883a1 1 0 0 0 1.185.204C12.735 20.405 16 16.792 16 15"/></svg></span><div class="brand-lines"><strong class="brand-name">KRASKI DOSKI</strong><small class="brand-subtitle">Ремонт · учёт работ</small></div></div><button class="secondary theme-btn" id="themeBtn" aria-label="Сменить тему">☀ / ☾</button></header>
+<nav class="tabs" aria-label="Разделы"><button class="active" data-tab="entry">Запись</button><button data-tab="journal">Журнал</button><button data-tab="report">Отчёты</button><button data-tab="settings">Настройки</button></nav>
+<div id="storageWarning" class="notice hide" role="alert"></div>
+<section id="entry"><div class="card"><h1 id="entryTitle">Новая запись</h1><div class="grid"><div><label for="date">Дата работы</label><input id="date" type="date"></div><div><label for="worker">Сотрудник</label><select id="worker"></select></div></div><label class="check"><input type="checkbox" id="showAllWorkers"> Показать сотрудников других участков</label><div class="grid"><div><label for="order">Заказ №</label><input id="order" list="orderHints" placeholder="Например, 126"><datalist id="orderHints"></datalist></div><div><label for="position">Позиция</label><input id="position" list="positionHints" placeholder="Например, 1"><datalist id="positionHints"></datalist></div></div><label for="mode">Тип начисления</label><select id="mode"><option value="piece">Сдельная работа · м²</option><option value="hour">Почасовая работа · часы</option></select><div id="pieceFields"><label for="operation">Вид работы</label><select id="operation"></select><label for="profile">Профиль</label><select id="profile"></select><label for="size">Размер</label><select id="size"></select><small id="sidesNote"></small><div class="grid"><div><label for="qty">Количество досок</label><input id="qty" type="number" min="1" step="1" value="100" inputmode="numeric"></div><div id="badWrap"><label for="bad">Брак, шт.</label><input id="bad" type="number" min="0" step="1" value="0" inputmode="numeric"></div></div><label class="check"><input type="checkbox" id="manual"> Ввести площадь вручную</label><div id="manualWrap" class="hide"><label for="manualArea">Площадь к оплате, м²</label><input id="manualArea" type="number" min="0" step="0.001" inputmode="decimal"></div><p class="hr-note" id="formulaNote"></p></div><div id="hourFields" class="hide"><label for="hours">Отработано часов</label><input id="hours" type="number" min="0" step="0.25" value="1" inputmode="decimal"><label for="description">Описание работы</label><textarea id="description" placeholder="Что было сделано"></textarea></div><div class="total"><div class="line"><span class="muted" id="volumeLabel">Площадь к оплате</span><strong id="volume">0 м²</strong></div><div class="line"><span class="muted">Расценка</span><strong id="rate">0 ₽</strong></div><hr><div class="line"><strong>Начислено</strong><span class="sum" id="pay">0 ₽</span></div></div><div id="editRateNote" class="hr-note hide">При редактировании сохранённой записи используется её прежняя ставка, если операция не изменена.</div><button class="wide" id="save">+ Добавить запись</button><button class="wide ghost hide" style="margin-top:8px" id="cancelEdit">Отменить редактирование</button><div id="saveStatus" class="status"></div></div></section>
+<section id="journal" class="hide"><div class="card"><h2>Журнал работ</h2><div class="rowtight" id="periodPresets" style="flex-wrap:wrap"><button class="smallbtn secondary" data-range="day">Сегодня</button><button class="smallbtn secondary" data-range="week">Неделя</button><button class="smallbtn secondary" data-range="month">Месяц</button><button class="smallbtn ghost" data-range="all">Все</button></div><div class="grid"><div><label for="filterFrom">С даты</label><input type="date" id="filterFrom"></div><div><label for="filterTo">По дату</label><input type="date" id="filterTo"></div></div><label for="filterWorker">Сотрудник</label><select id="filterWorker"></select><label for="filterSearch">Поиск по заказу, профилю, операции</label><input id="filterSearch" placeholder="Поиск…"><div id="records"></div><div class="total" id="journalTotals"></div></div></section>
+<section id="report" class="hide"><div class="card"><h2>Отчёты</h2><label for="reportScope">Охват отчёта</label><select id="reportScope"><option value="dept">Ремонт</option><option value="all">Все четыре подразделения</option></select><p class="muted">Даты и сотрудник берутся из фильтров журнала.</p><div id="reportContent"></div><button id="csv" class="wide">Экспорт отчёта в CSV</button><p class="hr-note">Общий отчёт объединяет записи четырёх приложений только в пределах одного браузера и сайта.</p></div></section>
+<section id="settings" class="hide"><div class="card"><h2>Сотрудники</h2><p class="hr-note">Общий справочник для всех участков при работе на одном сайте. Отключение сотрудника не удаляет историю.</p><div id="workersList"></div><div class="grid"><div><label for="newWorker">Новый сотрудник</label><input id="newWorker" placeholder="Фамилия и имя"></div><div><label for="newWorkerHome">Основной участок</label><select id="newWorkerHome"></select></div></div><button id="addWorker" class="wide" style="margin-top:10px">+ Добавить сотрудника</button><h2 class="divider-title">Профили и размеры</h2><p class="hr-note">Изменения доступны всем четырём приложениям на этом сайте. Старые записи не пересчитываются.</p><label for="settingsProfile">Профиль</label><select id="settingsProfile"></select><div class="grid"><div><label for="renameProfile">Название профиля</label><input id="renameProfile"></div><div style="align-self:end"><button id="saveProfileName" class="wide secondary">Переименовать</button></div></div><div id="sizesList"></div><label>Добавить размер, мм</label><div class="grid3"><div><input id="newThick" type="number" min="1" placeholder="Толщ. 20" aria-label="Толщина в мм"></div><div><input id="newWidth" type="number" min="1" placeholder="Шир. 145" aria-label="Ширина в мм"></div><div><input id="newLength" type="number" min="1" placeholder="Дл. 6000" aria-label="Длина в мм"></div></div><label class="check"><input id="newFour" type="checkbox"> Четыре стороны (вариант размера)</label><button id="addSize" class="wide" style="margin-top:11px">+ Добавить размер</button><div class="grid"><div><label for="newProfile">Новый профиль</label><input id="newProfile" placeholder="Название профиля"></div><div style="align-self:end"><button id="addProfile" class="wide secondary">+ Профиль</button></div></div><button class="danger smallbtn" id="deleteProfile" style="margin-top:12px">Удалить профиль из справочника</button><h2 class="divider-title">Заказы и позиции</h2><p class="hr-note">Список подсказок для ввода. Новые значения также добавляются при сохранении записи.</p><h3>Номера заказов</h3><div id="ordersList"></div><div class="rowtight"><input id="newOrderHint" placeholder="Новый заказ" aria-label="Номер заказа"><button id="addOrderHint" class="secondary smallbtn">+ Добавить</button></div><h3>Позиции</h3><div id="positionsList"></div><div class="rowtight"><input id="newPositionHint" placeholder="Новая позиция" aria-label="Позиция"><button id="addPositionHint" class="secondary smallbtn">+ Добавить</button></div><h2 class="divider-title">Виды работ и расценки</h2><div id="ratesList"></div><div class="grid"><div><label for="newOp">Новая операция</label><input id="newOp" placeholder="Название"></div><div><label for="newRate">Ставка, ₽/м²</label><input id="newRate" type="number" min="0" step="0.01" placeholder="0"></div></div><button class="wide secondary" style="margin-top:10px" id="addOp">+ Добавить операцию</button><label for="hourRate">Почасовая ставка, ₽/час</label><input id="hourRate" type="number" min="0" step="0.01"><h2 class="divider-title">Сохранение и перенос данных</h2><p class="notice">Данные хранятся в браузере этого устройства, без сервера. Перед очисткой браузера или сменой телефона скачайте резервную копию.</p><button id="backup" class="wide secondary">Скачать копию этого участка</button><button id="backupAll" class="wide secondary" style="margin-top:8px">Скачать копию всех четырёх участков</button><label for="restore">Восстановить данные из JSON</label><input id="restore" type="file" accept=".json,application/json"><div id="legacyBox" class="hide"><h2 class="divider-title">Старая версия приложения</h2><p id="legacyInfo" class="notice"></p><button id="legacyImport" class="wide secondary">Импортировать старые записи</button></div></div></section>
+</main><script>
+/* CONFIG */ const APP={"id": "remont", "title": "Ремонт", "key": "kraski_doski_remont_v2", "withBad": true, "operations": [{"name": "Строганая доска", "rate": 33}, {"name": "Поднятый ворс", "rate": 43}, {"name": "Шпаклёвка", "rate": 33}]};
+/* APPLICATION LOGIC */
+(()=>{'use strict';
+const $=id=>document.getElementById(id), KEY=APP.key, SHARED_KEY='kraski_doski_catalog_v2';
+const DEPTS=[{id:'remont',name:'Ремонт'},{id:'zagotovka',name:'Заготовка'},{id:'sortirovka',name:'Сборка-сортировка'},{id:'stanok',name:'Станок'}];
+const APP_KEYS={remont:'kraski_doski_remont_v2',zagotovka:'kraski_doski_zagotovka_v2',sortirovka:'kraski_doski_sortirovka_v2',stanok:'kraski_doski_stanok_v1'};
+const sizeSet=['20×95×6000','20×120×6000','20×145×6000','45×95×6000','45×145×6000','45×195×6000'];
+const PROFILES={
+  'ИБКП':['17×145×6000','17×145×5700','17×145×5400','20×145×6000','20×145×5700','20×145×5400','20×170×6000','20×170×5700','20×170×5400','23×196×6000'],
+  'UYW':['20×145×6000','20×145×5700','20×145×5400','20×170×6000','20×170×5700','20×170×5400'],
+  'UYS':['20×145×6000','20×145×5700','20×145×5400','20×170×6000','20×170×5700','20×170×5400'],
+  'UTV':['20×170×6000'],'UTS':['20×170×6000'],
+  'KM4R':sizeSet.flatMap(s=>[s,s+' - 4 стороны']),
+  'KM2R':['20×95×6000','20×120×6000','20×145×6000'],
+  'Вагонка':['15×121×6000'],'Планкен':['20×145×6000']
+};
+const clone=x=>JSON.parse(JSON.stringify(x)), now=()=>{const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10)};
+const fmt=(x,d=3)=>Number(x||0).toLocaleString('ru-RU',{maximumFractionDigits:d});
+const money=x=>fmt(x,2)+' ₽';
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const opt=(value,label=value)=>`<option value="${esc(value)}">${esc(label)}</option>`;
+const uid=()=>typeof crypto!=='undefined'&&crypto.randomUUID?crypto.randomUUID():('r'+Date.now().toString(36)+Math.random().toString(36).slice(2));
+let storageOK=true;
+function read(k,fallback){try{const raw=localStorage.getItem(k);return raw===null?clone(fallback):JSON.parse(raw)}catch{return clone(fallback)}}
+function write(k,data){try{localStorage.setItem(k,JSON.stringify(data));return true}catch(err){storageOK=false;$('storageWarning').classList.remove('hide');$('storageWarning').textContent='⚠️ Не удалось сохранить изменения в браузере: '+err.message+'. Скачайте резервную копию и проверьте настройки браузера.';return false}}
+function readOther(key){try{const raw=localStorage.getItem(key);return raw?JSON.parse(raw):null}catch{return null}}
+const defaultLocal={records:[],operations:clone(APP.operations),hourRate:350,theme:'dark',lastWorkerId:'',lastMode:'piece',schema:2};
+let data=read(KEY,defaultLocal);
+if(!data||!Array.isArray(data.records))data=clone(defaultLocal);
+if(!Array.isArray(data.operations)||!data.operations.length)data.operations=clone(APP.operations);
+if(!Number.isFinite(+data.hourRate)||data.hourRate<0)data.hourRate=350;
+if(typeof data.theme!=='string')data.theme='dark';
+function createCatalog(){
+ const c={workers:[],profiles:clone(PROFILES),orders:[],positions:[],schema:2};
+ // Respect already configured sizes and workers from the original Stanok version.
+ const old=readOther(APP_KEYS.stanok);
+ if(old&&old.profiles&&typeof old.profiles==='object'&&!Array.isArray(old.profiles)){
+   for(const [name,sizes] of Object.entries(old.profiles))if(Array.isArray(sizes))c.profiles[name]=sizes.slice();
+ }
+ if(old&&Array.isArray(old.workers))for(const name of old.workers)if(typeof name==='string'&&name.trim())c.workers.push({id:uid(),name:name.trim(),home:'stanok',active:true});
+ return c;
+}
+let catalog=read(SHARED_KEY,null);
+if(!catalog||!Array.isArray(catalog.workers)||!catalog.profiles||Array.isArray(catalog.profiles))catalog=createCatalog();
+for(const [name,sizes] of Object.entries(PROFILES))if(!Object.prototype.hasOwnProperty.call(catalog.profiles,name))catalog.profiles[name]=sizes.slice();
+if(!Array.isArray(catalog.orders))catalog.orders=[];if(!Array.isArray(catalog.positions))catalog.positions=[];
+const addWorkerSilently=(name,home)=>{name=String(name||'').trim();if(!name)return '';let w=catalog.workers.find(x=>x.name.localeCompare(name,'ru',{sensitivity:'base'})===0);if(w)return w.id;const id=uid();catalog.workers.push({id,name,home,active:true});return id};
+// Include workers previously entered in the original Stanok, even when the catalog already exists.
+if(APP.id==='stanok'&&Array.isArray(data.workers))for(const name of data.workers)addWorkerSilently(name,'stanok');
+for(const r of data.records){if(!r||typeof r!=='object')continue;
+ if(!r.workerId&&r.worker){r.workerId=addWorkerSilently(r.worker,APP.id)}
+ if(!r.department)r.department=APP.id;
+ if(r.mode!=='hour')r.mode='piece';
+ if(r.qty==null)r.qty=0;if(r.area==null)r.area=0;if(r.hours==null)r.hours=0;
+}
+write(SHARED_KEY,catalog);write(KEY,data);
+let editing=null, activeTab='entry';
+function showStatus(text){$('saveStatus').textContent=text}
+function persistLocal(){const ok=write(KEY,data);showStatus(ok?'● Сохранено в браузере':'⚠ Ошибка сохранения');return ok}
+function persistShared(){const ok=write(SHARED_KEY,catalog);if(ok){renderWorkers();renderProfiles();renderSettingsWorkers();renderHints()}return ok}
+function workerName(record){let current=catalog.workers.find(w=>w.id===record.workerId);return current?current.name:(record.worker||'Без сотрудника')}
+function workerAllowed(worker){return worker.active!==false&&(worker.home===APP.id||worker.home===''||$('showAllWorkers').checked)}
+function renderWorkers(){
+ const prev=$('worker').value||data.lastWorkerId;
+ const filtered=catalog.workers.filter(workerAllowed);
+ $('worker').innerHTML=opt('','Выберите сотрудника')+filtered.map(w=>opt(w.id,w.name+(w.home&&w.home!==APP.id?' · '+(DEPTS.find(d=>d.id===w.home)?.name||w.home):''))).join('');
+ const ids=filtered.map(w=>w.id);
+ $('worker').value=ids.includes(prev)?prev:(ids.length===1?ids[0]:'');
+ if(!$('worker').value&&ids.length>0&&ids.includes(data.lastWorkerId))$('worker').value=data.lastWorkerId;
+ const old=$('filterWorker').value;
+ const allNames=new Map();
+ for(const w of catalog.workers)allNames.set(w.id,w.name);
+ for(const app of Object.keys(APP_KEYS))for(const r of getRecords(app))if(r.workerId&&!allNames.has(r.workerId))allNames.set(r.workerId,r.worker||'Бывший сотрудник');
+ $('filterWorker').innerHTML=opt('','Все сотрудники')+[...allNames.entries()].map(([id,name])=>opt(id,name)).join('');
+ if([...allNames.keys()].includes(old))$('filterWorker').value=old;
+ }
+function renderProfiles(){
+ const p=$('profile').value||data.lastProfile, sp=$('settingsProfile').value;
+ const keys=Object.keys(catalog.profiles);
+ $('profile').innerHTML=keys.map(x=>opt(x)).join('');
+ $('settingsProfile').innerHTML=keys.map(x=>opt(x)).join('');
+ $('profile').value=keys.includes(p)?p:(keys[0]||'');
+ $('settingsProfile').value=keys.includes(sp)?sp:(keys[0]||'');
+ renderSizes();renderSettingsSizes();
+ }
+function renderSizes(keep){
+ const current=keep||$('size').value, arr=catalog.profiles[$('profile').value]||[];
+ $('size').innerHTML=arr.map(s=>opt(s)).join('');
+ $('size').value=arr.includes(current)?current:(arr[0]||'');
+ renderSidesNote();calc();
+ }
+function renderSidesNote(){let p=$('profile').value,s=$('size').value;
+ $('sidesNote').textContent=p==='KM4R'?(s.includes('4 стороны')?'KM4R · расчёт по 4 сторонам':'KM4R · расчёт по 3 сторонам'):p==='KM2R'?'KM2R · расчёт по 3 сторонам':'Расчёт по одной широкой стороне (уточните технологию при необходимости)';
+ }
+function renderOps(){const old=$('operation').value,ops=data.operations;
+ $('operation').innerHTML=ops.map((x,i)=>opt(i,`${x.name} — ${fmt(x.rate,2)} ₽/м²`)).join('');
+ if(old!==''&&Number.isInteger(+old)&&ops[+old])$('operation').value=old;
+ if(editing){let rec=data.records.find(r=>r.id===editing);if(rec){let i=ops.findIndex(x=>x.name===rec.operation);if(i>=0)$('operation').value=String(i)}}
+ calc();
+ }
+function countArea(profile,size,qty){
+ const m=String(size).match(/^(\d+)×(\d+)×(\d+)/);if(!m)return 0;
+ const [t,w,l]=m.slice(1).map(Number);
+ let width=size.includes('4 стороны')?2*(w+t):profile==='KM2R'||profile==='KM4R'?w+2*t:w;
+ return width*l*qty/1e6;
+ }
+function getRate(mode,opName,current){
+ if(editing){const old=data.records.find(r=>r.id===editing);if(old&&!old.needsReview&&old.mode===mode&&old.operation===opName&&Number.isFinite(+old.rate))return Number(old.rate)}
+ return Number(current)||0;
+ }
+function compute(){const hourly=$('mode').value==='hour';if(hourly){const hours=Number($('hours').value);const rate=getRate('hour','Почасовая работа',data.hourRate);return {hourly,qty:0,bad:0,area:0,hours,rate,pay:hours*rate,valid:Number.isFinite(hours)&&hours>0&&Number.isFinite(rate)&&rate>=0}}
+ const qty=Number($('qty').value),bad=APP.withBad?Number($('bad').value||0):0;
+ const profile=$('profile').value,size=$('size').value,op=data.operations[Number($('operation').value)];
+ const valid=Number.isInteger(qty)&&qty>0&&Number.isInteger(bad)&&bad>=0&&bad<=qty&&Boolean(profile&&size&&op);
+ const payableQty=Math.max(0,(Number.isFinite(qty)?qty:0)-(Number.isFinite(bad)?bad:0));
+ const computedArea=countArea(profile,size,payableQty);
+ const manual=$('manual').checked;
+ const area=manual?Number($('manualArea').value):computedArea;
+ const rate=op?getRate('piece',op.name,op.rate):0;
+ const areaValid=Number.isFinite(area)&&area>0;
+ return {hourly,qty,bad,area,hours:0,rate,pay:area*rate,valid:valid&&areaValid&&Number.isFinite(rate)&&rate>=0,per:countArea(profile,size,1),manual};
+}
+function calc(){
+ const c=compute();$('pieceFields').classList.toggle('hide',c.hourly);$('hourFields').classList.toggle('hide',!c.hourly);$('manualWrap').classList.toggle('hide',!$('manual').checked);
+ $('volumeLabel').textContent=c.hourly?'Отработано':'Площадь к оплате';$('volume').textContent=c.hourly?fmt(c.hours,2)+' ч':fmt(c.area)+' м²';$('rate').textContent=fmt(c.rate,2)+' ₽/'+(c.hourly?'час':'м²');$('pay').textContent=money(c.pay);
+ $('formulaNote').textContent=c.hourly?'':$('manual').checked?'Для оплаты используется введённая вручную площадь.':`Автоматически: ${fmt(c.per)} м²/доску${APP.withBad?' × (количество − брак)':''}. Для профилей кроме KM2R/KM4R пока считается одна широкая сторона.`;
+ $('editRateNote').classList.toggle('hide',!editing);
+ $('save').textContent=editing?'Сохранить изменения':'+ Добавить запись';
+ $('cancelEdit').classList.toggle('hide',!editing);
+ }
+function makeRecord(){
+ const c=compute(),workerId=$('worker').value,w=catalog.workers.find(x=>x.id===workerId);
+ if(!workerId||!w)return alert('Выберите сотрудника. Добавить можно в настройках.'),null;
+ if(!$('date').value)return alert('Выберите дату.'),null;
+ if(!c.valid)return alert('Проверьте количество досок, брак, площадь, часы и расценку.'),null;
+ let op=c.hourly?'Почасовая работа':data.operations[Number($('operation').value)]?.name;
+ if(!op)return alert('Выберите вид работы.'),null;
+ return {id:editing||uid(),date:$('date').value,workerId,worker:w.name,department:APP.id,order:$('order').value.trim(),position:$('position').value.trim(),mode:c.hourly?'hour':'piece',operation:op,profile:c.hourly?'':$('profile').value,size:c.hourly?'':$('size').value,qty:c.qty,bad:c.bad,area:c.area,hours:c.hours,manual:!c.hourly&&$('manual').checked,rate:c.rate,pay:Math.round(c.pay*100)/100,description:c.hourly?$('description').value.trim():'',updatedAt:new Date().toISOString()};
+}
+function saveRecord(){const r=makeRecord();if(!r)return;
+ const oldRecords=data.records.slice();
+ if(editing)data.records=data.records.map(x=>x.id===editing?r:x);else data.records.unshift(r);
+ data.lastWorkerId=r.workerId;data.lastMode=r.mode;data.lastProfile=r.profile||data.lastProfile;
+ if(!persistLocal()){data.records=oldRecords;return}
+ if(r.order&&!catalog.orders.includes(r.order))catalog.orders.push(r.order);if(r.position&&!catalog.positions.includes(r.position))catalog.positions.push(r.position);persistShared();
+ editing=null;calc();renderJournal();showStatus('✓ Запись сохранена · '+money(r.pay));
+ }
+function editRecord(id){const r=data.records.find(x=>x.id===id);if(!r)return;
+ editing=id;switchTab('entry');$('date').value=r.date||now();
+ $('showAllWorkers').checked=true;renderWorkers();$('worker').value=r.workerId||'';
+ $('order').value=r.order||'';$('position').value=r.position||'';$('mode').value=r.mode==='hour'?'hour':'piece';
+ $('profile').value=r.profile||$('profile').value;renderSizes(r.size);const ix=data.operations.findIndex(x=>x.name===r.operation);if(ix>=0)$('operation').value=String(ix);
+ $('qty').value=r.qty||0;$('bad').value=r.bad||0;$('manual').checked=!!r.manual;$('manualArea').value=r.area||'';
+ $('hours').value=r.hours||1;$('description').value=r.description||'';
+ $('entryTitle').textContent='Редактирование записи';calc();window.scrollTo(0,0);
+}
+function cancelEdit(){editing=null;$('entryTitle').textContent='Новая запись';$('manual').checked=false;$('manualArea').value='';$('qty').value='100';$('bad').value='0';$('hours').value='1';$('description').value='';calc()}
+function getRecords(dept){if(dept===APP.id)return data.records||[];
+ const item=readOther(APP_KEYS[dept]);return item&&Array.isArray(item.records)?item.records:[]}
+function filtered(all=false){const a=$('filterFrom').value,b=$('filterTo').value,w=$('filterWorker').value,q=$('filterSearch').value.trim().toLocaleLowerCase();
+ const rows=all?DEPTS.flatMap(d=>getRecords(d.id).map(r=>({...r,department:r.department||d.id}))):data.records;
+ return rows.filter(r=>(!a||r.date>=a)&&(!b||r.date<=b)&&(!w||r.workerId===w||(!r.workerId&&catalog.workers.find(x=>x.id===w)?.name===r.worker))&&(!q||[r.order,r.position,r.profile,r.size,r.operation,r.worker,r.description].join(' ').toLocaleLowerCase().includes(q))).sort((x,y)=>(y.date||'').localeCompare(x.date||'')||(y.updatedAt||'').localeCompare(x.updatedAt||''));
+}
+function sumStats(rows){return {count:rows.length,qty:rows.reduce((s,r)=>s+(+r.qty||0),0),bad:rows.reduce((s,r)=>s+(+r.bad||0),0),area:rows.reduce((s,r)=>s+(+r.area||0),0),hours:rows.reduce((s,r)=>s+(+r.hours||0),0),pay:rows.reduce((s,r)=>s+(+r.pay||0),0),review:rows.filter(r=>r.needsReview).length}}
+function renderJournal(){const rows=filtered(),s=sumStats(rows);
+ $('records').innerHTML=rows.map(r=>{
+ const blue=r.operation==='Промежутка';
+ return `<article class="record${blue?' blue':''}"><div class="line"><strong>${esc(workerName(r))}</strong><span class="tag${blue?' blue':''}">${esc(r.operation||'Работа')}</span></div><small>${esc(r.date||'—')} · Заказ ${esc(r.order||'—')} · Позиция ${esc(r.position||'—')}</small><p>${r.mode==='hour'?fmt(r.hours,2)+' ч · '+esc(r.description||'Без описания'):esc(r.profile||'—')+' · '+esc(r.size||'—')+' · '+fmt(r.qty)+' досок'+(r.bad?' (брак '+fmt(r.bad)+')':'')+' · '+fmt(r.area)+' м²'}</p>${r.needsReview?'<p class="warning">⚠️ Перенесено из старой версии: начисление требует проверки.</p>':''}<div class="line"><strong>${money(r.pay)}</strong><small>${fmt(r.rate,2)} ₽/${r.mode==='hour'?'час':'м²'}</small></div><div class="row-actions"><button class="secondary smallbtn" data-edit="${esc(r.id)}">Изменить</button><button class="danger smallbtn" data-delete="${esc(r.id)}">Удалить</button></div></article>`;
+ }).join('')||'<p class="muted">Записей по выбранным фильтрам пока нет.</p>';
+ $('journalTotals').innerHTML=`<div class="line"><span>Записей</span><b>${s.count}</b></div><div class="line"><span>Досок</span><b>${fmt(s.qty)}</b></div><div class="line"><span>Площадь</span><b>${fmt(s.area)} м²</b></div><div class="line"><span>Часы</span><b>${fmt(s.hours,2)} ч</b></div>${s.review?'<p class="warning">⚠️ '+s.review+' импортированных записей требуют проверки начисления.</p>':''}<hr><div class="line"><b>Начислено</b><span class="sum">${money(s.pay)}</span></div>`;
+ renderReport();
+}
+function renderReport(){const all=$('reportScope').value==='all',rows=filtered(all),s=sumStats(rows),groups=new Map(),ops=new Map();
+ for(const r of rows){const key=r.workerId||r.worker||'unknown',name=workerName(r);if(!groups.has(key))groups.set(key,{name,records:[]});groups.get(key).records.push(r);
+ const opKey=(all?(DEPTS.find(d=>d.id===r.department)?.name||r.department)+' · ':'')+(r.operation||'—');if(!ops.has(opKey))ops.set(opKey,[]);ops.get(opKey).push(r)}
+ $('reportContent').innerHTML=`<div class="statgrid"><div class="stat"><small>Всего начислено</small><strong>${money(s.pay)}</strong></div><div class="stat"><small>Записей</small><strong>${s.count}</strong></div><div class="stat"><small>Досок</small><strong>${fmt(s.qty)}</strong></div><div class="stat"><small>Часов</small><strong>${fmt(s.hours,2)}</strong></div></div><h3>По сотрудникам</h3>`+
+ [...groups.values()].map(g=>{let x=sumStats(g.records);return `<div class="record"><div class="line"><b>${esc(g.name)}</b><strong>${money(x.pay)}</strong></div><small>${x.count} записей · ${fmt(x.area)} м² · ${fmt(x.hours,2)} ч</small></div>`}).join('')+
+ '<h3>По операциям</h3>'+[...ops.entries()].map(([name,list])=>{let x=sumStats(list);return `<div class="record"><div class="line"><span>${esc(name)}</span><b>${money(x.pay)}</b></div><small>${fmt(x.area)} м² · ${fmt(x.hours,2)} ч · ${x.count} записей</small></div>`}).join('')+
+ (!rows.length?'<p class="muted">Записей за выбранный период нет.</p>':'')+(s.review?`<p class="warning">В отчёте есть ${s.review} старых записей без проверенного начисления.</p>`:'');
+}
+function renderSettingsWorkers(){
+ const html=catalog.workers.map(w=>`<div class="settingsrow" data-wid="${esc(w.id)}"><div class="grid"><div><label>Имя сотрудника</label><input class="sw-name" value="${esc(w.name)}" aria-label="Имя сотрудника"></div><div><label>Основной участок</label><select class="sw-home">${DEPTS.map(d=>opt(d.id,d.name)).join('')}</select></div></div><label class="check"><input type="checkbox" class="sw-active" ${w.active!==false?'checked':''}> Активен</label></div>`).join('');
+ $('workersList').innerHTML=html||'<p class="muted">Сотрудники ещё не добавлены.</p>';
+ for(const row of $('workersList').querySelectorAll('[data-wid]'))row.querySelector('.sw-home').value=catalog.workers.find(w=>w.id===row.dataset.wid).home||APP.id;
+}
+function renderSettingsSizes(){const p=$('settingsProfile').value,arr=catalog.profiles[p]||[];$('renameProfile').value=p||'';
+ $('sizesList').innerHTML=arr.map(s=>`<div class="listrow"><input data-old-size="${esc(s)}" value="${esc(s)}" aria-label="Размер доски"><button class="danger smallbtn" data-remove-size="${esc(s)}" aria-label="Удалить размер">×</button></div>`).join('')||'<p class="muted">У профиля пока нет размеров.</p>';
+}
+function renderHints(){
+ $('orderHints').innerHTML=catalog.orders.map(s=>opt(s)).join('');
+ $('positionHints').innerHTML=catalog.positions.map(s=>opt(s)).join('');
+ $('ordersList').innerHTML=catalog.orders.map(s=>`<div class="listrow"><input data-old-hint="${esc(s)}" data-hint-kind="orders" value="${esc(s)}" aria-label="Номер заказа"><button class="danger smallbtn" data-remove-hint="${esc(s)}" data-hint-kind="orders">×</button></div>`).join('')||'<p class="muted">Заказов пока нет.</p>';
+ $('positionsList').innerHTML=catalog.positions.map(s=>`<div class="listrow"><input data-old-hint="${esc(s)}" data-hint-kind="positions" value="${esc(s)}" aria-label="Позиция"><button class="danger smallbtn" data-remove-hint="${esc(s)}" data-hint-kind="positions">×</button></div>`).join('')||'<p class="muted">Позиций пока нет.</p>';
+}
+function addHint(kind,id){const v=$(id).value.trim();if(!v)return;if(!catalog[kind].includes(v))catalog[kind].push(v);$(id).value='';persistShared()}
+function renderSettingsRates(){
+ $('ratesList').innerHTML=data.operations.map((op,i)=>`<div class="settingsrow" data-op="${i}"><div class="grid"><div><label>Операция</label><input class="op-name" value="${esc(op.name)}"></div><div><label>Ставка, ₽/м²</label><div class="rowtight"><input class="op-rate" type="number" min="0" step="0.01" value="${esc(op.rate)}"><button data-remove-op="${i}" class="danger smallbtn" aria-label="Удалить операцию">×</button></div></div></div></div>`).join('');
+ $('hourRate').value=data.hourRate;
+}
+function download(filename,contents,type){const blob=new Blob([contents],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
+function backupFull(){const apps={};for(const d of DEPTS)apps[d.id]=readOther(APP_KEYS[d.id])||clone({records:[]});return {format:'kraski-doski-full-v2',createdAt:new Date().toISOString(),catalog:clone(catalog),apps}}
+function csvRows(){return filtered($('reportScope').value==='all')}
+function makeCSV(){const cols=['department','date','worker','order','position','mode','operation','profile','size','qty','bad','area','hours','rate','pay','description','needsReview'];const list=[cols.join(';')];for(const r of csvRows())list.push(cols.map(k=>{let v=k==='worker'?workerName(r):r[k];return '"'+String(v??'').replaceAll('"','""')+'"'}).join(';'));download(APP.id+'-'+now()+'.csv','\ufeff'+list.join('\r\n'),'text/csv;charset=utf-8')}
+function detectLegacy(){
+ if(APP.id==='stanok')return null;
+ let key=APP.id==='remont'?'uchet_doski_mobile_v1':APP.id==='zagotovka'?'zagotovka_records_v1':'sorting_app_v1';
+ const src=readOther(key);
+ const rows=APP.id==='remont'?src?.rows:src;
+ if(!Array.isArray(rows)||!rows.length)return null;
+ const imported=new Set(data.records.map(r=>r.legacyId).filter(Boolean));
+ const pending=rows.filter(r=>r&&r.id&&!imported.has(key+':'+r.id));
+ return {key,rows:pending};
+}
+function importLegacy(){const lg=detectLegacy();if(!lg||!lg.rows.length)return alert('Новых старых записей не найдено.');
+ if(!confirm(`Найдено ${lg.rows.length} старых записей. Импортировать их копии? Данные старого приложения не изменятся. Ненадёжные начисления будут помечены для проверки.`))return;
+ const converted=[];
+ for(const r of lg.rows){
+   if(APP.id==='remont'&&!(r.date||r.order||r.qty))continue;
+   const worker=r.worker||'Сотрудник не указан';const workerId=addWorkerSilently(worker,APP.id);
+   const op=APP.id==='remont'?(r.work==='Шпаклёвка'?'Шпаклёвка':String(r.surface||'').includes('ворс')?'Поднятый ворс':'Строганая доска'):APP.id==='zagotovka'?'Заготовка':'Сортировка';
+   const profile=String(r.profile||''),size=String(r.size||'');
+   if(profile&&size&&/^\d+×\d+×\d+/.test(size)){
+     if(!Array.isArray(catalog.profiles[profile]))catalog.profiles[profile]=[];
+     if(!catalog.profiles[profile].includes(size))catalog.profiles[profile].push(size);
+   }
+   const qty=+(APP.id==='sortirovka'?r.sortedQty:r.qty)||0;
+   const bad=+(APP.id==='remont'?r.bad:APP.id==='zagotovka'?r.defect:0)||0;
+   const area=APP.id==='zagotovka'&&Number.isFinite(+r.paidArea)?+r.paidArea:APP.id==='sortirovka'?(+r.sortedArea||0):countArea(profile,size,qty);
+   const hasPay=APP.id==='zagotovka'&&Number.isFinite(+r.pay)&&Number.isFinite(+r.tariff);
+   const rate=hasPay?+r.tariff:0;
+   converted.push({id:uid(),legacyId:lg.key+':'+r.id,date:r.date||now(),workerId,worker,department:APP.id,order:r.order||'',position:r.position||'',mode:'piece',operation:op,profile,size,qty,bad,area,hours:0,rate,pay:hasPay?+r.pay:0,description:APP.id==='sortirovka'?(r.notes||''):APP.id==='remont'?String(r.work||''):'',manual:APP.id==='zagotovka',needsReview:!hasPay,updatedAt:r.updatedAt||new Date().toISOString()});
+ }
+ data.records.unshift(...converted);persistShared();persistLocal();renderJournal();renderLegacy();alert('Импортировано '+converted.length+' записей. Старые данные остались без изменений. Помеченные начисления проверьте в журнале.');
+}
+function renderLegacy(){const lg=detectLegacy();$('legacyBox').classList.toggle('hide',!(lg?.rows?.length));if(lg?.rows?.length)$('legacyInfo').textContent=`Найдено ${lg.rows.length} записей старой версии. Их можно перенести копиями без удаления исходных данных. Начисления, которые невозможно проверить, будут отмечены.`}
+function switchTab(tab){activeTab=tab;for(const b of document.querySelectorAll('[data-tab]'))b.classList.toggle('active',b.dataset.tab===tab);for(const t of ['entry','journal','report','settings'])$(t).classList.toggle('hide',t!==tab);if(tab==='journal')renderJournal();if(tab==='report')renderReport();if(tab==='settings'){renderSettingsWorkers();renderSettingsSizes();renderSettingsRates();renderLegacy()}}
+function applyTheme(){document.body.classList.toggle('light',data.theme==='light');document.documentElement.style.setProperty('color-scheme',data.theme==='light'?'light':'dark')}
+// Inputs
+$('date').value=now();$('mode').value=data.lastMode||'piece';$('badWrap').classList.toggle('hide',!APP.withBad);
+for(const id of ['mode','operation','qty','bad','manual','manualArea','hours'])$(id).addEventListener('input',calc);
+$('profile').onchange=()=>{data.lastProfile=$('profile').value;renderSizes()};$('size').onchange=()=>{renderSidesNote();calc()};
+$('worker').onchange=()=>{data.lastWorkerId=$('worker').value;persistLocal()};
+$('showAllWorkers').onchange=renderWorkers;
+$('save').onclick=saveRecord;$('cancelEdit').onclick=()=>{cancelEdit();showStatus('Редактирование отменено')};
+$('records').onclick=e=>{const b=e.target.closest('[data-edit],[data-delete]');if(!b)return;
+ if(b.dataset.edit){editRecord(b.dataset.edit);return}
+ if(b.dataset.delete){if(!confirm('Удалить запись?'))return;data.records=data.records.filter(x=>x.id!==b.dataset.delete);if(!persistLocal())return;renderJournal()}
+};
+['filterFrom','filterTo','filterWorker','filterSearch'].forEach(id=>$(id).addEventListener(id==='filterSearch'?'input':'change',renderJournal));
+$('reportScope').onchange=renderReport;$('csv').onclick=makeCSV;
+for(const [btn,kind,input] of [['addOrderHint','orders','newOrderHint'],['addPositionHint','positions','newPositionHint']])$(btn).onclick=()=>addHint(kind,input);
+for(const id of ['ordersList','positionsList']){
+ $(id).onchange=e=>{const el=e.target.closest('[data-old-hint]');if(!el)return;const kind=el.dataset.hintKind,old=el.dataset.oldHint,value=el.value.trim();if(!value||catalog[kind].includes(value)&&value!==old){alert('Значение пустое или уже существует.');renderHints();return}catalog[kind]=catalog[kind].map(x=>x===old?value:x);persistShared()};
+ $(id).onclick=e=>{const b=e.target.closest('[data-remove-hint]');if(!b)return;const kind=b.dataset.hintKind,value=b.dataset.removeHint;if(!confirm('Убрать из подсказок? Старые записи не изменятся.'))return;catalog[kind]=catalog[kind].filter(x=>x!==value);persistShared()};
+}
+$('periodPresets').onclick=e=>{const b=e.target.closest('[data-range]');if(!b)return;const type=b.dataset.range;let from='',to='';if(type!=='all'){const d=new Date(),off=d.getTimezoneOffset()*60000,local=new Date(d.getTime()-off);to=local.toISOString().slice(0,10);if(type==='day')from=to;else if(type==='week'){const shift=(local.getUTCDay()+6)%7;local.setUTCDate(local.getUTCDate()-shift);from=local.toISOString().slice(0,10)}else {local.setUTCDate(1);from=local.toISOString().slice(0,10)}}$('filterFrom').value=from;$('filterTo').value=to;renderJournal()};
+$('settingsProfile').onchange=renderSettingsSizes;
+$('addWorker').onclick=()=>{const name=$('newWorker').value.trim(),home=$('newWorkerHome').value;if(!name)return alert('Введите имя сотрудника.');if(catalog.workers.some(x=>x.name.toLowerCase()===name.toLowerCase()))return alert('Такой сотрудник уже есть.');const id=addWorkerSilently(name,home);if(persistShared()){$('newWorker').value='';if(home===APP.id){renderWorkers();$('worker').value=id}}};
+$('workersList').onchange=e=>{const row=e.target.closest('[data-wid]');if(!row)return;const w=catalog.workers.find(x=>x.id===row.dataset.wid);if(!w)return;
+ const name=row.querySelector('.sw-name').value.trim();if(!name||catalog.workers.some(x=>x.id!==w.id&&x.name.toLowerCase()===name.toLowerCase())){alert('Имя пустое или уже занято.');renderSettingsWorkers();return}
+ w.name=name;w.home=row.querySelector('.sw-home').value;w.active=row.querySelector('.sw-active').checked;persistShared();renderJournal()};
+$('addProfile').onclick=()=>{const p=$('newProfile').value.trim();if(!p)return alert('Введите название профиля.');if(catalog.profiles[p])return alert('Такой профиль уже существует.');catalog.profiles[p]=[];$('newProfile').value='';persistShared();$('settingsProfile').value=p;renderSettingsSizes()};
+$('saveProfileName').onclick=()=>{const old=$('settingsProfile').value,n=$('renameProfile').value.trim();if(!old||!n||old===n)return;if(catalog.profiles[n])return alert('Профиль с таким названием уже существует.');catalog.profiles[n]=catalog.profiles[old];delete catalog.profiles[old];persistShared();$('settingsProfile').value=n;$('profile').value=n;renderSettingsSizes();renderSizes()};
+$('deleteProfile').onclick=()=>{const name=$('settingsProfile').value;if(!name)return;if(!confirm(`Удалить профиль «${name}» из справочника? История останется.`))return;delete catalog.profiles[name];persistShared()};
+$('addSize').onclick=()=>{const p=$('settingsProfile').value,values=['newThick','newWidth','newLength'].map(id=>+$(id).value);
+ if(!p||!catalog.profiles[p])return alert('Сначала добавьте профиль.');if(values.some(x=>!Number.isFinite(x)||!Number.isInteger(x)||x<=0))return alert('Укажите толщину, ширину и длину в целых миллиметрах.');
+ const size=values.join('×')+($('newFour').checked?' - 4 стороны':'');if(!catalog.profiles[p].includes(size))catalog.profiles[p].push(size);
+ ['newThick','newWidth','newLength'].forEach(id=>$(id).value='');$('newFour').checked=false;persistShared()};
+$('sizesList').onchange=e=>{const input=e.target.closest('[data-old-size]');if(!input)return;const p=$('settingsProfile').value,old=input.dataset.oldSize,n=input.value.trim();if(!/^\d+×\d+×\d+( - 4 стороны)?$/.test(n)||catalog.profiles[p].includes(n)&&n!==old){alert('Проверьте формат размера и отсутствие дублей.');renderSettingsSizes();return}
+ catalog.profiles[p]=catalog.profiles[p].map(v=>v===old?n:v);persistShared()};
+$('sizesList').onclick=e=>{const b=e.target.closest('[data-remove-size]');if(!b)return;if(!confirm('Убрать размер из справочника? Старые записи сохранятся.'))return;const p=$('settingsProfile').value;catalog.profiles[p]=catalog.profiles[p].filter(x=>x!==b.dataset.removeSize);persistShared()};
+$('ratesList').onchange=e=>{const row=e.target.closest('[data-op]');if(!row)return;const i=+row.dataset.op,op=data.operations[i];if(!op)return;const name=row.querySelector('.op-name').value.trim(),rate=Number(row.querySelector('.op-rate').value);if(!name||!Number.isFinite(rate)||rate<0)return alert('Проверьте название и ставку.');op.name=name;op.rate=rate;persistLocal();renderOps();renderSettingsRates()};
+$('ratesList').onclick=e=>{const b=e.target.closest('[data-remove-op]');if(!b)return;if(!confirm('Удалить операцию из справочника? Старые записи сохранятся.'))return;data.operations.splice(+b.dataset.removeOp,1);persistLocal();renderOps();renderSettingsRates()};
+$('addOp').onclick=()=>{const name=$('newOp').value.trim(),rate=Number($('newRate').value);if(!name||$('newRate').value===''||!Number.isFinite(rate)||rate<0)return alert('Введите название и ставку.');if(data.operations.some(x=>x.name.toLowerCase()===name.toLowerCase()))return alert('Операция с таким названием уже есть.');data.operations.push({name,rate});$('newOp').value='';$('newRate').value='';persistLocal();renderOps();renderSettingsRates()};
+$('hourRate').onchange=()=>{const n=Number($('hourRate').value);if(!Number.isFinite(n)||n<0)return alert('Неверная ставка.');data.hourRate=n;persistLocal();calc()};
+$('backup').onclick=()=>download(APP.id+'-backup-'+now()+'.json',JSON.stringify({format:'kraski-doski-app-v2',department:APP.id,createdAt:new Date().toISOString(),catalog:clone(catalog),data:clone(data)},null,2),'application/json');
+$('backupAll').onclick=()=>download('kraski-doski-all-'+now()+'.json',JSON.stringify(backupFull(),null,2),'application/json');
+$('restore').onchange=async e=>{const f=e.target.files[0];if(!f)return;
+ try{const obj=JSON.parse(await f.text());
+  if(obj.format==='kraski-doski-full-v2'){if(!obj.apps||!obj.catalog||!Array.isArray(obj.catalog.workers))throw Error('Неверная резервная копия');if(!confirm('Заменить данные ВСЕХ ЧЕТЫРЁХ участков и общий справочник из резервной копии?'))return;for(const [id,key] of Object.entries(APP_KEYS))if(obj.apps[id]&&Array.isArray(obj.apps[id].records))write(key,obj.apps[id]);write(SHARED_KEY,obj.catalog)}
+  else if(obj.format==='kraski-doski-app-v2'){if(obj.department!==APP.id||!obj.data||!Array.isArray(obj.data.records))throw Error('Копия от другого участка или повреждена');if(!confirm('Заменить данные этого участка и общий справочник сотрудников и размеров из резервной копии?'))return;write(KEY,obj.data);if(obj.catalog?.workers&&obj.catalog?.profiles)write(SHARED_KEY,obj.catalog)}
+  else if(APP.id==='stanok'&&Array.isArray(obj.records)&&Array.isArray(obj.operations)){if(!confirm('Восстановить старую копию Станка?'))return;write(KEY,obj)}
+  else throw Error('Неизвестный формат JSON');
+  location.reload();
+ }catch(err){alert('Ошибка восстановления: '+err.message)}finally{e.target.value=''}
+};
+$('legacyImport').onclick=importLegacy;
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
+$('themeBtn').onclick=()=>{data.theme=data.theme==='light'?'dark':'light';persistLocal();applyTheme()};
+window.addEventListener('storage',e=>{if(e.key===SHARED_KEY){const obj=read(SHARED_KEY,null);if(obj?.workers&&obj?.profiles){catalog=obj;renderWorkers();renderProfiles();renderSettingsWorkers();renderHints();renderJournal()}}if(Object.values(APP_KEYS).includes(e.key)){if(e.key===KEY){const obj=read(KEY,null);if(obj?.records){data=obj;renderJournal();renderOps();renderSettingsRates()}}else renderReport()}});
+// First render
+for(const select of ['newWorkerHome'])$(select).innerHTML=DEPTS.map(d=>opt(d.id,d.name)).join('');$('newWorkerHome').value=APP.id;
+applyTheme();renderProfiles();renderWorkers();renderOps();renderSettingsWorkers();renderSettingsRates();renderHints();renderJournal();renderLegacy();calc();
+})();
+
+</script></body></html>
