@@ -1,0 +1,24 @@
+{
+  "id": "/-/kd2/",
+  "name": "KRASKI DOSKI 2.0",
+  "short_name": "KRASKI DOSKI",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#101012",
+  "theme_color": "#101012",
+  "icons": [
+    {
+      "src": "https://origame1987.github.io/-/kd2-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://origame1987.github.io/-/kd2-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
