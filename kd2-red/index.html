@@ -337,7 +337,27 @@ function staffComparison(a){let m=new Map();for(const r of a){let k=r.workerId||
   const safe=textColumn&&/^(?:\s*[=+\-@]|[\t\r\n])/.test(cell)?"'"+cell:cell;
   return safe.replaceAll('"','""');
 }
-function csv(){let cols=['department','date','worker','order','position','operation','profile','size','qty','bad','area','hours','rate','pay'];download('report.csv','\ufeff'+[cols.join(';'),...rows().map(r=>cols.map(k=>'"'+csvCell(r[k],cols.indexOf(k)<8)+'"').join(';'))].join('\r\n'),'text/csv')}
+function csv(){
+  const columns=['department','date','worker','order','position','operation','profile','size','qty','bad','area','hours','rate','pay'];
+  const records=rows();
+  const participants=record=>journalDates.worker==='all'?recordWorkers(record):[{name:record.worker}];
+  const slots=records.reduce((max,record)=>Math.max(max,participants(record).length),1);
+  const headers=[...columns];
+  for(let i=1;i<=slots;i++)headers.push('Сотрудник '+i,'Доски '+i+' (шт.)');
+  const quote=(value,textColumn)=>'"'+csvCell(value,textColumn)+'"';
+  const lines=[headers.join(';')];
+  for(const record of records){
+    const cells=columns.map((key,index)=>quote(record[key],index<8));
+    const workers=participants(record);
+    const quantity=record.mode==='hour'||record.qty==null||record.qty===''?'':num(record.qty)/workers.length;
+    for(let i=0;i<slots;i++){
+      const worker=workers[i];
+      cells.push(quote(worker?.name,true),quote(worker?quantity:'',false));
+    }
+    lines.push(cells.join(';'));
+  }
+  download('report.csv','\ufeff'+lines.join('\r\n'),'text/csv');
+}
 function saveDepartment(id, value){
   return persist({...state,apps:{...state.apps,[id]:value}});
 }
