@@ -1,0 +1,1 @@
+{"name": "KRASKI DOSKI", "short_name": "KRASKI DOSKI", "id": "./kraski-2.html", "start_url": "./kraski-2.html?v=2.2.2", "scope": "./", "display": "standalone", "background_color": "#101012", "theme_color": "#101012", "icons": [{"src": "kd2-icon-192.png", "sizes": "192x192", "type": "image/png"}, {"src": "kd2-icon-512.png", "sizes": "512x512", "type": "image/png"}]}
