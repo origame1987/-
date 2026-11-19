@@ -28,6 +28,37 @@
 .ux-warning{border-left:3px solid #edab4a;background:var(--surface2);padding:12px;margin:12px 0;border-radius:8px;font-size:13px;color:var(--text)}
 @media(max-width:420px){.tabs button{flex-basis:30%;font-size:11px}.ux-plot>span{width:82px}.ux-plot>strong{width:66px}}
 @media print{body{background:white!important;color:black!important}main{max-width:none!important;padding:0!important}main>*:not(#uxPrintSheet){display:none!important}#uxPrintSheet{display:block!important;color:#111!important;background:#fff!important}#uxPrintSheet table{width:100%;border-collapse:collapse;font-size:10pt}#uxPrintSheet th,#uxPrintSheet td{border:1px solid #888;padding:5px;text-align:left;vertical-align:top}#uxPrintSheet h1{font-size:20pt}#uxPrintSheet p{font-size:11pt}#uxPrintSheet tr{break-inside:avoid}}
+
+/* iPhone Safari: keep native date fields within their parent card.
+   Safari sometimes gives the calendar's internal control an extra intrinsic width. */
+.date-grid{width:100%;min-width:0;max-width:100%;grid-template-columns:repeat(2,minmax(0,1fr))}
+.date-grid>div{min-width:0;max-width:100%;overflow:hidden}
+.date-grid input[type="date"]{
+  display:block!important;
+  box-sizing:border-box!important;
+  inline-size:100%!important;
+  min-inline-size:0!important;
+  max-inline-size:100%!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  overflow:hidden;
+}
+@media(max-width:600px){
+  .date-grid{grid-template-columns:minmax(0,1fr)!important}
+  .date-grid input[type="date"]{font-size:16px!important}
+}
+/* Safari-only width reserve for the native calendar widget.
+   Prevents its border from extending beyond the white card on iPhones. */
+@supports (-webkit-touch-callout: none) {
+  .date-grid input[type="date"]{
+    inline-size:calc(100% - 14px)!important;
+    width:calc(100% - 14px)!important;
+    max-inline-size:calc(100% - 14px)!important;
+    max-width:calc(100% - 14px)!important;
+  }
+}
+
 </style></head>
 <body><main>
 <header class="top brand-header"><div class="brand-wrap"><span class="brand-icon brand-logo" role="img" aria-label="KRASKI DOSKI"><img src="./logo-kraski-doski.png" alt="KRASKI DOSKI"></span><div class="brand-lines"><strong class="brand-name">KRASKI DOSKI</strong><small class="brand-subtitle">Станок · учёт работ</small></div></div><button class="secondary theme-btn" id="themeBtn" aria-label="Сменить тему">☀ / ☾</button></header>
