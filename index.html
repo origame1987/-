@@ -162,6 +162,8 @@
 /* Фирменный логотип KRASKI DOSKI */
 .brand-icon.brand-logo,.mark.logo-mark,.logo.logo-mark{background:transparent!important;padding:0!important;box-shadow:none!important;overflow:hidden!important;border-radius:12px!important;}
 .brand-icon.brand-logo img,.mark.logo-mark img,.logo.logo-mark img{width:100%;height:100%;display:block;object-fit:cover;border-radius:inherit;}
+
+:root{--bg:#101114;--panel:#101114;--card:#1a1c20;--card2:#222429;--text:#f4f5f7;--muted:#a6a9b1;--line:#303238;--red:#ef232c}html,body{background:var(--bg);color:var(--text)}body{padding:calc(14px + env(safe-area-inset-top)) 15px 24px}body.light{color-scheme:light;--bg:#f2f3f6;--panel:#f2f3f6;--card:#fff;--card2:#fff;--text:#181a20;--muted:#606674;--line:#e1e3e8}.shell{background:none!important;box-shadow:none!important;border:0!important;padding:0!important;border-radius:0!important}.brand{align-items:center!important;gap:11px!important;margin:0 0 18px!important}.logo{width:49px!important;height:49px!important;flex:0 0 49px!important}.brand h1{font-size:19px!important;letter-spacing:-.03em!important;color:var(--text)}.brand p{font-size:12px!important;color:var(--muted);margin-top:4px!important}.theme-toggle{margin-left:auto;flex:none;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;color:var(--text);font-size:16px;cursor:pointer}.overview{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:23px}.overview>div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;min-width:0}.overview small{display:block;color:var(--muted);font-size:11px}.overview strong{display:block;font-size:23px;letter-spacing:-.04em;margin-top:5px;overflow-wrap:anywhere}.overview>div:first-child strong{color:var(--red)}.home-caption{font-size:18px;letter-spacing:-.025em;margin:0 0 12px}.grid{gap:10px!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}.card{background:var(--card)!important;border:1px solid var(--line)!important;min-height:108px!important;border-radius:14px!important;padding:15px!important;align-items:flex-start!important;justify-content:space-between!important;text-align:left!important;color:var(--text)!important;box-shadow:none!important}.card .icon{color:var(--red)!important;margin:0 0 11px!important}.card .icon svg{width:26px!important;height:26px!important}.card strong{font-size:15px!important;line-height:1.15!important;letter-spacing:0!important}.card.wide{min-height:62px!important;align-items:center!important;justify-content:flex-start!important;gap:13px!important}.wide .icon{margin:0!important}.recent{margin-top:22px}.recent h2{font-size:18px}.recent-row{border:1px solid var(--line);background:var(--card);border-radius:11px;margin:7px 0;padding:12px;display:flex;justify-content:space-between;gap:10px;font-size:13px}.recent-row small{display:block;color:var(--muted);margin-top:4px}.recent-row b{color:var(--red)}.hint{background:none!important;color:var(--muted)!important;border:0!important;padding:0!important;font-size:11px}.hint b{color:var(--muted)!important}
 </style>
 </head>
 <body>
@@ -172,11 +174,11 @@
         <div>
           <h1>KRASKI DOSKI</h1>
           <p>Главное меню приложения</p>
-        </div>
+        </div><button class="theme-toggle" id="homeTheme" aria-label="Сменить тему">☀ / ☾</button>
       </div>
-
+      <h2 class="home-caption">Сегодня · все участки</h2><div class="overview"><div><small>Начислено</small><strong id="homePay">—</strong></div><div><small>Выработка</small><strong id="homeArea">—</strong></div></div><h2 class="home-caption">Подразделения</h2>
       <div class="grid">
-        <a class="card" href="./remont.html?v=20261119-8">
+        <a class="card" href="./remont.html?v=20261119-9">
           <div class="icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
               <path d="M14.7 6.3a2 2 0 0 1 2.8 0l.2.2a2 2 0 0 1 0 2.8L9 18l-4 1 1-4 8.7-8.7Z"/>
@@ -186,7 +188,7 @@
           <strong>Ремонт</strong>
         </a>
 
-        <a class="card" href="./zagotovka.html?v=20261119-8">
+        <a class="card" href="./zagotovka.html?v=20261119-9">
           <div class="icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
               <rect x="4" y="5" width="16" height="5" rx="1.5"/>
@@ -196,7 +198,7 @@
           <strong>Заготовка</strong>
         </a>
 
-        <a class="card" href="./sortirovka.html?v=20261119-8">
+        <a class="card" href="./sortirovka.html?v=20261119-9">
           <div class="icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
               <path d="M3 7h10"/>
@@ -208,7 +210,7 @@
           <strong>Сборка‑<br>сортировка</strong>
         </a>
 
-        <a class="card" href="./stanok.html?v=20261119-8">
+        <a class="card" href="./stanok.html?v=20261119-9">
           <div class="icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="6" width="18" height="10" rx="2"/>
@@ -218,7 +220,7 @@
           <strong>Станок</strong>
         </a>
 
-        <a class="card wide" href="./spravochnik.html?v=20261119-8">
+        <a class="card wide" href="./spravochnik.html?v=20261119-9">
           <div class="icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
               <path d="M4 19.2V6.4c0-.56.44-1.01.99-1.04 1.84-.11 3.63.16 5.16 1.17 1.2.8 1.85 1.6 1.85 1.6s.65-.8 1.85-1.6c1.53-1.01 3.32-1.28 5.16-1.17.55.03.99.48.99 1.04v12.8c0 .55-.45 1-1 1-.79 0-2.6-.15-4.48.58-1.28.5-2.3 1.39-2.82 1.88-.52-.49-1.54-1.38-2.82-1.88-1.88-.73-3.69-.58-4.48-.58-.55 0-1-.45-1-1Z"/>
@@ -231,8 +233,8 @@
         </a>
       </div>
 
-      <div class="hint"><b>Подсказка:</b> сотрудники, размеры и часть настроек используются внутри приложений. Если работаешь без общей базы, данные на разных телефонах между собой не синхронизируются.</div>
+      <section class="recent"><h2>Последние записи</h2><div id="homeRecent"></div></section><div class="hint"><b>Подсказка:</b> сотрудники, размеры и часть настроек используются внутри приложений. Если работаешь без общей базы, данные на разных телефонах между собой не синхронизируются.</div>
     </section>
   </main>
-</body>
+<script>(()=>{const get=k=>{try{return JSON.parse(localStorage.getItem(k))}catch{return null}};const sources=[['remont_v2','Ремонт'],['zagotovka_v2','Заготовка'],['sortirovka_v2','Сборка-сортировка'],['stanok_v1','Станок']];const rows=sources.flatMap(([key,name])=>{const x=get('kraski_doski_'+key);return Array.isArray(x?.records)?x.records.map(r=>({...r,name})):[]});const fmt=n=>Number(n||0).toLocaleString('ru-RU',{maximumFractionDigits:2});const d=new Date(),today=[d.getFullYear(),('0'+(d.getMonth()+1)).slice(-2),('0'+d.getDate()).slice(-2)].join('-');const t=rows.filter(r=>r.date===today);document.getElementById('homePay').textContent=fmt(t.reduce((a,r)=>a+(+r.pay||0),0))+' ₽';document.getElementById('homeArea').textContent=fmt(t.reduce((a,r)=>a+(+r.area||0),0))+' м²';const root=document.getElementById('homeRecent');for(const r of rows.sort((a,b)=>String(b.date).localeCompare(String(a.date))).slice(0,4)){const el=document.createElement('div');el.className='recent-row';const left=document.createElement('div');left.textContent=r.name;const sub=document.createElement('small');sub.textContent=(r.date||'')+' · '+(r.order||'Без заказа')+' · '+fmt(r.area)+' м²';left.append(sub);const right=document.createElement('b');right.textContent=fmt(r.pay)+' ₽';el.append(left,right);root.append(el)}if(!rows.length)root.textContent='Записей на этом устройстве пока нет.';const apply=()=>{let light=false;try{light=localStorage.getItem('kd_home_theme')==='light'}catch{}document.body.classList.toggle('light',light)};apply();document.getElementById('homeTheme').onclick=()=>{try{localStorage.setItem('kd_home_theme',document.body.classList.contains('light')?'dark':'light')}catch{}apply()}})();</script></body>
 </html>
