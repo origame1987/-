@@ -1,0 +1,17 @@
+/* Движок отображения отдельных глав: не изменяет старые ключи прогресса. */
+(function(){
+'use strict';
+let current=1;
+const key='klassiki-textbook-quiz-v1';
+const escText=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const oldRender=render;
+function view(){
+const ch=window.KlassikiTextbook?.get(current);navHtml();
+if(!ch){app.innerHTML='<p>Глава пока готовится.</p><button onclick="geometryQuarterHome()">Вернуться</button>';return}
+const h=escText;
+app.innerHTML='<article class="panel"><button onclick="geometryQuarterHome()">← К четверти</button><h2>'+h(ch.title)+'</h2><p>Полная глава · '+ch.sections.length+' разделов · '+ch.examples.length+' примеров · '+ch.exercises.length+' упражнений · '+ch.quiz.length+' вопросов</p>'+ch.sections.map((s,i)=>'<section><h3>'+(i+1)+'. '+h(s.heading)+'</h3><p style="line-height:1.8">'+h(s.text)+'</p></section>').join('')+'<h3>Разобранные примеры</h3>'+ch.examples.map((x,i)=>'<section class="question"><strong>Пример '+(i+1)+': '+h(x.prompt)+'</strong><p>'+h(x.solution)+'</p></section>').join('')+'<h3>Практика с решениями</h3>'+ch.exercises.map((x,i)=>'<details class="question"><summary>'+h(x.level)+' · '+(i+1)+'. '+h(x.prompt)+'</summary><p><strong>Решение:</strong> '+h(x.solution)+'</p></details>').join('')+'<h3>Мини-тест · '+ch.quiz.length+' вопросов</h3><form id="textbookQuiz">'+ch.quiz.map((q,i)=>'<fieldset class="question"><legend>'+(i+1)+'. '+h(q.prompt)+'</legend>'+q.options.map((a,j)=>'<label class="answer"><input type="radio" name="q'+i+'" value="'+j+'" required> '+h(a)+'</label>').join('')+'</fieldset>').join('')+'<button type="submit" class="primary">Проверить тест</button></form><div id="textbookResult" aria-live="polite"></div></article>';
+document.getElementById('textbookQuiz').addEventListener('submit',e=>{e.preventDefault();const f=new FormData(e.target),details=ch.quiz.map((q,i)=>({ok:Number(f.get('q'+i))===q.correct,answer:q.options[q.correct],explanation:q.explanation})),score=details.filter(x=>x.ok).length;let state={};try{state=JSON.parse(localStorage.getItem(key)||'{}')}catch{};const attempts=Array.isArray(state[current])?state[current]:[];attempts.push({date:new Date().toISOString(),score,total:details.length});state[current]=attempts.slice(-30);localStorage.setItem(key,JSON.stringify(state));document.getElementById('textbookResult').innerHTML='<h3>Результат: '+score+' из '+details.length+'</h3>'+details.map((d,i)=>'<p>'+(i+1)+'. '+(d.ok?'✓ Верно':'✗ Ошибка')+'. Ответ: '+h(d.answer)+'. '+h(d.explanation)+'</p>').join('')+'<p>Попытка сохранена. Можно пройти тест повторно.</p>';});
+}
+window.geometryTextbookOpen=function(id){current=id;page='geometryTextbook';render();window.scrollTo(0,0)};
+render=function(){if(page==='geometryTextbook'){view();return}oldRender();if(page==='geometryQuarter'){const ch=window.KlassikiTextbook?.list()||[];if(ch.length){const p=document.createElement('section');p.className='panel';p.innerHTML='<h3>Полноформатные главы учебника</h3><p>Новые главы с теорией, задачами и проверяемыми тестами. Остальные занятия пока доступны в прежнем формате.</p>'+ch.map(x=>'<p><button class="primary" onclick="geometryTextbookOpen('+x.id+')">'+escText(x.title)+'</button> · '+x.exercises+' упражнений</p>').join('');app.prepend(p)}}};
+})();
