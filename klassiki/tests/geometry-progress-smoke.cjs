@@ -81,7 +81,7 @@ assert.ok(state[0].every(a=>typeof a.date==='string'&&a.total===chapter.quiz.len
 console.log('PASS: textbook rendering, quiz scoring, retry history, corrupted storage recovery, 30-attempt limit');
 
 ctx.save=()=>localStorage.setItem('main-progress-fixture',JSON.stringify(ctx.progress));
-for(const name of ['geometry-year-data.js','geometry-year-videos.js','geometry-year-view.js']){
+for(const name of ['geometry-year-data.js','geometry-year-videos.js','geometry-quarter1-explanations.js','geometry-year-view.js']){
  const source=fs.readFileSync(path.join(base,name),'utf8');
  new vm.Script(source,{filename:name}).runInContext(ctx);
 }
@@ -101,6 +101,15 @@ year.forEach((lessons,term)=>{
   assertLessonLink();
   assert.ok(app.innerHTML.includes(title));
   assert.match(app.innerHTML,/<details class="question"><summary>Открыть разбор<\/summary>/);
+  if(term===0){
+   assert.match(app.innerHTML,/Цель урока.*Как это работает.*Разобранный пример.*Самостоятельная практика.*Проверь себя/);
+   assert.equal((app.innerHTML.match(/<summary>Проверить решение<\/summary>/g)||[]).length,2);
+   assert.match(app.innerHTML,/<details class="question"><summary>Разбор по шагам<\/summary><ol>(?:<li>[^<]+<\/li>){2,}<\/ol>/);
+   if([1,6,7,16].includes(i))assert.match(app.innerHTML,/<svg[^>]+role="img" aria-label="[^"]+"/);
+   if(i===11)assert.ok(app.innerHTML.indexOf('<h3>Задание</h3>')<app.innerHTML.indexOf('<h3>Разобранный пример</h3>'));
+  }else{
+   assert.doesNotMatch(app.innerHTML,/Самостоятельная практика/);
+  }
  });
 });
 assert.doesNotMatch(app.innerHTML,/Следующее занятие/);
@@ -115,7 +124,7 @@ assert.match(app.innerHTML,/geometryYearOpen\(1\)/);
 console.log('PASS: four quarters with 68 unique activities, worked solutions, resume, completion and textbook link');
 
 ctx.window.geometryYearOpen(6);
-assert.match(app.innerHTML,/180° − 65° = 115°/);
+assert.match(app.innerHTML,/2x \+ 3x = 180/);
 ctx.window.geometryYearOpen(34);
 assert.match(app.innerHTML,/<details class="question"><summary>Подробнее о правиле<\/summary>/);
 assert.ok(app.innerHTML.indexOf('Задание')<app.innerHTML.indexOf('Подробнее о правиле'));
