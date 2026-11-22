@@ -100,7 +100,7 @@ render=function(){
   back.onclick=()=>window.geometryYearOpen(lesson);
   app.prepend(back);
  }
- if(page==='home'||page==='geometryQuarter'){
+ if(page==='geometryQuarter'){
   const section=document.createElement('section');
   section.className='panel';
   const action=page==='geometryQuarter'?'geometryYearTerm('+(quarter-1)+')':'geometryYearStart()';

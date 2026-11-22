@@ -79,7 +79,7 @@ render=function(){
  if(page==='geometryTextbook'){view();return}
  oldRender();
  if(page==='geometryQuarter')app.prepend(coursePanel(quarter));
- if(page==='home'||page==='progress')app.prepend(overallPanel());
+ if(page==='progress')app.prepend(overallPanel());
 };
 render();
 })();
