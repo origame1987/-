@@ -275,3 +275,41 @@ assert.match(app.innerHTML,/Продолжить занятие 48/);
 assert.equal(ctx.window.physicsYearSummary().done,1);
 assert.equal(ctx.window.literatureYearSummary().done,1);
 console.log('PASS: physics course, all 48 lessons, videos, chapter links and independent progress');
+
+for(const name of ['biology-year-data.js','biology-year-view.js']){
+ const source=fs.readFileSync(path.join(base,name),'utf8');
+ new vm.Script(source,{filename:name}).runInContext(ctx);
+}
+const biology=ctx.window.KlassikiBiologyYear;
+const biologyTitles=new Set();
+assert.equal(biology.length,4);
+for(const [term,lessons] of biology.entries()){
+ assert.equal(lessons.length,8);
+ ctx.window.biologyYearTerm(term);
+ assert.match(app.innerHTML,new RegExp('<ol start="'+(term*8+1)+'">'));
+ for(const [offset,[title,rule,task,solution]] of lessons.entries()){
+  assert.ok([title,rule,task,solution].every(value=>typeof value==='string'&&value.trim()));
+  assert.ok(!biologyTitles.has(title));
+  biologyTitles.add(title);
+  const id=term*8+offset;
+  ctx.window.biologyYearOpen(id);
+  assert.ok(app.innerHTML.includes(title));
+  assert.match(app.innerHTML,/<summary>Открыть разбор<\/summary>/);
+  for(const [label,link] of ctx.window.KlassikiBiologyReadings[id+1]||[]){
+   const url=new URL(link);
+   assert.equal(url.origin,'https://www.youtube.com');
+   assert.match(url.searchParams.get('v'),/^[A-Za-z0-9_-]{11}$/);
+   assert.match(url.searchParams.get('t'),/^\d+s$/);
+   assert.ok(app.innerHTML.includes(label));
+  }
+ }
+}
+assert.doesNotMatch(app.innerHTML,/Следующее занятие/);
+ctx.window.biologyYearToggle({setAttribute(){}});
+ctx.progress=JSON.parse(localStorage.getItem('main-progress-fixture'));
+ctx.window.biologyYearStart();
+assert.match(app.innerHTML,/Выполнено 1 из 8/);
+assert.match(app.innerHTML,/Продолжить занятие 32/);
+assert.equal(ctx.window.biologyYearSummary().done,1);
+assert.equal(ctx.window.physicsYearSummary().done,1);
+console.log('PASS: biology course, all 32 lessons, video links and independent progress');
