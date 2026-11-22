@@ -31,6 +31,7 @@ window.installKlassikiYearCourse=function({subjectId,title,terms,videos={},readi
 
  function showLesson(){
   const [lessonTitle,rule,task,solution,chapter]=lessons[current];
+  const expanded=window.klassikiRenderYearExplanation?.(subjectId,current+1)||'';
   const explanation=Number.isInteger(chapter)?'<p><button onclick="lesson('+subjectId+','+chapter+')">Подробная глава</button></p>':'';
   const video=videos[current+1];
   const watch=video?'<p><a href="https://www.youtube.com/watch?v='+video+'" target="_blank" rel="noopener noreferrer">Посмотреть на YouTube</a></p>':'';
@@ -50,9 +51,9 @@ window.installKlassikiYearCourse=function({subjectId,title,terms,videos={},readi
    '<details class="question"><summary>Показать текст записи</summary><p lang="en">'+esc(recording[1])+'</p></details>':'';
   const questions=checks[current+1];
   const next=current+1<lessons.length?'<button class="primary" onclick="'+namespace+'Open('+(current+1)+')">Следующее занятие</button>':'';
-  app.innerHTML='<article class="panel"><button onclick="'+namespace+'Term('+term+')">К занятиям четверти</button>'+
+  app.innerHTML='<article class="panel'+(expanded?' lesson':'')+'"><button onclick="'+namespace+'Term('+term+')">К занятиям четверти</button>'+
    '<p>Занятие '+(current+1)+' из '+lessons.length+'</p><h2>'+esc(lessonTitle)+'</h2><p>'+esc(rule)+'</p>'+
-   watch+read+materials+'<h3>Задание</h3><p>'+esc(task)+'</p>'+illustration+listen+'<details class="question"><summary>Открыть разбор</summary><p>'+esc(solution)+'</p></details>'+
+   expanded+watch+read+materials+'<h3>Задание</h3><p>'+esc(task)+'</p>'+illustration+listen+'<details class="question"><summary>Открыть разбор</summary><p>'+esc(solution)+'</p></details>'+
    explanation+(questions?showCheck(questions):'')+'<div class="toolbar"><button onclick="'+namespace+'Toggle(this)" aria-pressed="'+completed(current)+'">'+
    (completed(current)?'Выполнено':'Отметить выполненным')+'</button>'+next+'</div><p id="'+storagePrefix+'-status" role="status">'+esc(message)+'</p></article>';
  }

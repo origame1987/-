@@ -36,7 +36,15 @@ const quarterDiagrams={
  17:()=>diagram('В треугольнике ABC отрезок AH — высота. H лежит на продолжении стороны BC за B.',
   '<path d="M72 22L138 122H273Z M28 122H138" fill="none" stroke="currentColor" stroke-width="2"/>'+
   '<path d="M72 22V122 M72 106H88V122" fill="none" stroke="#235bb4" stroke-width="2"/>'+
-  '<g fill="currentColor" font-size="17" text-anchor="middle"><text x="72" y="17">A</text><text x="138" y="145">B</text><text x="273" y="145">C</text><text x="72" y="145">H</text></g>')
+  '<g fill="currentColor" font-size="17" text-anchor="middle"><text x="72" y="17">A</text><text x="138" y="145">B</text><text x="273" y="145">C</text><text x="72" y="145">H</text></g>'),
+ 18:()=>diagram('Равнобедренный треугольник ABC. Отрезок AD делит основание BC пополам под прямым углом.',
+  '<path d="M160 24L82 124H238Z M114 69l14 10 M192 79l14-10" fill="none" stroke="currentColor" stroke-width="2"/>'+
+  '<path d="M160 24V124 M160 110H174V124" fill="none" stroke="#235bb4" stroke-width="2"/>'+
+  '<g fill="currentColor" font-size="17" text-anchor="middle"><text x="160" y="18">A</text><text x="82" y="146">B</text><text x="238" y="146">C</text><text x="160" y="146">D</text></g>'),
+ 23:()=>diagram('Окружность с центром O. Отрезок AB — диаметр, OA — радиус.',
+  '<circle cx="160" cy="78" r="53" fill="none" stroke="currentColor" stroke-width="2"/><path d="M107 78H213" stroke="#235bb4" stroke-width="2"/>'+
+  '<g fill="currentColor"><circle cx="107" cy="78" r="3"/><circle cx="160" cy="78" r="3"/><circle cx="213" cy="78" r="3"/>'+
+  '<g font-size="17" text-anchor="middle"><text x="95" y="83">A</text><text x="160" y="103">O</text><text x="225" y="83">B</text></g></g>')
 };
 function renderPractice({example,practice,check}){
  const [prompt,steps]=example;
@@ -57,19 +65,25 @@ function show(message=''){
   const core=window.KlassikiGeometryEssentials[current+1];
   const example=window.KlassikiGeometryQuickExamples[current+1];
   const expanded=window.KlassikiGeometryQuarter1Explanations?.[current+1];
+  const extra=window.klassikiRenderYearExplanation?.(1,current+1)||'';
+  const enriched=expanded||extra;
+  const control=current===11||current===29;
   const visual=quarterDiagrams[current+1]?.()||(current>=31&&current<=41?parallel():current>=42&&current<=47?triangle():'');
-  const explanation=core?'<details class="question"><summary>Подробнее о правиле</summary><p>'+esc(rule)+'</p></details>':'';
+  const explanation=core&&!enriched?'<details class="question"><summary>Подробнее о правиле</summary><p>'+esc(rule)+'</p></details>':'';
+  const theory=expanded?'<p><strong>Цель урока.</strong> '+esc(expanded.goal)+'</p><h3>Как это работает</h3>'+
+    expanded.theory.map(paragraph=>'<p>'+esc(paragraph)+'</p>').join(''):extra?'':'<p>'+esc(core||rule)+'</p>';
+  const practice=expanded?renderPractice(expanded):extra;
   const textbook=chapter===undefined?'':'<p><button onclick="geometryYearChapter('+chapter+')">Подробная глава</button></p>';
-  app.innerHTML='<article class="panel'+(expanded?' lesson':'')+'"><button onclick="geometryYearTerm('+term+')">К занятиям четверти</button>'+
+  const sources=videoLink+materials+textbook;
+  app.innerHTML='<article class="panel'+(enriched?' lesson':'')+'"><button onclick="geometryYearTerm('+term+')">К занятиям четверти</button>'+
    '<p>Занятие '+(current+1)+' из '+lessons.length+'</p><h2>'+esc(title)+'</h2>'+
-   (expanded?'<p><strong>Цель урока.</strong> '+esc(expanded.goal)+'</p><h3>Как это работает</h3>'+
-    expanded.theory.map(paragraph=>'<p>'+esc(paragraph)+'</p>').join(''):'<p>'+esc(core||rule)+'</p>')+visual+
-   (expanded?'':videoLink+materials)+
-   (!expanded&&example?'<h3>Пример</h3><p>'+esc(example)+'</p>':'')+
-   (expanded&&current!==11?renderPractice(expanded):'')+
+   theory+visual+
+   (enriched?'':videoLink+materials)+
+   (!enriched&&example?'<h3>Пример</h3><p>'+esc(example)+'</p>':'')+
+   (control?'':practice)+
    '<h3>Задание</h3><p>'+esc(task)+'</p><details class="question"><summary>Открыть разбор</summary><p>'+esc(solution)+'</p></details>'+
-   (expanded&&current===11?renderPractice(expanded):'')+
-   explanation+(expanded?((videoLink||materials||textbook)?'<h3>Если хочешь разобраться подробнее</h3>'+videoLink+materials+textbook:''):textbook)+
+   (control?practice:'')+explanation+
+   (enriched&&sources?'<h3>Если хочешь разобраться подробнее</h3>'+sources:textbook)+
    '<div class="toolbar"><button onclick="geometryYearToggle()" aria-pressed="'+completed(current)+'">'+(completed(current)?'Выполнено':'Отметить выполненным')+'</button>'+
    (current+1<lessons.length?'<button class="primary" onclick="geometryYearOpen('+(current+1)+')">Следующее занятие</button>':'<button class="primary" onclick="geometryYearTerm('+term+')">К занятиям четверти</button>')+
    '</div><p role="status">'+esc(message)+'</p></article>';

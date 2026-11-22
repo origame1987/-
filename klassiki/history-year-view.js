@@ -17,15 +17,16 @@ const firstIndex=(s,q)=>courses[s].quarters.slice(0,q).reduce((sum,lessons)=>sum
 function showLesson(){
  const [title,period,story,task,solution,chapter]=lessonList(subject)[selected];
  const n=number(subject,selected);
+ const expanded=window.klassikiRenderYearExplanation?.(subject,selected+1)||'';
  const video=window.KlassikiHistoryVideos?.[subject]?.[selected+1];
  const watch=video?'<p><a href="https://www.youtube.com/watch?v='+video+'" target="_blank" rel="noopener noreferrer">Посмотреть на YouTube</a></p>':'';
  const materials=window.klassikiLessonReadings(subject,title,selected+1,{hasSource:Boolean(video)});
  const detail=Number.isInteger(chapter)?'<p><button onclick="lesson('+subject+','+chapter+')">Подробная глава</button></p>':'';
  const next=lessonList(subject)[selected+1]?'<button class="primary" onclick="historyYearOpen('+(selected+1)+')">Следующее занятие</button>':
   subject===5?'<button class="primary" onclick="historyYearStart(4)">Перейти к истории России</button>':'';
- app.innerHTML='<article class="panel"><button onclick="historyYearTerm('+subject+','+term+')">К занятиям четверти</button>'+
+ app.innerHTML='<article class="panel'+(expanded?' lesson':'')+'"><button onclick="historyYearTerm('+subject+','+term+')">К занятиям четверти</button>'+
   '<p>Занятие '+n+' из 68 · '+esc(SUBJECTS[subject][0])+'</p><h2>'+esc(title)+'</h2>'+
-  '<p><strong>'+esc(period)+'</strong></p><p>'+esc(story)+'</p>'+watch+materials+
+  '<p><strong>'+esc(period)+'</strong></p>'+(expanded||'<p>'+esc(story)+'</p>')+watch+materials+
   '<h3>'+(controlNumbers.has(n)?'Контрольные вопросы':'Проверь себя')+'</h3><p>'+esc(task)+'</p>'+
   '<details class="question"><summary>Открыть разбор</summary><p>'+esc(solution)+'</p></details>'+detail+
   '<div class="toolbar"><button onclick="historyYearToggle(this)" aria-pressed="'+completed(subject,selected)+'">'+
