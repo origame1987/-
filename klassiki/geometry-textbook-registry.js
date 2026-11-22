@@ -18,7 +18,10 @@ function validate(ch){
  return ch;
 }
 window.KlassikiTextbook={
- register(ch){validate(ch);if(chapters.has(ch.id))throw Error('Повторная регистрация главы '+ch.id);chapters.set(ch.id,structuredClone(ch))},
+ register(ch){validate(ch);if(chapters.has(ch.id))throw Error('Повторная регистрация главы '+ch.id);const chapter=structuredClone(ch);
+  chapter.extraExercises=chapter.exercises.splice(20);
+  chapter.extraQuestions=chapter.quiz.splice(10);
+  chapters.set(ch.id,chapter)},
  get(id){return chapters.get(id)||null},
  list(){return [...chapters.values()].map(({id,title,sections,examples,exercises,quiz})=>({id,title,sections:sections.length,examples:examples.length,exercises:exercises.length,quiz:quiz.length}))},
  validate
