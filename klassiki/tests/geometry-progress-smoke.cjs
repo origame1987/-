@@ -360,3 +360,49 @@ assert.match(app.innerHTML,/Продолжить занятие 48/);
 assert.equal(ctx.window.geographyYearSummary().done,1);
 assert.equal(ctx.window.biologyYearSummary().done,1);
 console.log('PASS: geography course, all 48 lessons, map and graph, videos and independent progress');
+
+for(const name of ['english-year-data.js','english-year-view.js']){
+ const source=fs.readFileSync(path.join(base,name),'utf8');
+ new vm.Script(source,{filename:name}).runInContext(ctx);
+}
+const english=ctx.window.KlassikiEnglishYear;
+const englishTitles=new Set();
+const audioFiles=new Set();
+assert.equal(english.length,4);
+for(const [term,lessons] of english.entries()){
+ assert.equal(lessons.length,12);
+ ctx.window.englishYearTerm(term);
+ assert.match(app.innerHTML,new RegExp('<ol start="'+(term*12+1)+'">'));
+ let listeningCount=0;
+ for(const [offset,[title,rule,task,solution]] of lessons.entries()){
+  assert.ok([title,rule,task,solution].every(value=>typeof value==='string'&&value.trim()));
+  assert.ok(!englishTitles.has(title));
+  englishTitles.add(title);
+  const id=term*12+offset;
+  ctx.window.englishYearOpen(id);
+  assert.ok(app.innerHTML.includes(title));
+  assert.match(app.innerHTML,/<summary>Открыть разбор<\/summary>/);
+  const recording=ctx.window.KlassikiEnglishListening[id+1];
+  if(recording){
+   listeningCount++;
+   const [file,transcript]=recording;
+   assert.ok(!audioFiles.has(file));
+   audioFiles.add(file);
+   assert.ok(fs.statSync(path.join(base,file)).size>1000);
+   assert.match(app.innerHTML,/<audio controls preload="none"/);
+   assert.ok(app.innerHTML.includes('src="./'+file+'"'));
+   assert.ok(app.innerHTML.includes('lang="en">'+transcript));
+   assert.match(app.innerHTML,/<summary>Показать текст записи<\/summary>/);
+  }else assert.doesNotMatch(app.innerHTML,/<audio/);
+ }
+ assert.equal(listeningCount,2);
+}
+assert.doesNotMatch(app.innerHTML,/Следующее занятие/);
+ctx.window.englishYearToggle({setAttribute(){}});
+ctx.progress=JSON.parse(localStorage.getItem('main-progress-fixture'));
+ctx.window.englishYearStart();
+assert.match(app.innerHTML,/Выполнено 1 из 12/);
+assert.match(app.innerHTML,/Продолжить занятие 48/);
+assert.equal(ctx.window.englishYearSummary().done,1);
+assert.equal(ctx.window.geographyYearSummary().done,1);
+console.log('PASS: English course, 48 lessons, eight recordings and independent progress');
