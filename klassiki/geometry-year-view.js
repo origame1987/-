@@ -44,8 +44,31 @@ const quarterDiagrams={
  23:()=>diagram('Окружность с центром O. Отрезок AB — диаметр, OA — радиус.',
   '<circle cx="160" cy="78" r="53" fill="none" stroke="currentColor" stroke-width="2"/><path d="M107 78H213" stroke="#235bb4" stroke-width="2"/>'+
   '<g fill="currentColor"><circle cx="107" cy="78" r="3"/><circle cx="160" cy="78" r="3"/><circle cx="213" cy="78" r="3"/>'+
-  '<g font-size="17" text-anchor="middle"><text x="95" y="83">A</text><text x="160" y="103">O</text><text x="225" y="83">B</text></g></g>')
+  '<g font-size="17" text-anchor="middle"><text x="95" y="83">A</text><text x="160" y="103">O</text><text x="225" y="83">B</text></g></g>'),
+ 36:()=>diagram('Вертикальные прямые OA и RB перпендикулярны горизонтальной секущей PQ.',
+  '<path d="M20 108H300 M105 26V137 M215 26V137" fill="none" stroke="currentColor" stroke-width="2"/>'+
+  '<path d="M105 94H119V108 M215 94H229V108" fill="none" stroke="#235bb4" stroke-width="2"/>'+
+  '<g fill="currentColor" font-size="16"><text x="20" y="129">P</text><text x="287" y="129">Q</text><text x="83" y="40">A</text><text x="193" y="40">B</text><text x="81" y="130">O</text><text x="193" y="130">R</text></g>'),
+ 43:()=>diagram('Через вершину A треугольника ABC проведена прямая, параллельная основанию BC.',
+  '<path d="M65 122L155 39L255 122Z" fill="none" stroke="currentColor" stroke-width="2"/>'+
+  '<path d="M25 39H295" fill="none" stroke="#235bb4" stroke-width="2"/>'+
+  '<path d="M212 34l6 5-6 5 M212 117l6 5-6 5" fill="none" stroke="#235bb4" stroke-width="2"/>'+
+  '<g fill="currentColor" font-size="16" text-anchor="middle"><text x="155" y="29">A</text><text x="65" y="144">B</text><text x="255" y="144">C</text></g>'),
+ 46:()=>diagram('Треугольник ABC. Точка D лежит на AC, причём AD равно AB. Отрезок BD используется в доказательстве.',
+  '<path d="M44 122L93 37L270 122Z" fill="none" stroke="currentColor" stroke-width="2"/>'+
+  '<path d="M44 122L181.5 79.5" stroke="#235bb4" stroke-width="2"/>'+
+  '<path d="M62 75l13 8 M133 64l8-12" fill="none" stroke="#235bb4" stroke-width="2"/>'+
+  '<g fill="currentColor" font-size="16" text-anchor="middle"><text x="93" y="29">A</text><text x="44" y="144">B</text><text x="270" y="144">C</text><text x="190" y="73">D</text></g>'),
+ 47:()=>diagram('Треугольник ABC. Отрезок AB продолжен за B до D, причём BD равно BC.',
+  '<path d="M42 121H244.65L158 45Z M158 45L168 121" fill="none" stroke="currentColor" stroke-width="2"/>'+
+  '<path d="M168 121H244.65 M159 82l13-2 M205 114v14" stroke="#235bb4" stroke-width="2"/>'+
+  '<g fill="currentColor" font-size="16" text-anchor="middle"><text x="42" y="143">A</text><text x="168" y="143">B</text><text x="158" y="37">C</text><text x="244.65" y="143">D</text></g>'),
+ 50:()=>diagram('Прямоугольный треугольник ABC с углом 30° при A. На продолжении BC отмечена точка D, причём BC равно CD.',
+  '<path d="M41 80L142 21.7V138.3Z M41 80H142 M129 80V67H142" fill="none" stroke="currentColor" stroke-width="2"/>'+
+  '<path d="M137 51H147 M137 109H147" fill="none" stroke="#235bb4" stroke-width="2"/>'+
+  '<g fill="currentColor" font-size="16"><text x="21" y="86">A</text><text x="151" y="26">B</text><text x="151" y="85">C</text><text x="151" y="143">D</text></g>')
 };
+const proofLessons=new Set([35,38,46,47,51]);
 function renderPractice({example,practice,check}){
  const [prompt,steps]=example;
  return '<h3>Разобранный пример</h3><p>'+esc(prompt)+'</p>'+
@@ -67,9 +90,11 @@ function show(message=''){
   const expanded=window.KlassikiGeometryQuarter1Explanations?.[current+1];
   const extra=window.klassikiRenderYearExplanation?.(1,current+1)||'';
   const enriched=expanded||extra;
-  const control=current===11||current===29;
-  const visual=quarterDiagrams[current+1]?.()||(current>=31&&current<=41?parallel():current>=42&&current<=47?triangle():'');
-  const explanation=core&&!enriched?'<details class="question"><summary>Подробнее о правиле</summary><p>'+esc(rule)+'</p></details>':'';
+  const control=current===11||current===29||current===40;
+  const visual=quarterDiagrams[current+1]?.()||(current>=31&&current<=41?parallel():current===43?triangle():'');
+  const explanation=extra&&proofLessons.has(current+1)?
+   '<details class="question"><summary>Почему это верно</summary><p>'+esc(rule)+'</p></details>':
+   core&&!enriched?'<details class="question"><summary>Подробнее о правиле</summary><p>'+esc(rule)+'</p></details>':'';
   const theory=expanded?'<p><strong>Цель урока.</strong> '+esc(expanded.goal)+'</p><h3>Как это работает</h3>'+
     expanded.theory.map(paragraph=>'<p>'+esc(paragraph)+'</p>').join(''):extra?'':'<p>'+esc(core||rule)+'</p>';
   const practice=expanded?renderPractice(expanded):extra;

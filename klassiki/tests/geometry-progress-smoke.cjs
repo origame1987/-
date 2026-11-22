@@ -81,7 +81,7 @@ assert.ok(state[0].every(a=>typeof a.date==='string'&&a.total===chapter.quiz.len
 console.log('PASS: textbook rendering, quiz scoring, retry history, corrupted storage recovery, 30-attempt limit');
 
 ctx.save=()=>localStorage.setItem('main-progress-fixture',JSON.stringify(ctx.progress));
-for(const name of ['geometry-year-data.js','geometry-year-videos.js','geometry-quarter1-explanations.js','geometry-quarter2-explanations.js','geometry-year-view.js']){
+for(const name of ['geometry-year-data.js','geometry-year-videos.js','geometry-quarter1-explanations.js','geometry-quarter2-explanations.js','geometry-quarter3-explanations.js','geometry-year-view.js']){
  const source=fs.readFileSync(path.join(base,name),'utf8');
  new vm.Script(source,{filename:name}).runInContext(ctx);
 }
@@ -101,12 +101,12 @@ year.forEach((lessons,term)=>{
   assertLessonLink();
   assert.ok(app.innerHTML.includes(title));
   assert.match(app.innerHTML,/<details class="question"><summary>Открыть разбор<\/summary>/);
-  if(term<=1){
+  if(term<=2){
    assert.match(app.innerHTML,/Цель урока.*Как это работает.*Разобранный пример.*Самостоятельная практика/);
    assert.equal((app.innerHTML.match(/<summary>Проверить решение<\/summary>/g)||[]).length,2);
-   assert.match(app.innerHTML,/<details class="question"><summary>Разбор по шагам<\/summary><ol>(?:<li>[^<]+<\/li>){2,}<\/ol>/);
-   if((term===0&&[1,6,7,16].includes(i))||(term===1&&([0,5].includes(i)||i>=14)))assert.match(app.innerHTML,/<svg[^>]+role="img" aria-label="[^"]+"/);
-   if((term===0&&i===11)||(term===1&&i===12))assert.ok(app.innerHTML.indexOf('<h3>Задание</h3>')<app.innerHTML.indexOf('<h3>Разобранный пример</h3>'));
+   assert.match(app.innerHTML,/<details class="question"><summary>Разбор по шагам<\/summary><ol><li>.+?<\/li><li>.+?<\/li><\/ol>/);
+   if((term===0&&[1,6,7,16].includes(i))||(term===1&&([0,5].includes(i)||i>=14))||(term===2&&[0,1,8,9,15].includes(i)))assert.match(app.innerHTML,/<svg[^>]+role="img" aria-label="[^"]+"/);
+   if((term===0&&i===11)||(term===1&&i===12)||(term===2&&i===6))assert.ok(app.innerHTML.indexOf('<h3>Задание</h3>')<app.innerHTML.indexOf('<h3>Разобранный пример</h3>'));
   }else{
    assert.doesNotMatch(app.innerHTML,/Самостоятельная практика/);
   }
@@ -126,9 +126,9 @@ console.log('PASS: four quarters with 68 unique activities, worked solutions, re
 ctx.window.geometryYearOpen(6);
 assert.match(app.innerHTML,/2x \+ 3x = 180/);
 ctx.window.geometryYearOpen(34);
-assert.match(app.innerHTML,/<details class="question"><summary>Подробнее о правиле<\/summary>/);
-assert.ok(app.innerHTML.indexOf('Задание')<app.innerHTML.indexOf('Подробнее о правиле'));
-assert.match(app.innerHTML,/<p>Прямые параллельны, если накрест лежащие/);
+assert.match(app.innerHTML,/<details class="question"><summary>Почему это верно<\/summary>/);
+assert.ok(app.innerHTML.indexOf('Задание')<app.innerHTML.indexOf('Почему это верно'));
+assert.match(app.innerHTML,/84 \+ 3x \+ 6 = 180/);
 ctx.window.geometryYearStart();
 assert.match(app.innerHTML,/<ol start="35">/);
 assert.match(app.innerHTML,/Продолжить занятие 35/);
@@ -510,13 +510,13 @@ const romanovs=ctx.window.klassikiLessonReadings(4,'Михаил Фёдоров�
 for(const [subjectId,namespace] of ['algebra',null,'russian','literature','history','history','biology','geography','physics','english','informatics'].entries()){
  if(!namespace)continue;
  if(namespace==='history')ctx.window.historyYearStart(subjectId);
- for(const number of [1,2]){
+ for(const number of [1,2,3]){
   ctx.window[namespace+'YearOpen'](number-1);
   const [goal,theory,[prompt,...steps],exercises]=ctx.window.KlassikiYearExplanations[subjectId][number];
   for(const text of [goal,theory,prompt,...steps,...exercises.flat()])assert.ok(app.innerHTML.includes(text),namespace+': '+text);
   assert.equal((app.innerHTML.match(/<summary>Проверить решение<\/summary>/g)||[]).length,2);
  }
- ctx.window[namespace+'YearOpen'](2);
+ ctx.window[namespace+'YearOpen'](3);
  assert.doesNotMatch(app.innerHTML,/Разбор по шагам/);
 }
 console.log('PASS: expanded lessons render for all eleven subjects');
