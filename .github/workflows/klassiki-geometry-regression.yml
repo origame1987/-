@@ -1,0 +1,40 @@
+name: Klassiki geometry regression
+on:
+  push:
+    paths:
+      - 'klassiki/**'
+      - '.github/workflows/klassiki-geometry-regression.yml'
+  pull_request:
+    paths:
+      - 'klassiki/**'
+      - '.github/workflows/klassiki-geometry-regression.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: klassiki-geometry-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  geometry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check syntax of shipped geometry modules
+        shell: bash
+        run: |
+          set -euo pipefail
+          for file in klassiki/geometry-*.js klassiki/tests/*.cjs klassiki/geometry-quarter1-audit.cjs; do
+            node --check "$file"
+          done
+      - name: Validate chapters and SVG presence
+        run: node klassiki/tests/geometry-integrity.cjs
+      - name: Validate all chapter modules
+        run: node klassiki/tests/geometry-all-chapters-audit.cjs
+      - name: Validate comprehensive quarter audit
+        run: node klassiki/geometry-quarter1-audit.cjs
+      - name: Validate quiz progress persistence
+        run: node klassiki/tests/geometry-progress-smoke.cjs
