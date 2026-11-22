@@ -136,3 +136,39 @@ for(let number=1;number<=68;number++){
  assert.ok(app.innerHTML.includes('href="'+url+'" target="_blank" rel="noopener noreferrer"'));
 }
 console.log('PASS: 63 lesson video links and five independent tests');
+
+for(const name of ['algebra-year-data.js','algebra-year-view.js']){
+ const source=fs.readFileSync(path.join(base,name),'utf8');
+ new vm.Script(source,{filename:name}).runInContext(ctx);
+}
+const algebra=ctx.window.KlassikiAlgebraYear;
+const algebraTitles=new Set();
+assert.equal(algebra.length,4);
+algebra.forEach((quarter,term)=>{
+ assert.equal(quarter.length,17);
+ ctx.window.algebraYearTerm(term);
+ assert.match(app.innerHTML,new RegExp('<ol start="'+(term*17+1)+'">'));
+ quarter.forEach(([title,rule,task,solution,chapter],i)=>{
+  assert.ok(!algebraTitles.has(title));
+  algebraTitles.add(title);
+  assert.ok([title,rule,task,solution].every(s=>typeof s==='string'&&s.trim()));
+  const id=17*term+i;
+  ctx.window.algebraYearOpen(id);
+  assert.ok(app.innerHTML.includes(title));
+  assert.match(app.innerHTML,/<summary>Открыть разбор<\/summary>/);
+  if(chapter!==undefined)assert.ok(app.innerHTML.includes('lesson(0,'+chapter+')'));
+  const video=ctx.window.KlassikiAlgebraVideos[id+1];
+  if(video)assert.ok(app.innerHTML.includes('https://www.youtube.com/watch?v='+video));
+ });
+});
+assert.doesNotMatch(app.innerHTML,/Следующее занятие/);
+ctx.window.algebraYearToggle({setAttribute(){}});
+ctx.progress=JSON.parse(localStorage.getItem('main-progress-fixture'));
+ctx.window.algebraYearStart();
+assert.match(app.innerHTML,/Выполнено 1 из 17/);
+assert.match(app.innerHTML,/Продолжить занятие 68/);
+assert.equal(ctx.window.algebraYearSummary().done,1);
+assert.equal(ctx.window.algebraYearSummary().total,68);
+assert.equal(ctx.progress['geometry-year-current'],67);
+assert.equal(ctx.progress['geometry-year-done-67'],true);
+console.log('PASS: 68 algebra activities, four quarters, video and chapter links, and separate resume and completion');
