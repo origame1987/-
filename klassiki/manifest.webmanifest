@@ -1,0 +1,16 @@
+{
+  "id": "./",
+  "name": "Классики — 7 класс",
+  "short_name": "Классики",
+  "description": "Уроки, задания и учебный план 7 класса",
+  "lang": "ru",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f2f2ff",
+  "theme_color": "#f2f2ff",
+  "icons": [
+    {"src":"app-192.png","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"app-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ]
+}
