@@ -7,6 +7,7 @@ const base=path.resolve(__dirname,'..');
 const saved=new Map(),nodes=new Map(),handlers=new Map();
 const app={innerHTML:'',prepend(){}};
 const document={
+ createElement(){return {}},
  getElementById(id){if(id==='textbookQuiz')return {addEventListener(type,fn){handlers.set(type,fn)}};
  if(!nodes.has(id))nodes.set(id,{innerHTML:''});return nodes.get(id)}
 };
@@ -17,7 +18,7 @@ const localStorage={
 class FormDataStub{constructor(form){this.form=form}get(k){return this.form.answers[k]}}
 const ctx={window:{scrollTo(){}},document,localStorage,FormData:FormDataStub,
  structuredClone,Map,app,page:'home',render(){},navHtml(){},geometryQuarterHome(){},
- console};
+ console,progress:{},subject:0,quarter:1,save(){},go(page){ctx.page=page;ctx.render()}};
 vm.createContext(ctx);
 for(const name of ['geometry-textbook-registry.js','geometry-textbook-lesson00.js','geometry-textbook-view.js']){
  const source=fs.readFileSync(path.join(base,name),'utf8');
@@ -45,7 +46,7 @@ assert.equal(state[0][1].score,0,'Wrong answers scored incorrectly');
 assert.equal(state[0][0].score,chapter.quiz.length,'Previous attempt mutated');
 ctx.window.geometryTextbookOpen(0);
 assert.match(app.innerHTML,/Мои предыдущие попытки/,'History panel missing');
-assert.match(app.innerHTML,/2 из /,'Saved score not shown on reopening');
+assert.match(app.innerHTML,new RegExp(chapter.quiz.length+' из '+chapter.quiz.length),'Saved score not shown on reopening');
 assert.match(app.innerHTML,/0 из /,'Second attempt not shown on reopening');
 
 saved.set(key,'{invalid json');
