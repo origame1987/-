@@ -73,3 +73,37 @@ state=JSON.parse(saved.get(key));
 assert.equal(state[0].length,30,'Attempt history not bounded');
 assert.ok(state[0].every(a=>typeof a.date==='string'&&a.total===chapter.quiz.length),'Malformed saved attempt');
 console.log('PASS: textbook rendering, quiz scoring, retry history, corrupted storage recovery, 30-attempt limit');
+
+ctx.esc=value=>String(value);
+ctx.save=()=>localStorage.setItem('main-progress-fixture',JSON.stringify(ctx.progress));
+for(const name of ['geometry-year-data.js','geometry-year-view.js']){
+ const source=fs.readFileSync(path.join(base,name),'utf8');
+ new vm.Script(source,{filename:name}).runInContext(ctx);
+}
+const year=ctx.window.KlassikiGeometryYear;
+assert.equal(year.length,4);
+const titles=new Set();
+year.forEach((lessons,term)=>{
+ assert.equal(lessons.length,17);
+ ctx.window.geometryYearTerm(term);
+ assert.match(app.innerHTML,new RegExp('<ol start="'+(17*term+1)+'">'));
+ lessons.forEach(([title,rule,task,solution,chapterId],i)=>{
+  assert.ok(!titles.has(title),'Repeated title: '+title);
+  titles.add(title);
+  assert.ok([title,rule,task,solution].every(s=>typeof s==='string'&&s.trim().length>0));
+  assert.ok(chapterId===undefined||(Number.isInteger(chapterId)&&chapterId>=0&&chapterId<=15));
+  ctx.window.geometryYearOpen(17*term+i);
+  assert.ok(app.innerHTML.includes(title));
+  assert.match(app.innerHTML,/<details class="question"><summary>Открыть разбор<\/summary>/);
+ });
+});
+assert.doesNotMatch(app.innerHTML,/Следующее занятие/);
+ctx.window.geometryYearToggle();
+ctx.progress=JSON.parse(localStorage.getItem('main-progress-fixture'));
+ctx.window.geometryYearTerm(3);
+assert.match(app.innerHTML,/Выполнено 1 из 17/);
+assert.match(app.innerHTML,/Продолжить занятие 68/);
+ctx.window.geometryYearOpen(0);
+assert.match(app.innerHTML,/geometryTextbookOpen\(0\)/);
+assert.match(app.innerHTML,/geometryYearOpen\(1\)/);
+console.log('PASS: four quarters with 68 unique activities, worked solutions, resume, completion and textbook link');
