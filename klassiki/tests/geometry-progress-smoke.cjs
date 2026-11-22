@@ -9,7 +9,7 @@ const app={innerHTML:'',prepend(){}};
 const document={
  createElement(){return {}},
  getElementById(id){if(id==='textbookQuiz')return {addEventListener(type,fn){handlers.set(type,fn)}};
- if(!nodes.has(id))nodes.set(id,{innerHTML:''});return nodes.get(id)}
+ if(!nodes.has(id))nodes.set(id,{innerHTML:'',focus(){}});return nodes.get(id)}
 };
 const localStorage={
  getItem(k){return saved.has(k)?saved.get(k):null},
@@ -527,3 +527,84 @@ assert.match(fallbackQuery,/три признака равенства треу�
 assert.match(fallback,/Найти видеообъяснение/);
 assert.equal(ctx.window.klassikiLessonReadings(1,'Урок с видео',undefined,{hasSource:true}),'');
 console.log('PASS: links on all 508 annual lessons and on the detailed geometry chapter');
+
+const planIndex=fs.readFileSync(path.join(base,'index.html'),'utf8');
+assert.ok(planIndex.indexOf('informatics-year-view.js')<planIndex.indexOf('study-plan.js'));
+vm.runInContext(planIndex.slice(planIndex.indexOf('const SUBJECTS='),planIndex.indexOf('const KEY=')),ctx);
+vm.runInContext(planIndex.slice(planIndex.indexOf('function validatedProgress'),planIndex.indexOf('async function importData')),ctx);
+ctx.progress={};
+let planClock='2026-11-23T21:05:00Z';
+ctx.Date=class extends Date{constructor(...args){super(...(args.length?args:[planClock]));}};
+ctx.window.location={hash:'#plan'};
+ctx.window.addEventListener=()=>{};
+new vm.Script(fs.readFileSync(path.join(base,'study-plan.js'),'utf8'),{filename:'study-plan.js'}).runInContext(ctx);
+assert.equal(ctx.page,'studyPlan');
+assert.match(app.innerHTML,/Сегодня · /);
+assert.match(app.innerHTML,/value="2026-11-24"/);
+
+const planIds=()=>Array.from(app.innerHTML.matchAll(/studyPlanOpen\('(study-plan-task-\d+-\d+)'\)/g),m=>m[1]);
+const calendar=new Set();
+const nextBySubject=new Map();
+let teachingDays=0;
+let worldHistoryCompleted=false;
+for(const day=new Date('2026-11-24T00:00:00Z');day<=new Date('2027-05-31T00:00:00Z');day.setUTCDate(day.getUTCDate()+1)){
+ const iso=day.toISOString().slice(0,10);
+ ctx.window.studyPlanSelect(iso);
+ assert.ok(app.innerHTML.includes('value="'+iso+'"'));
+ const ids=planIds();
+ const rests=[0,6].includes(day.getUTCDay())||(iso>='2026-12-28'&&iso<='2027-01-10');
+ if(rests){assert.equal(ids.length,0,iso);continue}
+ teachingDays++;
+ assert.ok(ids.length===4||ids.length===5,iso+': '+ids.length);
+ assert.equal(new Set(ids.map(id=>id.split('-')[3])).size,ids.length,'Repeated subject that day '+iso);
+ for(const id of ids){
+  assert.ok(!calendar.has(id),id+' scheduled twice');
+  calendar.add(id);
+  const [subjectId,index]=id.split('-').slice(3).map(Number);
+  assert.equal(index,nextBySubject.get(subjectId)||0,id+' is out of course order');
+  nextBySubject.set(subjectId,index+1);
+  if(subjectId===5&&index===33)worldHistoryCompleted=true;
+  if(subjectId===4)assert.ok(worldHistoryCompleted,'Russian history must follow world history');
+ }
+}
+assert.equal(teachingDays,125);
+assert.equal(calendar.size,508);
+assert.equal(nextBySubject.size,11);
+ctx.window.studyPlanSelect('2027-02-30');
+assert.match(app.innerHTML,/value="2027-05-31"/);
+ctx.window.studyPlanToday();
+assert.match(app.innerHTML,/value="2026-11-24"/);
+assert.ok(planIds().includes('study-plan-task-0-0'));
+const lessonMark={checked:true},taskMark={checked:true};
+ctx.window.studyPlanToggle(lessonMark,'study-plan-task-0-0',false);
+assert.equal(ctx.window.algebraYearSummary().done,1);
+assert.match(nodes.get('study-plan-day').textContent,/Готово 0 из 4/);
+ctx.window.studyPlanToggle(taskMark,'study-plan-task-0-0',true);
+assert.match(nodes.get('study-plan-day').textContent,/Готово 1 из 4/);
+ctx.progress=ctx.validatedProgress(JSON.parse(saved.get('main-progress-fixture')));
+assert.equal(ctx.progress['study-plan-task-0-0'],true);
+assert.equal(ctx.progress['algebra-year-done-0'],true);
+assert.equal(ctx.validatedProgress({'study-plan-task-0-68':true})['study-plan-task-0-68'],undefined);
+ctx.window.studyPlanOpen('study-plan-task-0-0');
+assert.equal(ctx.page,'algebraYearLesson');
+assert.match(app.innerHTML,/Рациональные числа/);
+ctx.go('studyPlan');
+assert.equal((app.innerHTML.match(/ checked>/g)||[]).length,2);
+ctx.window.studyPlanOpen('study-plan-task-4-0');
+assert.equal(ctx.subject,4);
+assert.equal(ctx.page,'historyYearLesson');
+assert.match(app.innerHTML,/Россия в начале XVI века/);
+ctx.window.studyPlanToday();
+planClock='2026-11-25T21:05:00Z';
+ctx.window.studyPlanToday();
+assert.match(app.innerHTML,/value="2026-11-26"/);
+assert.match(app.innerHTML,/К первому незавершённому дню/);
+const originalSave=ctx.save;
+ctx.save=()=>{throw Error('Quota exceeded');};
+const failed={checked:false};
+ctx.window.studyPlanToggle(failed,'study-plan-task-0-0',true);
+assert.equal(failed.checked,true);
+assert.equal(ctx.progress['study-plan-task-0-0'],true);
+assert.match(nodes.get('study-plan-status').textContent,/Браузер не сохранил/);
+ctx.save=originalSave;
+console.log('PASS: 508 calendar entries, 125 school days, Moscow dates, lesson routing, progress restore and failed-save rollback');

@@ -1,6 +1,6 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f2f2ff"><title>Классики — 7 класс</title><style>
 :root{font-family:system-ui,-apple-system,sans-serif;color:#1b2941;background:#f3f6fc}*{box-sizing:border-box}body{margin:0}header{background:#263d63;color:white;padding:20px max(18px,calc((100% - 1080px)/2))}header h1{margin:0;font-size:27px}header p{margin:6px 0 0;color:#d7e5ff}.wrap{max-width:1080px;margin:auto;padding:20px}nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 22px}button{font:inherit;cursor:pointer;border:1px solid #cad5e8;background:white;border-radius:12px;padding:10px 15px;color:#263d63}[hidden]{display:none!important}button.active,.primary{background:#315bb2;color:white;border-color:#315bb2}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:14px}.card,.panel{background:white;border:1px solid #e0e6f2;border-radius:18px;padding:20px;box-shadow:0 4px 15px #24395c0b}.card h3{margin:5px 0 10px}.muted{color:#63728b;font-size:14px}.pill{display:inline-block;background:#e9effc;color:#315bb2;padding:5px 9px;border-radius:20px;font-size:12px}h2{margin:0 0 18px}h3{line-height:1.4}.list{display:grid;gap:9px}.item{display:flex;align-items:center;justify-content:space-between;text-align:left;width:100%;gap:12px}.done{color:#16794b}select,input{font:inherit;padding:10px;border:1px solid #cad5e8;border-radius:10px;max-width:100%}.toolbar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}.lesson{line-height:1.75;font-size:17px;max-width:760px}.lesson p{margin:12px 0}.lesson li{margin:8px 0}.question{background:#f2f6ff;padding:15px;border-radius:14px;margin:15px 0}.answer{display:block;margin:7px 0}.progress{height:9px;background:#e2e8f2;border-radius:20px;overflow:hidden}.progress span{display:block;height:100%;background:#3b78d8}.small{font-size:13px}footer{text-align:center;padding:30px;color:#74839b}@media(max-width:600px){.wrap{padding:14px}.card,.panel{padding:16px}header{padding:18px}.lesson{font-size:16px}}
-</style><link rel="stylesheet" href="./glass.css?v=1"></head><body><header><div class="brand"><h1><svg class="icon" aria-hidden="true"><use href="./glass-icons.svg#library"></use></svg>Классики</h1><small>7 класс</small></div></header><main class="wrap"><nav id="nav" aria-label="Разделы учебника"></nav><div id="app"></div></main><footer>Классики • прогресс хранится в этом браузере и не синхронизируется между устройствами</footer><script>
+</style><link rel="stylesheet" href="./glass.css?v=2"></head><body><header><div class="brand"><h1><svg class="icon" aria-hidden="true"><use href="./glass-icons.svg?v=2#library"></use></svg>Классики</h1><small>7 класс</small></div></header><main class="wrap"><nav id="nav" aria-label="Разделы учебника"></nav><div id="app"></div></main><footer>Классики • прогресс хранится в этом браузере и не синхронизируется между устройствами</footer><script>
 const SUBJECTS=[
 ['Алгебра',['Выражения и преобразования','Уравнения с одной переменной','Функции и графики','Степень с натуральным показателем','Одночлены и многочлены','Формулы сокращённого умножения','Разложение на множители','Системы линейных уравнений']],
 ['Геометрия',['Начальные геометрические сведения','Смежные и вертикальные углы','Треугольники и признаки равенства','Медианы, биссектрисы и высоты','Параллельные прямые','Сумма углов треугольника','Прямоугольные треугольники','Построения циркулем и линейкой']],
@@ -23,17 +23,21 @@ function yearSummary(s){if(s===0)return window.algebraYearSummary?.();if(s===2)r
 function totalTopics(s){return yearSummary(s)?.total??SUBJECTS[s][1].length}
 function count(s){const year=yearSummary(s);if(year)return year.done;return SUBJECTS[s][1].filter((_,i)=>progress[key(s,i)]).length}
 function percent(s){return Math.round(count(s)/totalTopics(s)*100)}
-function go(p){page=p;render();window.scrollTo(0,0)}
+function go(p){
+ if(p==='studyPlan'&&window.location.hash!=='#plan')history.replaceState(null,'','#plan');
+ if(p!=='studyPlan'&&window.location.hash==='#plan')history.replaceState(null,'',window.location.pathname+window.location.search);
+ page=p;render();window.scrollTo(0,0);
+}
 function setSubject(i){subject=i;if(i===0&&window.algebraYearStart){window.algebraYearStart();return}if(i===2&&window.russianYearStart){window.russianYearStart();return}if(i===3&&window.literatureYearStart){window.literatureYearStart();return}if(i===6&&window.biologyYearStart){window.biologyYearStart();return}if(i===7&&window.geographyYearStart){window.geographyYearStart();return}if(i===8&&window.physicsYearStart){window.physicsYearStart();return}if(i===9&&window.englishYearStart){window.englishYearStart();return}if(i===10&&window.informaticsYearStart){window.informaticsYearStart();return}if((i===4||i===5)&&window.historyYearStart){window.historyYearStart(i);return}if(i===1&&window.geometryYearStart){window.geometryYearStart();return}go('subject')}function setQuarter(i){quarter=i;render()}
 function lesson(s,i){subject=s;topic=i;go('lesson')}
 function toggle(s,i){progress[key(s,i)]=!progress[key(s,i)];save();render()}
 function filterTopics(value){const q=String(value||'').trim().toLocaleLowerCase('ru');let n=0;app.querySelectorAll('.list .item').forEach(b=>{const ok=b.textContent.toLocaleLowerCase('ru').includes(q);b.hidden=!ok;if(ok)n++});let m=document.getElementById('topic-search-empty');if(!m){m=document.createElement('p');m.id='topic-search-empty';m.className='muted';app.querySelector('.list').after(m)}m.textContent=n?'':'Темы по запросу не найдены.'}
 const subjectIcons=['sigma','triangle-ruler','languages','book-open','landmark','globe','sprout','globe','atom','messages-square','laptop'];
 const subjectColors=[['#b8dcffb8','#1555a6'],['#d3c8ffb8','#593ac2'],['#b6f1eab8','#006b66'],['#ffdacdb8','#a74427'],['#ffe9b8b8','#80541a'],['#d7d8ffb8','#4c4c9a'],['#cbf2cbb8','#146947'],['#b7e8ffb8','#0753a9'],['#cbd5ffb8','#3c4eac'],['#ffdfedb8','#96345b'],['#c3eeeeb8','#146586']];
-const glassIcon=id=>'<svg class="icon" aria-hidden="true"><use href="./glass-icons.svg#'+id+'"></use></svg>';
+const glassIcon=id=>'<svg class="icon" aria-hidden="true"><use href="./glass-icons.svg?v=2#'+id+'"></use></svg>';
 function navHtml(){
- const selected=page==='home'||page==='reference'||page==='progress'?page:'subject';
- nav.innerHTML=[['home','Предметы','panels-top-left'],['subject','Темы','library'],['reference','Справочник','book-open'],['progress','Прогресс','chart-no-axes-column-increasing']].map(([id,label,icon])=>
+ const selected=['home','studyPlan','reference','progress'].includes(page)?page:'subject';
+ nav.innerHTML=[['home','Предметы','panels-top-left'],['studyPlan','План','calendar-days'],['subject','Темы','library'],['reference','Справочник','book-open'],['progress','Прогресс','chart-no-axes-column-increasing']].map(([id,label,icon])=>
   '<button data-page="'+id+'" class="'+(selected===id?'active':'')+'" '+(selected===id?'aria-current="page" ':'')+'onclick="go(\''+id+'\')">'+glassIcon(icon)+label+'</button>').join('');
 }
 function homeHero(){
@@ -42,7 +46,7 @@ function homeHero(){
  const action=chapter?'geometryTextbookOpen('+chapter.id+')':'geometryYearStart()';
  return '<section class="home-hero"><div class="hero-copy"><p class="eyebrow">'+(chapter?'Продолжить урок':'Геометрия · 7 класс')+'</p><h2>'+
   esc(title||'Учебник геометрии')+'</h2><p>'+ (chapter?'Геометрия':'Короткие уроки и подробные главы')+
-  '</p><button class="primary" onclick="'+action+'">'+(chapter?'Продолжить':'Открыть уроки')+'</button></div>'+
+  '</p><div class="toolbar"><button class="primary" onclick="studyPlanToday()">План на сегодня</button><button onclick="'+action+'">'+(chapter?'Продолжить':'Открыть уроки')+'</button></div></div>'+
   glassIcon('triangle-ruler').replace('class="icon"','class="icon hero-icon"')+'</section>';
 }
 function render(){navHtml();if(page==='home'){
@@ -107,6 +111,7 @@ else if(k==='english-year-current'&&Number.isInteger(v)&&v>=0&&v<48)result[k]=v;
 else if(/^informatics-year-done-(?:[0-9]|[12][0-9]|3[01])$/.test(k)&&typeof v==='boolean')result[k]=v;
 else if(k==='informatics-year-current'&&Number.isInteger(v)&&v>=0&&v<32)result[k]=v;
 else if(/^informatics-year-check-(?:7|15|23|31)$/.test(k)&&v&&Number.isSafeInteger(v.attempts)&&v.attempts>0&&Number.isInteger(v.best)&&v.best>=0&&v.best<=4)result[k]={attempts:v.attempts,best:v.best};
+else if(typeof v==='boolean'&&window.studyPlanTaskKey?.(k))result[k]=v;
 else if(k==='geometry-textbook-current'&&Number.isInteger(v)&&v>=0&&v<=15)result[k]=v;
 else if(/^quiz-\d+-\d+$/.test(k)&&v&&typeof v==='object'&&Number.isInteger(v.correct)&&Number.isInteger(v.total)&&v.total>0&&v.total<=1000&&v.correct>=0&&v.correct<=v.total&&typeof v.date==='string'&&!Number.isNaN(Date.parse(v.date)))result[k]={correct:v.correct,total:v.total,date:v.date};
 }
@@ -122,4 +127,4 @@ render=function(){
  const heading=app.querySelector('h2');
  if(heading)heading.insertAdjacentHTML('afterend',window.klassikiLessonReadings(subject,heading.textContent));
 };
-</script></body></html>
+</script><script src="./study-plan.js?v=1"></script></body></html>
