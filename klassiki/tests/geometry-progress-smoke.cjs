@@ -137,7 +137,7 @@ for(let number=1;number<=68;number++){
 }
 console.log('PASS: 63 lesson video links and five independent tests');
 
-for(const name of ['algebra-year-data.js','algebra-year-view.js']){
+for(const name of ['algebra-year-data.js','year-course-view.js','algebra-year-view.js']){
  const source=fs.readFileSync(path.join(base,name),'utf8');
  new vm.Script(source,{filename:name}).runInContext(ctx);
 }
@@ -172,3 +172,37 @@ assert.equal(ctx.window.algebraYearSummary().total,68);
 assert.equal(ctx.progress['geometry-year-current'],67);
 assert.equal(ctx.progress['geometry-year-done-67'],true);
 console.log('PASS: 68 algebra activities, four quarters, video and chapter links, and separate resume and completion');
+
+for(const name of ['russian-year-data.js','russian-year-view.js']){
+ const source=fs.readFileSync(path.join(base,name),'utf8');
+ new vm.Script(source,{filename:name}).runInContext(ctx);
+}
+const russian=ctx.window.KlassikiRussianYear;
+assert.equal(russian.length,4);
+const russianTitles=new Set();
+for(const [term,lessons] of russian.entries()){
+ assert.equal(lessons.length,12);
+ ctx.window.russianYearTerm(term);
+ assert.match(app.innerHTML,new RegExp('<ol start="'+(term*12+1)+'">'));
+ for(const [offset,[title,rule,task,solution,chapter]] of lessons.entries()){
+  assert.ok(title&&rule&&task&&solution);
+  assert.ok(!russianTitles.has(title));
+  russianTitles.add(title);
+  const id=term*12+offset;
+  ctx.window.russianYearOpen(id);
+  assert.ok(app.innerHTML.includes(title));
+  assert.match(app.innerHTML,/<summary>Открыть разбор<\/summary>/);
+  if(chapter!==undefined)assert.ok(app.innerHTML.includes('lesson(2,'+chapter+')'));
+  const video=ctx.window.KlassikiRussianVideos[id+1];
+  if(video)assert.ok(app.innerHTML.includes('https://www.youtube.com/watch?v='+video));
+ }
+}
+assert.doesNotMatch(app.innerHTML,/Следующее занятие/);
+ctx.window.russianYearToggle({setAttribute(){}});
+ctx.progress=JSON.parse(localStorage.getItem('main-progress-fixture'));
+ctx.window.russianYearStart();
+assert.match(app.innerHTML,/Выполнено 1 из 12/);
+assert.match(app.innerHTML,/Продолжить занятие 48/);
+assert.equal(ctx.window.russianYearSummary().done,1);
+assert.equal(ctx.window.algebraYearSummary().done,1);
+console.log('PASS: Russian course, all 48 lessons, four quarters and independent progress');
