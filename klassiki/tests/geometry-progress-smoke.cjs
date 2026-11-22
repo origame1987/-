@@ -241,3 +241,37 @@ assert.match(app.innerHTML,/Продолжить занятие 48/);
 assert.equal(ctx.window.literatureYearSummary().done,1);
 assert.equal(ctx.window.russianYearSummary().done,1);
 console.log('PASS: literature course, all 48 lessons, reading links and independent progress');
+
+for(const name of ['physics-year-data.js','physics-year-view.js']){
+ const source=fs.readFileSync(path.join(base,name),'utf8');
+ new vm.Script(source,{filename:name}).runInContext(ctx);
+}
+const physics=ctx.window.KlassikiPhysicsYear;
+const physicsTitles=new Set();
+assert.equal(physics.length,4);
+for(const [term,lessons] of physics.entries()){
+ assert.equal(lessons.length,12);
+ ctx.window.physicsYearTerm(term);
+ assert.match(app.innerHTML,new RegExp('<ol start="'+(term*12+1)+'">'));
+ for(const [offset,[title,rule,task,solution,chapter]] of lessons.entries()){
+  assert.ok([title,rule,task,solution].every(text=>typeof text==='string'&&text.trim()));
+  assert.ok(!physicsTitles.has(title));
+  physicsTitles.add(title);
+  const id=term*12+offset;
+  ctx.window.physicsYearOpen(id);
+  assert.ok(app.innerHTML.includes(title));
+  assert.match(app.innerHTML,/<summary>Открыть разбор<\/summary>/);
+  if(chapter!==undefined)assert.ok(app.innerHTML.includes('lesson(8,'+chapter+')'));
+  const video=ctx.window.KlassikiPhysicsVideos[id+1];
+  if(video)assert.ok(app.innerHTML.includes('https://www.youtube.com/watch?v='+video));
+ }
+}
+assert.doesNotMatch(app.innerHTML,/Следующее занятие/);
+ctx.window.physicsYearToggle({setAttribute(){}});
+ctx.progress=JSON.parse(localStorage.getItem('main-progress-fixture'));
+ctx.window.physicsYearStart();
+assert.match(app.innerHTML,/Выполнено 1 из 12/);
+assert.match(app.innerHTML,/Продолжить занятие 48/);
+assert.equal(ctx.window.physicsYearSummary().done,1);
+assert.equal(ctx.window.literatureYearSummary().done,1);
+console.log('PASS: physics course, all 48 lessons, videos, chapter links and independent progress');
