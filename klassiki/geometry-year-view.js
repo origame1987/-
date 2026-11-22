@@ -24,6 +24,9 @@ function show(message=''){
  navHtml();
  if(page==='geometryYearLesson'){
   const [title, rule, task, solution, chapter]=lessons[current];
+  const video=window.KlassikiGeometryVideos?.[current+1];
+  const videoLink=video?'<p><a href="https://www.youtube.com/watch?v='+video[0]+
+    (video[1]?'&amp;t='+video[1]+'s':'')+'" target="_blank" rel="noopener noreferrer">Посмотреть на YouTube</a></p>':'';
   const core=window.KlassikiGeometryEssentials[current+1];
   const example=window.KlassikiGeometryQuickExamples[current+1];
   const visual=current>=31&&current<=41?parallel():current>=42&&current<=47?triangle():'';
@@ -31,7 +34,7 @@ function show(message=''){
   const textbook=chapter===undefined?'':'<p><button onclick="geometryYearChapter('+chapter+')">Подробная глава</button></p>';
   app.innerHTML='<article class="panel"><button onclick="geometryYearTerm('+term+')">К занятиям четверти</button>'+
    '<p>Занятие '+(current+1)+' из '+lessons.length+'</p><h2>'+esc(title)+'</h2>'+
-   '<p>'+esc(core||rule)+'</p>'+visual+
+   '<p>'+esc(core||rule)+'</p>'+visual+videoLink+
    (example?'<h3>Пример</h3><p>'+esc(example)+'</p>':'')+
    '<h3>Задание</h3><p>'+esc(task)+'</p><details class="question"><summary>Открыть разбор</summary><p>'+esc(solution)+'</p></details>'+
    explanation+textbook+

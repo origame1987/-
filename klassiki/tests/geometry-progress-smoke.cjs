@@ -76,7 +76,7 @@ console.log('PASS: textbook rendering, quiz scoring, retry history, corrupted st
 
 ctx.esc=value=>String(value);
 ctx.save=()=>localStorage.setItem('main-progress-fixture',JSON.stringify(ctx.progress));
-for(const name of ['geometry-year-data.js','geometry-year-view.js']){
+for(const name of ['geometry-year-data.js','geometry-year-videos.js','geometry-year-view.js']){
  const source=fs.readFileSync(path.join(base,name),'utf8');
  new vm.Script(source,{filename:name}).runInContext(ctx);
 }
@@ -117,3 +117,22 @@ assert.match(app.innerHTML,/<p>Прямые параллельны, если н�
 ctx.window.geometryYearStart();
 assert.match(app.innerHTML,/<ol start="35">/);
 assert.match(app.innerHTML,/Продолжить занятие 35/);
+
+const videos=ctx.window.KlassikiGeometryVideos;
+const noVideo=new Set([12,30,41,59,67]);
+assert.equal(Object.keys(videos).length,68-noVideo.size);
+for(let number=1;number<=68;number++){
+ ctx.window.geometryYearOpen(number-1);
+ const video=videos[number];
+ if(noVideo.has(number)){
+  assert.equal(video,undefined);
+  assert.ok(!app.innerHTML.includes('youtu'));
+  continue;
+ }
+ const [id,seconds]=video;
+ assert.match(id,/^[A-Za-z0-9_-]{11}$/);
+ assert.ok(seconds===undefined||(Number.isInteger(seconds)&&seconds>0));
+ const url='https://www.youtube.com/watch?v='+id+(seconds?'&amp;t='+seconds+'s':'');
+ assert.ok(app.innerHTML.includes('href="'+url+'" target="_blank" rel="noopener noreferrer"'));
+}
+console.log('PASS: 63 lesson video links and five independent tests');
