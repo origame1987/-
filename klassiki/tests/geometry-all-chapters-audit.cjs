@@ -38,5 +38,17 @@ for(let id=0;id<16;id++){
   if(new Set(q.options.map(x=>String(x).trim().toLowerCase())).size!==q.options.length)problems.push('Chapter '+id+' quiz '+(i+1)+': duplicate choices');
  }
 }
+const guideFile='geometry-foundations-guide.js';
+assert.equal(scripts.filter(s=>s===guideFile).length,1,'Guide must be loaded exactly once');
+assert.ok(scripts.indexOf(guideFile)<scripts.indexOf('geometry-textbook-view.js'));
+new vm.Script(fs.readFileSync(path.join(base,guideFile),'utf8'),{filename:guideFile}).runInContext(ctx);
+const guide=ctx.window.KlassikiGeometryGuide;
+assert.equal(guide.length,6);
+for(const [id,lesson] of guide.entries()){
+ assert.equal(lesson.hints.length,book.get(id)?.exercises.length,'Hint and exercise counts differ for chapter '+id);
+ assert.ok(lesson.goals.length>=2);
+ assert.ok([lesson.introduction,lesson.recap,lesson.check,...lesson.goals,...lesson.hints]
+  .every(value=>typeof value==='string'&&value.trim().length>0),'Empty guidance for chapter '+id);
+}
 if(problems.length){console.error('FAIL: '+problems.length+' issues\n'+problems.join('\n'));process.exitCode=1}
 else console.log('PASS: 16 registered chapters, script order, diagrams, structure, examples, solutions and quiz integrity. This does NOT establish mathematical correctness.');

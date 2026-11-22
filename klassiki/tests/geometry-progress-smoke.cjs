@@ -20,13 +20,15 @@ const ctx={window:{scrollTo(){}},document,localStorage,FormData:FormDataStub,
  structuredClone,Map,app,page:'home',render(){},navHtml(){},geometryQuarterHome(){},
  console,progress:{},subject:0,quarter:1,save(){},go(page){ctx.page=page;ctx.render()}};
 vm.createContext(ctx);
-for(const name of ['geometry-textbook-registry.js','geometry-textbook-lesson00.js','geometry-textbook-view.js']){
+for(const name of ['geometry-textbook-registry.js','geometry-textbook-lesson00.js','geometry-foundations-guide.js','geometry-textbook-view.js']){
  const source=fs.readFileSync(path.join(base,name),'utf8');
  new vm.Script(source,{filename:name}).runInContext(ctx);
 }
 const chapter=ctx.window.KlassikiTextbook.get(0);
 assert.ok(chapter&&chapter.quiz.length>=8,'Fixture chapter absent');
 ctx.window.geometryTextbookOpen(0);
+assert.match(app.innerHTML,/Что ты освоишь/);
+assert.match(app.innerHTML,/<details><summary>Подсказка<\/summary>.*?<details><summary>Решение<\/summary>/);
 assert.match(app.innerHTML,/textbookQuiz/,'Quiz form not rendered');
 assert.equal(typeof handlers.get('submit'),'function','Quiz handler missing');
 function submit(correct){
