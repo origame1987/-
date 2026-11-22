@@ -206,3 +206,38 @@ assert.match(app.innerHTML,/Продолжить занятие 48/);
 assert.equal(ctx.window.russianYearSummary().done,1);
 assert.equal(ctx.window.algebraYearSummary().done,1);
 console.log('PASS: Russian course, all 48 lessons, four quarters and independent progress');
+
+for(const name of ['literature-year-data.js','literature-year-view.js']){
+ const source=fs.readFileSync(path.join(base,name),'utf8');
+ new vm.Script(source,{filename:name}).runInContext(ctx);
+}
+const literature=ctx.window.KlassikiLiteratureYear;
+const literatureTitles=new Set();
+assert.equal(literature.length,4);
+for(const [term,lessons] of literature.entries()){
+ assert.equal(lessons.length,12);
+ ctx.window.literatureYearTerm(term);
+ assert.match(app.innerHTML,new RegExp('<ol start="'+(term*12+1)+'">'));
+ for(const [offset,[title,assignment,question,answer]] of lessons.entries()){
+  assert.ok([title,assignment,question,answer].every(text=>typeof text==='string'&&text.trim()));
+  assert.ok(!literatureTitles.has(title));
+  literatureTitles.add(title);
+  const id=term*12+offset;
+  ctx.window.literatureYearOpen(id);
+  assert.ok(app.innerHTML.includes(title));
+  assert.match(app.innerHTML,/<summary>Открыть разбор<\/summary>/);
+  for(const [label,url] of ctx.window.KlassikiLiteratureReadings[id+1]??[]){
+   assert.ok(label.trim());
+   assert.ok(['ru.wikisource.org','www.culture.ru','ilibrary.ru','www.ilibrary.ru','rusneb.ru'].includes(new URL(url).hostname));
+   assert.ok(app.innerHTML.includes('href="'+url+'" target="_blank" rel="noopener noreferrer"'));
+  }
+ }
+}
+ctx.window.literatureYearToggle({setAttribute(){}});
+ctx.progress=JSON.parse(localStorage.getItem('main-progress-fixture'));
+ctx.window.literatureYearStart();
+assert.match(app.innerHTML,/Выполнено 1 из 12/);
+assert.match(app.innerHTML,/Продолжить занятие 48/);
+assert.equal(ctx.window.literatureYearSummary().done,1);
+assert.equal(ctx.window.russianYearSummary().done,1);
+console.log('PASS: literature course, all 48 lessons, reading links and independent progress');
