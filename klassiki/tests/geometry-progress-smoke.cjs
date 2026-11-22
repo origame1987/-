@@ -19,14 +19,20 @@ class FormDataStub{constructor(form){this.form=form}get(k){return this.form.answ
 const ctx={window:{scrollTo(){}},document,localStorage,FormData:FormDataStub,
  structuredClone,Map,app,page:'home',render(){},navHtml(){},geometryQuarterHome(){},
  console,progress:{},subject:0,quarter:1,save(){},go(page){ctx.page=page;ctx.render()}};
+ctx.esc=value=>String(value);
 vm.createContext(ctx);
-for(const name of ['geometry-textbook-registry.js','geometry-textbook-lesson00.js','geometry-foundations-guide.js','geometry-textbook-view.js']){
+for(const name of ['lesson-readings.js','geometry-textbook-registry.js','geometry-textbook-lesson00.js','geometry-foundations-guide.js','geometry-textbook-view.js']){
  const source=fs.readFileSync(path.join(base,name),'utf8');
  new vm.Script(source,{filename:name}).runInContext(ctx);
 }
 const chapter=ctx.window.KlassikiTextbook.get(0);
 assert.ok(chapter&&chapter.quiz.length>=8,'Fixture chapter absent');
+function assertLessonLink(){
+ assert.match(app.innerHTML,/href="https:\/\//, 'Lesson should link to further explanations');
+}
+
 ctx.window.geometryTextbookOpen(0);
+assertLessonLink();
 assert.match(app.innerHTML,/Что ты освоишь/);
 assert.match(app.innerHTML,/<details><summary>Подсказка<\/summary>.*?<details><summary>Решение<\/summary>/);
 assert.match(app.innerHTML,/textbookQuiz/,'Quiz form not rendered');
@@ -74,7 +80,6 @@ assert.equal(state[0].length,30,'Attempt history not bounded');
 assert.ok(state[0].every(a=>typeof a.date==='string'&&a.total===chapter.quiz.length),'Malformed saved attempt');
 console.log('PASS: textbook rendering, quiz scoring, retry history, corrupted storage recovery, 30-attempt limit');
 
-ctx.esc=value=>String(value);
 ctx.save=()=>localStorage.setItem('main-progress-fixture',JSON.stringify(ctx.progress));
 for(const name of ['geometry-year-data.js','geometry-year-videos.js','geometry-year-view.js']){
  const source=fs.readFileSync(path.join(base,name),'utf8');
@@ -93,6 +98,7 @@ year.forEach((lessons,term)=>{
   assert.ok([title,rule,task,solution].every(s=>typeof s==='string'&&s.trim().length>0));
   assert.ok(chapterId===undefined||(Number.isInteger(chapterId)&&chapterId>=0&&chapterId<=15));
   ctx.window.geometryYearOpen(17*term+i);
+  assertLessonLink();
   assert.ok(app.innerHTML.includes(title));
   assert.match(app.innerHTML,/<details class="question"><summary>Открыть разбор<\/summary>/);
  });
@@ -126,7 +132,7 @@ for(let number=1;number<=68;number++){
  const video=videos[number];
  if(noVideo.has(number)){
   assert.equal(video,undefined);
-  assert.ok(!app.innerHTML.includes('youtu'));
+  assert.ok(!app.innerHTML.includes('youtube.com/watch'));
   continue;
  }
  const [id,seconds]=video;
@@ -154,6 +160,7 @@ algebra.forEach((quarter,term)=>{
   assert.ok([title,rule,task,solution].every(s=>typeof s==='string'&&s.trim()));
   const id=17*term+i;
   ctx.window.algebraYearOpen(id);
+  assertLessonLink();
   assert.ok(app.innerHTML.includes(title));
   assert.match(app.innerHTML,/<summary>Открыть разбор<\/summary>/);
   if(chapter!==undefined)assert.ok(app.innerHTML.includes('lesson(0,'+chapter+')'));
@@ -190,6 +197,7 @@ for(const [term,lessons] of russian.entries()){
   russianTitles.add(title);
   const id=term*12+offset;
   ctx.window.russianYearOpen(id);
+  assertLessonLink();
   assert.ok(app.innerHTML.includes(title));
   assert.match(app.innerHTML,/<summary>Открыть разбор<\/summary>/);
   if(chapter!==undefined)assert.ok(app.innerHTML.includes('lesson(2,'+chapter+')'));
@@ -224,6 +232,7 @@ for(const [term,lessons] of literature.entries()){
   literatureTitles.add(title);
   const id=term*12+offset;
   ctx.window.literatureYearOpen(id);
+  assertLessonLink();
   assert.ok(app.innerHTML.includes(title));
   assert.match(app.innerHTML,/<summary>Открыть разбор<\/summary>/);
   for(const [label,url] of ctx.window.KlassikiLiteratureReadings[id+1]??[]){
@@ -259,6 +268,7 @@ for(const [term,lessons] of physics.entries()){
   physicsTitles.add(title);
   const id=term*12+offset;
   ctx.window.physicsYearOpen(id);
+  assertLessonLink();
   assert.ok(app.innerHTML.includes(title));
   assert.match(app.innerHTML,/<summary>Открыть разбор<\/summary>/);
   if(chapter!==undefined)assert.ok(app.innerHTML.includes('lesson(8,'+chapter+')'));
@@ -294,6 +304,7 @@ for(const [term,lessons] of biology.entries()){
   biologyTitles.add(title);
   const id=term*8+offset;
   ctx.window.biologyYearOpen(id);
+  assertLessonLink();
   assert.ok(app.innerHTML.includes(title));
   assert.match(app.innerHTML,/<summary>Открыть разбор<\/summary>/);
   for(const [label,link] of ctx.window.KlassikiBiologyReadings[id+1]||[]){
@@ -332,6 +343,7 @@ for(const [term,lessons] of geography.entries()){
   geographyTitles.add(title);
   const id=term*12+offset;
   ctx.window.geographyYearOpen(id);
+  assertLessonLink();
   assert.ok(app.innerHTML.includes(title));
   assert.match(app.innerHTML,/<summary>Открыть разбор<\/summary>/);
   const video=ctx.window.KlassikiGeographyVideos[id+1];
@@ -380,6 +392,7 @@ for(const [term,lessons] of english.entries()){
   englishTitles.add(title);
   const id=term*12+offset;
   ctx.window.englishYearOpen(id);
+  assertLessonLink();
   assert.ok(app.innerHTML.includes(title));
   assert.match(app.innerHTML,/<summary>Открыть разбор<\/summary>/);
   const recording=ctx.window.KlassikiEnglishListening[id+1];
@@ -424,6 +437,7 @@ for(const [term,lessons] of informatics.entries()){
   informaticsTitles.add(title);
   const id=term*8+offset;
   ctx.window.informaticsYearOpen(id);
+  assertLessonLink();
   assert.ok(app.innerHTML.includes(title));
   assert.match(app.innerHTML,/<summary>Открыть разбор<\/summary>/);
   const video=ctx.window.KlassikiInformaticsVideos[id+1];
@@ -467,3 +481,27 @@ assert.match(app.innerHTML,/Попыток: 2. Лучший результат: 
 assert.equal(ctx.window.informaticsYearSummary().done,1);
 assert.equal(ctx.window.englishYearSummary().done,1);
 console.log('PASS: informatics course, 32 lessons, four auto-graded quizzes, retries and independent progress');
+
+ctx.SUBJECTS={4:['История России',[]],5:['Всеобщая история',[]]};
+for(const name of ['history-year-data.js','history-year-view.js']){
+ const source=fs.readFileSync(path.join(base,name),'utf8');
+ new vm.Script(source,{filename:name}).runInContext(ctx);
+}
+for(const subject of [4,5]){
+ ctx.window.historyYearStart(subject);
+ const lessons=ctx.window.KlassikiHistoryYear[subject].quarters.flat();
+ assert.equal(lessons.length,34);
+ for(const [id,[title]] of lessons.entries()){
+  ctx.window.historyYearOpen(id);
+  assert.ok(app.innerHTML.includes(title));
+  assertLessonLink();
+ }
+}
+const romanovs=ctx.window.klassikiLessonReadings(4,'Михаил Фёдорович',23);
+assert.match(romanovs,/interneturok\.ru/);
+const fallback=ctx.window.klassikiLessonReadings(1,'Контрольная работа № 2',30);
+const fallbackQuery=new URL(fallback.match(/href="([^"]+)"/)[1]).searchParams.get('search_query');
+assert.match(fallbackQuery,/три признака равенства треугольников/);
+assert.match(fallback,/Найти видеообъяснение/);
+assert.equal(ctx.window.klassikiLessonReadings(1,'Урок с видео',undefined,{hasSource:true}),'');
+console.log('PASS: links on all 508 annual lessons and on the detailed geometry chapter');
