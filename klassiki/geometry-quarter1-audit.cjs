@@ -47,8 +47,8 @@ assert.equal(ctx.window.KlassikiTextbook.list().length,16,'Duplicate/missing reg
 
 // Проверяем реальный порядок подключения: реестр должен загружаться до глав,
 // а отображение — после всех глав. Повторные script-теги могут перезаписать данные.
-const scripts=[...html.matchAll(/<script\\b[^>]*\\bsrc=["']([^"']+)["'][^>]*><\\/script>/gi)]
- .map(m=>m[1].split('?')[0].replace(/^\\.\\//,''));
+const scripts=[...html.matchAll(/<script\b[^>]*\bsrc=["']([^"']+)["'][^>]*><\/script>/gi)]
+ .map(m=>m[1].split('?')[0].replace(/^\.\//,''));
 const registryAt=scripts.indexOf('geometry-textbook-registry.js');
 const viewAt=scripts.indexOf('geometry-textbook-view.js');
 assert(registryAt>=0&&viewAt>registryAt,'Invalid textbook script order');
