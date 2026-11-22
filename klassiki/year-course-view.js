@@ -1,17 +1,33 @@
 /* Общая навигация коротких курсов с четырьмя четвертями. */
 'use strict';
-window.installKlassikiYearCourse=function({subjectId,title,terms,videos={},readings={},figures={},listening={},namespace,storagePrefix}){
+window.installKlassikiYearCourse=function({subjectId,title,terms,videos={},readings={},figures={},listening={},checks={},namespace,storagePrefix}){
  const lessons=terms.flat();
  const lessonCountWord={one:'занятие',few:'занятия',many:'занятий'}[new Intl.PluralRules('ru').select(lessons.length)];
  const lessonsPerTerm=terms[0].length;
  const lastKey=storagePrefix+'-current';
  const doneKey=i=>storagePrefix+'-done-'+i;
+ const checkKey=i=>storagePrefix+'-check-'+i;
  const completed=i=>progress[doneKey(i)]===true;
  const termFor=i=>Math.floor(i/lessonsPerTerm);
  const prior=render;
  let term=0;
  let current=0;
  let message='';
+
+ function checkRecord(record,total){
+  return record?'Попыток: '+record.attempts+'. Лучший результат: '+record.best+' из '+total+'.':'';
+ }
+
+ function showCheck(questions){
+  return '<section><h3>Проверь себя за четверть</h3>'+
+   '<form onsubmit="return '+namespace+'Check(event,this)">'+questions.map(([prompt,options],i)=>
+    '<fieldset class="question"><legend>'+esc(prompt)+'</legend>'+options.map((option,j)=>
+     '<label style="display:block;padding:.35em 0"><input type="radio" name="q'+i+'" value="'+j+'" required> '+esc(option)+'</label>').join('')+
+    '</fieldset>').join('')+
+   '<button type="submit">Проверить ответы</button>'+
+   '<p id="'+storagePrefix+'-check-record">'+esc(checkRecord(progress[checkKey(current)],questions.length))+'</p>'+
+   '<div id="'+storagePrefix+'-check-result" role="status"></div></form></section>';
+ }
 
  function showLesson(){
   const [lessonTitle,rule,task,solution,chapter]=lessons[current];
@@ -31,11 +47,12 @@ window.installKlassikiYearCourse=function({subjectId,title,terms,videos={},readi
    '<source src="./'+esc(recording[0])+'" type="audio/mpeg">'+
    '<a href="./'+esc(recording[0])+'">Открыть аудиозапись</a></audio>'+
    '<details class="question"><summary>Показать текст записи</summary><p lang="en">'+esc(recording[1])+'</p></details>':'';
+  const questions=checks[current+1];
   const next=current+1<lessons.length?'<button class="primary" onclick="'+namespace+'Open('+(current+1)+')">Следующее занятие</button>':'';
   app.innerHTML='<article class="panel"><button onclick="'+namespace+'Term('+term+')">К занятиям четверти</button>'+
    '<p>Занятие '+(current+1)+' из '+lessons.length+'</p><h2>'+esc(lessonTitle)+'</h2><p>'+esc(rule)+'</p>'+
    watch+read+'<h3>Задание</h3><p>'+esc(task)+'</p>'+illustration+listen+'<details class="question"><summary>Открыть разбор</summary><p>'+esc(solution)+'</p></details>'+
-   explanation+'<div class="toolbar"><button onclick="'+namespace+'Toggle(this)" aria-pressed="'+completed(current)+'">'+
+   explanation+(questions?showCheck(questions):'')+'<div class="toolbar"><button onclick="'+namespace+'Toggle(this)" aria-pressed="'+completed(current)+'">'+
    (completed(current)?'Выполнено':'Отметить выполненным')+'</button>'+next+'</div><p id="'+storagePrefix+'-status" role="status">'+esc(message)+'</p></article>';
  }
  function showTerm(){
@@ -81,6 +98,32 @@ window.installKlassikiYearCourse=function({subjectId,title,terms,videos={},readi
   button.setAttribute('aria-pressed',String(value));
   button.textContent=value?'Выполнено':'Отметить выполненным';
   status.textContent='Отметка сохранена.';
+ };
+ if(Object.keys(checks).length)window[namespace+'Check']=function(event,form){
+  event.preventDefault();
+  const questions=checks[current+1];
+  const answers=new FormData(form);
+  const choices=questions.map((_,i)=>answers.get('q'+i));
+  if(choices.includes(null))return false;
+  const correct=questions.map((q,i)=>choices[i]===String(q[2]));
+  const score=correct.filter(Boolean).length;
+  const key=checkKey(current);
+  const old=progress[key];
+  const record={
+   attempts:Math.min(Number.MAX_SAFE_INTEGER,(old?.attempts??0)+1),
+   best:Math.max(old?.best??0,score)
+  };
+  const result=document.getElementById(storagePrefix+'-check-result');
+  const feedback=questions.map((q,i)=>'<li>'+(correct[i]?'Верно. ':'Верный ответ: '+esc(q[1][q[2]])+'. ')+esc(q[3])+'</li>').join('');
+  result.innerHTML='<p>Результат: '+score+' из '+questions.length+'.</p><ol>'+feedback+'</ol>';
+  progress[key]=record;
+  try{save()}catch{
+   if(old)progress[key]=old;else delete progress[key];
+   result.innerHTML+='<p>Браузер не сохранил результат.</p>';
+   return false;
+  }
+  document.getElementById(storagePrefix+'-check-record').textContent=checkRecord(record,questions.length);
+  return false;
  };
  render=function(){
   if(page===namespace||page===namespace+'Lesson'||(page==='subject'&&subject===subjectId)){

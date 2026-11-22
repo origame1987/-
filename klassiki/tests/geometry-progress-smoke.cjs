@@ -406,3 +406,64 @@ assert.match(app.innerHTML,/Продолжить занятие 48/);
 assert.equal(ctx.window.englishYearSummary().done,1);
 assert.equal(ctx.window.geographyYearSummary().done,1);
 console.log('PASS: English course, 48 lessons, eight recordings and independent progress');
+
+for(const name of ['informatics-year-data.js','informatics-year-view.js']){
+ const source=fs.readFileSync(path.join(base,name),'utf8');
+ new vm.Script(source,{filename:name}).runInContext(ctx);
+}
+const informatics=ctx.window.KlassikiInformaticsYear;
+const informaticsTitles=new Set();
+assert.equal(informatics.length,4);
+for(const [term,lessons] of informatics.entries()){
+ assert.equal(lessons.length,8);
+ ctx.window.informaticsYearTerm(term);
+ assert.match(app.innerHTML,new RegExp('<ol start="'+(term*8+1)+'">'));
+ for(const [offset,[title,rule,task,solution]] of lessons.entries()){
+  assert.ok([title,rule,task,solution].every(value=>typeof value==='string'&&value.trim()));
+  assert.ok(!informaticsTitles.has(title));
+  informaticsTitles.add(title);
+  const id=term*8+offset;
+  ctx.window.informaticsYearOpen(id);
+  assert.ok(app.innerHTML.includes(title));
+  assert.match(app.innerHTML,/<summary>Открыть разбор<\/summary>/);
+  const video=ctx.window.KlassikiInformaticsVideos[id+1];
+  if(video)assert.ok(app.innerHTML.includes('https://www.youtube.com/watch?v='+video));
+  const questions=ctx.window.KlassikiInformaticsChecks[id+1];
+  if(offset!==7){
+   assert.equal(questions,undefined);
+   assert.doesNotMatch(app.innerHTML,/Проверить ответы/);
+   continue;
+  }
+  assert.equal(questions.length,4);
+  const answers=Object.fromEntries(questions.map(([prompt,options,correct,why],i)=>{
+   assert.ok(prompt.trim()&&why.trim());
+   assert.equal(new Set(options).size,3);
+   assert.ok(Number.isInteger(correct)&&options[correct]);
+   assert.ok(app.innerHTML.includes(prompt));
+   return ['q'+i,String(correct)];
+  }));
+  const wrong=Object.fromEntries(Object.entries(answers).map(([key,value])=>[key,String((Number(value)+1)%3)]));
+  const event={preventDefault(){}};
+  const stateKey='informatics-year-check-'+id;
+  assert.equal(ctx.window.informaticsYearCheck(event,{answers:{...answers,q0:null}}),false);
+  assert.equal(ctx.progress[stateKey],undefined);
+  ctx.window.informaticsYearCheck(event,{answers});
+  assert.match(nodes.get('informatics-year-check-result').innerHTML,/Результат: 4 из 4/);
+  ctx.window.informaticsYearCheck(event,{answers:wrong});
+  assert.match(nodes.get('informatics-year-check-result').innerHTML,/Результат: 0 из 4/);
+  assert.match(nodes.get('informatics-year-check-result').innerHTML,/Верный ответ:/);
+  assert.equal(ctx.progress[stateKey].attempts,2);
+  assert.equal(ctx.progress[stateKey].best,4);
+ }
+}
+assert.doesNotMatch(app.innerHTML,/Следующее занятие/);
+ctx.window.informaticsYearToggle({setAttribute(){}});
+ctx.progress=JSON.parse(localStorage.getItem('main-progress-fixture'));
+ctx.window.informaticsYearStart();
+assert.match(app.innerHTML,/Выполнено 1 из 8/);
+assert.match(app.innerHTML,/Продолжить занятие 32/);
+ctx.window.informaticsYearOpen(31);
+assert.match(app.innerHTML,/Попыток: 2. Лучший результат: 4 из 4./);
+assert.equal(ctx.window.informaticsYearSummary().done,1);
+assert.equal(ctx.window.englishYearSummary().done,1);
+console.log('PASS: informatics course, 32 lessons, four auto-graded quizzes, retries and independent progress');
