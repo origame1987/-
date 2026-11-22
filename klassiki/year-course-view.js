@@ -2,6 +2,7 @@
 'use strict';
 window.installKlassikiYearCourse=function({subjectId,title,terms,videos={},readings={},namespace,storagePrefix}){
  const lessons=terms.flat();
+ const lessonCountWord={one:'занятие',few:'занятия',many:'занятий'}[new Intl.PluralRules('ru').select(lessons.length)];
  const lessonsPerTerm=terms[0].length;
  const lastKey=storagePrefix+'-current';
  const doneKey=i=>storagePrefix+'-done-'+i;
@@ -31,7 +32,7 @@ window.installKlassikiYearCourse=function({subjectId,title,terms,videos={},readi
   const first=term*lessonsPerTerm;
   const done=terms[term].filter((_,i)=>completed(first+i)).length;
   const last=progress[lastKey];
-  app.innerHTML='<section class="panel"><h2>'+esc(title)+' · '+lessons.length+' занятий</h2>'+
+  app.innerHTML='<section class="panel"><h2>'+esc(title)+' · '+lessons.length+' '+lessonCountWord+'</h2>'+
    '<div class="toolbar" aria-label="Четверти">'+terms.map((_,i)=>'<button aria-pressed="'+(term===i)+'" onclick="'+namespace+'Term('+i+')">'+(i+1)+' четверть</button>').join('')+'</div>'+
    '<p>Выполнено '+done+' из '+terms[term].length+' в этой четверти.</p>'+
    (lessons[last]?'<p><button class="primary" onclick="'+namespace+'Open('+last+')">Продолжить занятие '+(last+1)+'</button></p>':'')+

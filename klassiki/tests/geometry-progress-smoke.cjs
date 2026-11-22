@@ -286,6 +286,7 @@ assert.equal(biology.length,4);
 for(const [term,lessons] of biology.entries()){
  assert.equal(lessons.length,8);
  ctx.window.biologyYearTerm(term);
+ assert.match(app.innerHTML,/32 занятия<\/h2>/);
  assert.match(app.innerHTML,new RegExp('<ol start="'+(term*8+1)+'">'));
  for(const [offset,[title,rule,task,solution]] of lessons.entries()){
   assert.ok([title,rule,task,solution].every(value=>typeof value==='string'&&value.trim()));
