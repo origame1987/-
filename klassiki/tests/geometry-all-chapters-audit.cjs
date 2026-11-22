@@ -43,9 +43,9 @@ assert.equal(scripts.filter(s=>s===guideFile).length,1,'Guide must be loaded exa
 assert.ok(scripts.indexOf(guideFile)<scripts.indexOf('geometry-textbook-view.js'));
 new vm.Script(fs.readFileSync(path.join(base,guideFile),'utf8'),{filename:guideFile}).runInContext(ctx);
 const guide=ctx.window.KlassikiGeometryGuide;
-assert.equal(guide.length,6);
-for(const [id,lesson] of guide.entries()){
- assert.equal(lesson.hints.length,book.get(id)?.exercises.length,'Hint and exercise counts differ for chapter '+id);
+assert.deepEqual(Object.keys(guide).map(Number),[0,1,2,3,4,5,6,7,10,11]);
+for(const [id,lesson] of Object.entries(guide)){
+ assert.equal(lesson.hints.length,book.get(Number(id))?.exercises.length,'Hint and exercise counts differ for chapter '+id);
  assert.ok(lesson.goals.length>=2);
  assert.ok([lesson.introduction,lesson.recap,lesson.check,...lesson.goals,...lesson.hints]
   .every(value=>typeof value==='string'&&value.trim().length>0),'Empty guidance for chapter '+id);
