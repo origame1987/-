@@ -67,7 +67,7 @@ async function main(){
  online=true;
  newHtml=html.replace('</body>','<script src="./missing.js"></script></body>');
  assert.equal(await (await navigate()).text(),html,'Incomplete updates must keep the old edition');
- newHtml=html.replace('Учебный план','Новый учебный план').replace('year-lesson-explanations.js?v=5','year-lesson-explanations.js?v=test');
+ newHtml=html.replace('Учебный план','Новый учебный план').replace(/year-lesson-explanations\.js\?v=\d+/,'year-lesson-explanations.js?v=test');
  assert.notEqual(newHtml,html);
  assert.equal(await (await navigate()).text(),newHtml);
  online=false;
