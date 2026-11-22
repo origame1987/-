@@ -10,6 +10,7 @@ const completed=i=>progress[doneKey(i)]===true;
 const prior=render;
 let current=0;
 let term=0;
+let returnFromChapter=null;
 
 const diagram=(label,content)=>'<figure class="question" style="max-width:460px;margin:16px 0"><svg viewBox="0 0 320 160" width="100%" role="img" aria-label="'+label+'">'+content+'</svg></figure>';
 const parallel=()=>diagram('Прямые a и b и секущая c. Точки пересечения P и Q.',
@@ -23,12 +24,17 @@ function show(message=''){
  navHtml();
  if(page==='geometryYearLesson'){
   const [title, rule, task, solution, chapter]=lessons[current];
+  const core=window.KlassikiGeometryEssentials[current+1];
+  const example=window.KlassikiGeometryQuickExamples[current+1];
   const visual=current>=31&&current<=41?parallel():current>=42&&current<=47?triangle():'';
+  const explanation=core?'<details class="question"><summary>Подробнее о правиле</summary><p>'+esc(rule)+'</p></details>':'';
+  const textbook=chapter===undefined?'':'<p><button onclick="geometryYearChapter('+chapter+')">Подробная глава</button></p>';
   app.innerHTML='<article class="panel"><button onclick="geometryYearTerm('+term+')">К занятиям четверти</button>'+
    '<p>Занятие '+(current+1)+' из '+lessons.length+'</p><h2>'+esc(title)+'</h2>'+
-   '<p>'+esc(rule)+'</p>'+visual+
-   (chapter===undefined?'':'<p><button onclick="geometryTextbookOpen('+chapter+')">Открыть главу учебника</button></p>')+
+   '<p>'+esc(core||rule)+'</p>'+visual+
+   (example?'<h3>Пример</h3><p>'+esc(example)+'</p>':'')+
    '<h3>Задание</h3><p>'+esc(task)+'</p><details class="question"><summary>Открыть разбор</summary><p>'+esc(solution)+'</p></details>'+
+   explanation+textbook+
    '<div class="toolbar"><button onclick="geometryYearToggle()" aria-pressed="'+completed(current)+'">'+(completed(current)?'Выполнено':'Отметить выполненным')+'</button>'+
    (current+1<lessons.length?'<button class="primary" onclick="geometryYearOpen('+(current+1)+')">Следующее занятие</button>':'<button class="primary" onclick="geometryYearTerm('+term+')">К занятиям четверти</button>')+
    '</div><p role="status">'+esc(message)+'</p></article>';
@@ -38,12 +44,25 @@ function show(message=''){
  const first=term*size;
  const done=terms[term].filter((_,i)=>completed(first+i)).length;
  app.innerHTML='<section class="panel"><h2>Геометрия 7 класса · 68 занятий</h2>'+
-  '<p>В каждом занятии есть правило, задание и разбор. К темам, уже раскрытым в учебнике, добавлены ссылки на главы.</p>'+
   '<div class="toolbar" aria-label="Четверти">'+terms.map((_,i)=>'<button aria-pressed="'+(term===i)+'" onclick="geometryYearTerm('+i+')">'+(i+1)+' четверть</button>').join('')+'</div>'+
   '<p>Выполнено '+done+' из '+size+' в этой четверти.</p>'+
   (lessons[last]?'<p><button class="primary" onclick="geometryYearOpen('+last+')">Продолжить занятие '+(last+1)+'</button></p>':'')+
-  '<ol start="'+(first+1)+'">'+terms[term].map(([title],i)=>'<li style="margin-bottom:8px"><button onclick="geometryYearOpen('+(first+i)+')">'+(completed(first+i)?'✓ ':'')+esc(title)+'</button></li>').join('')+'</ol></section>';
+  '<ol start="'+(first+1)+'">'+terms[term].map(([title],i)=>'<li style="margin-bottom:8px"><button onclick="geometryYearOpen('+(first+i)+')">'+(completed(first+i)?'✓ ':'')+esc(title)+'</button></li>').join('')+'</ol><p><button onclick="geometryYearTextbook()">Все подробные главы</button></p></section>';
 }
+window.geometryYearStart=function(){
+ subject=1;
+ const last=progress[lastKey];
+ window.geometryYearTerm(lessons[last]?Math.floor(last/size):0);
+};
+window.geometryYearTextbook=function(){
+ subject=1;
+ quarter=term+1;
+ go('geometryQuarter');
+};
+window.geometryYearChapter=function(id){
+ returnFromChapter=current;
+ window.geometryTextbookOpen(id);
+};
 window.geometryYearTerm=function(i){
  if(!Number.isInteger(i)||!terms[i])return;
  term=i;
@@ -67,12 +86,21 @@ window.geometryYearToggle=function(){
  show('Отметка сохранена.');
 };
 render=function(){
+ if(page!=='geometryTextbook')returnFromChapter=null;
  if(page==='geometryYear'||page==='geometryYearLesson'){show();return}
  prior();
+ if(page==='geometryTextbook'&&returnFromChapter!==null){
+  const lesson=returnFromChapter;
+  const back=document.createElement('button');
+  back.textContent='К короткому уроку';
+  back.onclick=()=>window.geometryYearOpen(lesson);
+  app.prepend(back);
+ }
  if(page==='home'||page==='geometryQuarter'){
   const section=document.createElement('section');
   section.className='panel';
-  section.innerHTML='<button class="primary" onclick="geometryYearTerm('+(page==='geometryQuarter'?quarter-1:0)+')">Годовой маршрут · 68 занятий</button>';
+  const action=page==='geometryQuarter'?'geometryYearTerm('+(quarter-1)+')':'geometryYearStart()';
+  section.innerHTML='<button class="primary" onclick="'+action+'">Короткий курс геометрии</button>';
   app.prepend(section);
  }
 };

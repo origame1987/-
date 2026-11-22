@@ -104,6 +104,16 @@ ctx.window.geometryYearTerm(3);
 assert.match(app.innerHTML,/Выполнено 1 из 17/);
 assert.match(app.innerHTML,/Продолжить занятие 68/);
 ctx.window.geometryYearOpen(0);
-assert.match(app.innerHTML,/geometryTextbookOpen\(0\)/);
+assert.match(app.innerHTML,/geometryYearChapter\(0\)/);
 assert.match(app.innerHTML,/geometryYearOpen\(1\)/);
 console.log('PASS: four quarters with 68 unique activities, worked solutions, resume, completion and textbook link');
+
+ctx.window.geometryYearOpen(6);
+assert.match(app.innerHTML,/180° − 65° = 115°/);
+ctx.window.geometryYearOpen(34);
+assert.match(app.innerHTML,/<details class="question"><summary>Подробнее о правиле<\/summary>/);
+assert.ok(app.innerHTML.indexOf('Задание')<app.innerHTML.indexOf('Подробнее о правиле'));
+assert.match(app.innerHTML,/<p>Прямые параллельны, если накрест лежащие/);
+ctx.window.geometryYearStart();
+assert.match(app.innerHTML,/<ol start="35">/);
+assert.match(app.innerHTML,/Продолжить занятие 35/);
