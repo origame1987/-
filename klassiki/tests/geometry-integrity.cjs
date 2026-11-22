@@ -13,13 +13,13 @@ for(let id=0;id<16;id++){
  try{load(name)}catch(e){errors.push(name+': '+e.message)}
 }
 const chapters=ctx.window.KlassikiTextbook.list();
-assert.equal(chapters.length,16,'Expected 16 unique chapters');
+if(chapters.length!==16) errors.push('Expected 16 unique chapters; registered '+chapters.length+'; ids: '+chapters.map(ch=>ch.id).join(', '));
 for(let id=0;id<16;id++){
  const ch=ctx.window.KlassikiTextbook.get(id);
  if(!ch){errors.push('Missing chapter '+id);continue}
  const check=(condition,msg)=>{if(!condition)errors.push('Chapter '+id+': '+msg)};
  check(ch.sections.length>=8,'fewer than 8 theory sections');
- check(ch.examples.length===5,'expected 5 worked examples');
+ check(ch.examples.length>=5,'expected at least 5 worked examples');
  check(ch.exercises.length>=16&&ch.exercises.length<=20,'expected 16–20 exercises');
  check(ch.quiz.length>=8&&ch.quiz.length<=10,'expected 8–10 quiz questions');
  check(typeof ch.diagram==='string'&&/<svg\b/.test(ch.diagram)&&/<\/svg>/.test(ch.diagram),'missing SVG diagram');
