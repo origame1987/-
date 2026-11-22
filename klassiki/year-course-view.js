@@ -1,6 +1,6 @@
 /* Общая навигация коротких курсов с четырьмя четвертями. */
 'use strict';
-window.installKlassikiYearCourse=function({subjectId,title,terms,videos={},readings={},namespace,storagePrefix}){
+window.installKlassikiYearCourse=function({subjectId,title,terms,videos={},readings={},figures={},namespace,storagePrefix}){
  const lessons=terms.flat();
  const lessonCountWord={one:'занятие',few:'занятия',many:'занятий'}[new Intl.PluralRules('ru').select(lessons.length)];
  const lessonsPerTerm=terms[0].length;
@@ -21,10 +21,14 @@ window.installKlassikiYearCourse=function({subjectId,title,terms,videos={},readi
   const sources=readings[current+1]||[];
   const read=sources.length?'<div class="toolbar">'+sources.map(([label,url])=>
    '<a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">'+esc(label)+'</a>').join('')+'</div>':'';
+  const figure=figures[current+1];
+  const illustration=figure?'<figure style="margin:1rem 0;max-width:720px"><img style="display:block;width:100%;height:auto" src="./'+
+   esc(figure[0])+'" alt="'+esc(figure[1])+'"><figcaption class="muted">'+esc(figure[2])+
+   ' <a href="./'+esc(figure[0])+'" target="_blank" rel="noopener noreferrer">Открыть крупнее</a></figcaption></figure>':'';
   const next=current+1<lessons.length?'<button class="primary" onclick="'+namespace+'Open('+(current+1)+')">Следующее занятие</button>':'';
   app.innerHTML='<article class="panel"><button onclick="'+namespace+'Term('+term+')">К занятиям четверти</button>'+
    '<p>Занятие '+(current+1)+' из '+lessons.length+'</p><h2>'+esc(lessonTitle)+'</h2><p>'+esc(rule)+'</p>'+
-   watch+read+'<h3>Задание</h3><p>'+esc(task)+'</p><details class="question"><summary>Открыть разбор</summary><p>'+esc(solution)+'</p></details>'+
+   watch+read+'<h3>Задание</h3><p>'+esc(task)+'</p>'+illustration+'<details class="question"><summary>Открыть разбор</summary><p>'+esc(solution)+'</p></details>'+
    explanation+'<div class="toolbar"><button onclick="'+namespace+'Toggle(this)" aria-pressed="'+completed(current)+'">'+
    (completed(current)?'Выполнено':'Отметить выполненным')+'</button>'+next+'</div><p id="'+storagePrefix+'-status" role="status">'+esc(message)+'</p></article>';
  }

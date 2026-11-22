@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 330" role="img" aria-labelledby="title desc">
+<title id="title">Учебная климатограмма</title>
+<desc id="desc">Средняя температура и количество осадков по месяцам. Использованы условные данные.</desc>
+<rect width="600" height="330" fill="#fff"/>
+<g font-family="system-ui,sans-serif" font-size="16">
+<text x="18" y="25" fill="#a82437">Температура, °C</text>
+<text x="582" y="25" text-anchor="end" fill="#1d5890">Осадки, мм</text>
+<path d="M60 270H540" stroke="#dce4ef"/>
+<text x="51" y="275" text-anchor="end" fill="#a82437">0</text>
+<text x="549" y="275" fill="#1d5890">0</text>
+<path d="M60 235H540" stroke="#dce4ef"/>
+<text x="51" y="240" text-anchor="end" fill="#a82437">5</text>
+<text x="549" y="240" fill="#1d5890">25</text>
+<path d="M60 200H540" stroke="#dce4ef"/>
+<text x="51" y="205" text-anchor="end" fill="#a82437">10</text>
+<text x="549" y="205" fill="#1d5890">50</text>
+<path d="M60 165H540" stroke="#dce4ef"/>
+<text x="51" y="170" text-anchor="end" fill="#a82437">15</text>
+<text x="549" y="170" fill="#1d5890">75</text>
+<path d="M60 130H540" stroke="#dce4ef"/>
+<text x="51" y="135" text-anchor="end" fill="#a82437">20</text>
+<text x="549" y="135" fill="#1d5890">100</text>
+<path d="M60 95H540" stroke="#dce4ef"/>
+<text x="51" y="100" text-anchor="end" fill="#a82437">25</text>
+<text x="549" y="100" fill="#1d5890">125</text>
+<path d="M60 60H540" stroke="#dce4ef"/>
+<text x="51" y="65" text-anchor="end" fill="#a82437">30</text>
+<text x="549" y="65" fill="#1d5890">150</text>
+<path d="M60 60V270H540V60" fill="none" stroke="#5c6d82"/>
+<rect x="68" y="95" width="24" height="175" fill="#5696ca"/>
+<text x="80" y="294" text-anchor="middle" fill="#263d63">Янв</text>
+<rect x="108" y="116" width="24" height="154" fill="#5696ca"/>
+<text x="120" y="294" text-anchor="middle" fill="#263d63">Фев</text>
+<rect x="148" y="144" width="24" height="126" fill="#5696ca"/>
+<text x="160" y="294" text-anchor="middle" fill="#263d63">Мар</text>
+<rect x="188" y="186" width="24" height="84" fill="#5696ca"/>
+<text x="200" y="294" text-anchor="middle" fill="#263d63">Апр</text>
+<rect x="228" y="214" width="24" height="56" fill="#5696ca"/>
+<text x="240" y="294" text-anchor="middle" fill="#263d63">Май</text>
+<rect x="268" y="228" width="24" height="42" fill="#5696ca"/>
+<text x="280" y="294" text-anchor="middle" fill="#263d63">Июн</text>
+<rect x="308" y="235" width="24" height="35" fill="#5696ca"/>
+<text x="320" y="294" text-anchor="middle" fill="#263d63">Июл</text>
+<rect x="348" y="228" width="24" height="42" fill="#5696ca"/>
+<text x="360" y="294" text-anchor="middle" fill="#263d63">Авг</text>
+<rect x="388" y="207" width="24" height="63" fill="#5696ca"/>
+<text x="400" y="294" text-anchor="middle" fill="#263d63">Сен</text>
+<rect x="428" y="179" width="24" height="91" fill="#5696ca"/>
+<text x="440" y="294" text-anchor="middle" fill="#263d63">Окт</text>
+<rect x="468" y="158" width="24" height="112" fill="#5696ca"/>
+<text x="480" y="294" text-anchor="middle" fill="#263d63">Ноя</text>
+<rect x="508" y="109" width="24" height="161" fill="#5696ca"/>
+<text x="520" y="294" text-anchor="middle" fill="#263d63">Дек</text>
+<polyline points="80,95 120,102 160,109 200,130 240,151 280,165 320,172 360,165 400,151 440,130 480,116 520,102" fill="none" stroke="#a82437" stroke-width="3"/>
+</g>
+</svg>

@@ -314,3 +314,49 @@ assert.match(app.innerHTML,/Продолжить занятие 32/);
 assert.equal(ctx.window.biologyYearSummary().done,1);
 assert.equal(ctx.window.physicsYearSummary().done,1);
 console.log('PASS: biology course, all 32 lessons, video links and independent progress');
+
+for(const name of ['geography-year-data.js','geography-year-view.js']){
+ const source=fs.readFileSync(path.join(base,name),'utf8');
+ new vm.Script(source,{filename:name}).runInContext(ctx);
+}
+const geography=ctx.window.KlassikiGeographyYear;
+const geographyTitles=new Set();
+assert.equal(geography.length,4);
+for(const [term,lessons] of geography.entries()){
+ assert.equal(lessons.length,12);
+ ctx.window.geographyYearTerm(term);
+ assert.match(app.innerHTML,new RegExp('<ol start="'+(term*12+1)+'">'));
+ for(const [offset,[title,rule,task,solution]] of lessons.entries()){
+  assert.ok([title,rule,task,solution].every(value=>typeof value==='string'&&value.trim()));
+  assert.ok(!geographyTitles.has(title));
+  geographyTitles.add(title);
+  const id=term*12+offset;
+  ctx.window.geographyYearOpen(id);
+  assert.ok(app.innerHTML.includes(title));
+  assert.match(app.innerHTML,/<summary>Открыть разбор<\/summary>/);
+  const video=ctx.window.KlassikiGeographyVideos[id+1];
+  if(video){
+   assert.match(video,/^[A-Za-z0-9_-]{11}$/);
+   assert.ok(app.innerHTML.includes('https://www.youtube.com/watch?v='+video));
+  }
+  const figure=ctx.window.KlassikiGeographyFigures[id+1];
+  if(figure){
+   const [file,alt,caption]=figure;
+   const svg=fs.readFileSync(path.join(base,file),'utf8');
+   assert.match(svg,/<svg[^>]+viewBox=/);
+   assert.ok(app.innerHTML.includes('src="./'+file+'"'));
+   assert.ok(app.innerHTML.includes('href="./'+file+'"'));
+   assert.ok(app.innerHTML.includes(alt));
+   assert.ok(app.innerHTML.includes(caption));
+  }else assert.doesNotMatch(app.innerHTML,/<figure/);
+ }
+}
+assert.doesNotMatch(app.innerHTML,/Следующее занятие/);
+ctx.window.geographyYearToggle({setAttribute(){}});
+ctx.progress=JSON.parse(localStorage.getItem('main-progress-fixture'));
+ctx.window.geographyYearStart();
+assert.match(app.innerHTML,/Выполнено 1 из 12/);
+assert.match(app.innerHTML,/Продолжить занятие 48/);
+assert.equal(ctx.window.geographyYearSummary().done,1);
+assert.equal(ctx.window.biologyYearSummary().done,1);
+console.log('PASS: geography course, all 48 lessons, map and graph, videos and independent progress');
