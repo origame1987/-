@@ -81,7 +81,7 @@ assert.ok(state[0].every(a=>typeof a.date==='string'&&a.total===chapter.quiz.len
 console.log('PASS: textbook rendering, quiz scoring, retry history, corrupted storage recovery, 30-attempt limit');
 
 ctx.save=()=>localStorage.setItem('main-progress-fixture',JSON.stringify(ctx.progress));
-for(const name of ['geometry-year-data.js','geometry-year-videos.js','geometry-quarter1-explanations.js','geometry-quarter2-explanations.js','geometry-quarter3-explanations.js','geometry-year-view.js']){
+for(const name of ['geometry-year-data.js','geometry-year-videos.js','geometry-quarter1-explanations.js','geometry-quarter2-explanations.js','geometry-quarter3-explanations.js','geometry-quarter4-explanations.js','geometry-year-view.js']){
  const source=fs.readFileSync(path.join(base,name),'utf8');
  new vm.Script(source,{filename:name}).runInContext(ctx);
 }
@@ -101,15 +101,11 @@ year.forEach((lessons,term)=>{
   assertLessonLink();
   assert.ok(app.innerHTML.includes(title));
   assert.match(app.innerHTML,/<details class="question"><summary>Открыть разбор<\/summary>/);
-  if(term<=2){
-   assert.match(app.innerHTML,/Цель урока.*Как это работает.*Разобранный пример.*Самостоятельная практика/);
-   assert.equal((app.innerHTML.match(/<summary>Проверить решение<\/summary>/g)||[]).length,2);
-   assert.match(app.innerHTML,/<details class="question"><summary>Разбор по шагам<\/summary><ol><li>.+?<\/li><li>.+?<\/li><\/ol>/);
-   if((term===0&&[1,6,7,16].includes(i))||(term===1&&([0,5].includes(i)||i>=14))||(term===2&&[0,1,8,9,15].includes(i)))assert.match(app.innerHTML,/<svg[^>]+role="img" aria-label="[^"]+"/);
-   if((term===0&&i===11)||(term===1&&i===12)||(term===2&&i===6))assert.ok(app.innerHTML.indexOf('<h3>Задание</h3>')<app.innerHTML.indexOf('<h3>Разобранный пример</h3>'));
-  }else{
-   assert.doesNotMatch(app.innerHTML,/Самостоятельная практика/);
-  }
+  assert.match(app.innerHTML,/Цель урока.*Как это работает.*Разобранный пример.*Самостоятельная практика/);
+  assert.equal((app.innerHTML.match(/<summary>Проверить решение<\/summary>/g)||[]).length,2);
+  assert.match(app.innerHTML,/<details class="question"><summary>Разбор по шагам<\/summary><ol><li>.+?<\/li><li>.+?<\/li><\/ol>/);
+  if((term===0&&[1,6,7,16].includes(i))||(term===1&&([0,5].includes(i)||i>=14))||(term===2&&[0,1,8,9,11,12,15].includes(i))||(term===3&&[0,1,4,5].includes(i)))assert.match(app.innerHTML,/<svg[^>]+role="img" aria-label="[^"]+"/);
+  if((term===0&&i===11)||(term===1&&i===12)||(term===2&&i===6)||(term===3&&[7,15].includes(i)))assert.ok(app.innerHTML.indexOf('<h3>Задание</h3>')<app.innerHTML.indexOf('<h3>Разобранный пример</h3>'));
  });
 });
 assert.doesNotMatch(app.innerHTML,/Следующее занятие/);
@@ -510,13 +506,13 @@ const romanovs=ctx.window.klassikiLessonReadings(4,'Михаил Фёдоров�
 for(const [subjectId,namespace] of ['algebra',null,'russian','literature','history','history','biology','geography','physics','english','informatics'].entries()){
  if(!namespace)continue;
  if(namespace==='history')ctx.window.historyYearStart(subjectId);
- for(const number of [1,2,3]){
+ for(const number of [1,2,3,4]){
   ctx.window[namespace+'YearOpen'](number-1);
   const [goal,theory,[prompt,...steps],exercises]=ctx.window.KlassikiYearExplanations[subjectId][number];
   for(const text of [goal,theory,prompt,...steps,...exercises.flat()])assert.ok(app.innerHTML.includes(text),namespace+': '+text);
   assert.equal((app.innerHTML.match(/<summary>Проверить решение<\/summary>/g)||[]).length,2);
  }
- ctx.window[namespace+'YearOpen'](3);
+ ctx.window[namespace+'YearOpen'](4);
  assert.doesNotMatch(app.innerHTML,/Разбор по шагам/);
 }
 console.log('PASS: expanded lessons render for all eleven subjects');

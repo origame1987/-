@@ -66,7 +66,23 @@ const quarterDiagrams={
  50:()=>diagram('Прямоугольный треугольник ABC с углом 30° при A. На продолжении BC отмечена точка D, причём BC равно CD.',
   '<path d="M41 80L142 21.7V138.3Z M41 80H142 M129 80V67H142" fill="none" stroke="currentColor" stroke-width="2"/>'+
   '<path d="M137 51H147 M137 109H147" fill="none" stroke="#235bb4" stroke-width="2"/>'+
-  '<g fill="currentColor" font-size="16"><text x="21" y="86">A</text><text x="151" y="26">B</text><text x="151" y="85">C</text><text x="151" y="143">D</text></g>')
+  '<g fill="currentColor" font-size="16"><text x="21" y="86">A</text><text x="151" y="26">B</text><text x="151" y="85">C</text><text x="151" y="143">D</text></g>'),
+ 52:()=>diagram('Из P проведены перпендикуляр PH и наклонная PX к прямой a.',
+  '<path d="M23 112H294 M95 29V112L224 112Z" fill="none" stroke="currentColor" stroke-width="2"/>'+
+  '<path d="M95 29V112 M95 99H108V112" fill="none" stroke="#235bb4" stroke-width="2"/>'+
+  '<g fill="currentColor" font-size="16"><text x="82" y="25">P</text><text x="89" y="134">H</text><text x="219" y="134">X</text><text x="283" y="103">a</text></g>'),
+ 53:()=>diagram('Точки A и B на верхней прямой, H и K на нижней. Показаны равные перпендикуляры AH и BK и общая диагональ AK.',
+  '<path d="M25 38H295 M25 122H295 M89 38V122 M221 38V122" fill="none" stroke="currentColor" stroke-width="2"/>'+
+  '<path d="M89 38L221 122 M89 110H101V122 M209 122V110H221" fill="none" stroke="#235bb4" stroke-width="2"/>'+
+  '<g fill="currentColor" font-size="16" text-anchor="middle"><text x="89" y="29">A</text><text x="221" y="29">B</text><text x="89" y="144">H</text><text x="221" y="144">K</text></g>'),
+ 56:()=>diagram('Окружность с центром B пересекает луч с началом A в точках C₁ и C₂. Перпендикуляр BH расположен между ними.',
+  '<path d="M32 113H292 M32 113L162 38 M162 38V113 M162 102H173V113" fill="none" stroke="currentColor" stroke-width="2"/>'+
+  '<path d="M112.25 113A90 90 0 0 0 211.75 113 M162 38L112.25 113 M162 38L211.75 113" fill="none" stroke="#235bb4" stroke-width="2"/>'+
+  '<g fill="currentColor" font-size="16" text-anchor="middle"><text x="32" y="135">A</text><text x="162" y="30">B</text><text x="112" y="135">C₁</text><text x="162" y="146">H</text><text x="212" y="135">C₂</text></g>'),
+ 57:()=>diagram('При основании AB длиной 6 см окружности радиусов 4 и 5 см пересекаются в точках C и C′.',
+  '<circle cx="70" cy="80" r="70" fill="none" stroke="#235bb4" stroke-width="1.4"/><circle cx="175" cy="80" r="87.5" fill="none" stroke="#235bb4" stroke-width="1.4"/>'+
+  '<path d="M70 80L109.375 22.13L175 80H70 M70 80L109.375 137.87L175 80" fill="none" stroke="currentColor" stroke-width="2"/>'+
+  '<g fill="currentColor" font-size="16" text-anchor="middle"><text x="65" y="102">A</text><text x="180" y="102">B</text><text x="109" y="17">C</text><text x="109" y="154">C′</text></g>')
 };
 const proofLessons=new Set([35,38,46,47,51]);
 function renderPractice({example,practice,check}){
@@ -90,7 +106,7 @@ function show(message=''){
   const expanded=window.KlassikiGeometryQuarter1Explanations?.[current+1];
   const extra=window.klassikiRenderYearExplanation?.(1,current+1)||'';
   const enriched=expanded||extra;
-  const control=current===11||current===29||current===40;
+  const control=[12,30,41,59,67].includes(current+1);
   const visual=quarterDiagrams[current+1]?.()||(current>=31&&current<=41?parallel():current===43?triangle():'');
   const explanation=extra&&proofLessons.has(current+1)?
    '<details class="question"><summary>Почему это верно</summary><p>'+esc(rule)+'</p></details>':
