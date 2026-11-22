@@ -1,0 +1,26 @@
+/* Дополнительный итоговый блок: треугольники, доказательства, построения. */
+(function(){
+'use strict';
+const tasks=[
+{q:'В треугольниках ABC и DEF известно AB = DE, AC = DF и угол BAC равен углу EDF. Докажи равенство треугольников.',a:'Треугольники ABC и DEF равны по первому признаку (две стороны и угол между ними): AB = DE, AC = DF, ∠BAC = ∠EDF. Соответствие A↔D, B↔E, C↔F.',p:4},
+{q:'В равнобедренном треугольнике ABC с AB = AC угол B равен 52°. Найди углы A и C.',a:'Углы при основании BC равны: ∠C = 52°. Сумма углов треугольника 180°, значит ∠A = 180° − 104° = 76°. Это использует теорему о сумме углов треугольника; если она ещё не изучена, задачу следует считать опережающей.',p:3},
+{q:'Отрезки AB и CD пересекаются в точке O, причём AO = OB и CO = OD. Докажи равенство треугольников AOC и BOD.',a:'AO = OB, CO = OD, а ∠AOC = ∠BOD как вертикальные. Следовательно, треугольники равны по первому признаку.',p:4},
+{q:'В треугольнике ABC точка M — середина BC. Как называется отрезок AM? Обязательно ли он перпендикулярен BC?',a:'AM — медиана. Вообще медиана не обязана быть перпендикулярна стороне. В равнобедренном треугольнике с AB = AC медиана к основанию BC является также высотой.',p:3},
+{q:'Из точки A проведена биссектриса AD угла BAC = 86°. Найди ∠BAD и ∠DAC.',a:'Оба угла равны 86° : 2 = 43°.',p:2},
+{q:'Можно ли построить треугольник со сторонами 3 см, 4 см, 8 см? Обоснуй.',a:'Нет. Для треугольника сумма любых двух сторон больше третьей; 3 + 4 = 7 < 8.',p:3},
+{q:'Построй циркулем и линейкой треугольник со сторонами 5, 6 и 7 см. Опиши алгоритм.',a:'Проведи AB = 7 см. Построй окружность с центром A радиуса 5 см и окружность с центром B радиуса 6 см. Выбери точку пересечения C и соедини AC, BC. Проверка: AC = 5, BC = 6, AB = 7 см. Возможны два зеркально симметричных положения.',p:4},
+{q:'Докажи: если две стороны треугольника равны, то медиана к третьей стороне делит треугольник на два равных треугольника.',a:'Пусть AB = AC, M — середина BC. Тогда BM = MC и AM — общая сторона. По третьему признаку △ABM = △ACM (три стороны).',p:4},
+{q:'Объясни отличие окружности от круга, радиуса от диаметра.',a:'Окружность — множество точек на фиксированном расстоянии r от центра. Круг включает окружность и внутренние точки. Радиус соединяет центр с точкой окружности; диаметр — хорда через центр, его длина 2r.',p:3},
+{q:'Докажи равенство углов при основании равнобедренного треугольника ABC (AB = AC), используя биссектрису AD угла A.',a:'Построй биссектрису AD, D∈BC. AB = AC, AD — общая, ∠BAD = ∠DAC. По первому признаку △ABD = △ACD, поэтому соответствующие углы ABD и ACD равны, то есть ∠B = ∠C.',p:4}
+];
+const safe=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const key='geometry7-q1-triangles-assessment-v1';
+const previous=render;
+window.geometryTriangleWork=function(){page='geometryTriangleWork';render();window.scrollTo(0,0)};
+render=function(){
+ if(page!=='geometryTriangleWork'){previous();if(page==='geometryQuarter'){const b=document.createElement('section');b.className='panel';b.innerHTML='<h3>Контрольная по треугольникам и построениям</h3><p>10 задач с доказательствами, подробными решениями и самостоятельной оценкой. Не заменяет прежние контрольные.</p><button class="primary" onclick="geometryTriangleWork()">Открыть контрольную</button>';app.append(b)}return}
+ navHtml();const max=tasks.reduce((s,t)=>s+t.p,0);
+ app.innerHTML='<article class="panel lesson"><button onclick="go(\'geometryQuarter\')">← К четверти</button><h2>Контрольная: треугольники и построения</h2><p>Выполни задачи письменно, затем раскрой ответы. Для доказательств обязательно укажи признак равенства и соответствие вершин. Самооценка не является автоматической проверкой.</p><svg viewBox="0 0 340 185" role="img" aria-label="Равнобедренный треугольник ABC с медианой AM" style="max-width:440px;width:100%"><path d="M170 18 L30 162 L310 162 Z M170 18 L170 162" stroke="currentColor" stroke-width="2" fill="none"/><path d="M95 91 l9 9 M236 91 l9 -9 M97 159 l0 7 M242 159 l0 7" stroke="currentColor" stroke-width="2"/><g fill="currentColor" font-size="15"><text x="164" y="14">A</text><text x="14" y="176">B</text><text x="312" y="176">C</text><text x="164" y="181">M</text></g></svg>'+tasks.map((t,i)=>'<section class="question"><h3>Задача '+(i+1)+' · '+t.p+' балла</h3><p>'+safe(t.q)+'</p><details><summary>Проверить решение</summary><p>'+safe(t.a)+'</p></details><label>Баллы: <select data-triangle-score>'+Array.from({length:t.p+1},(_,n)=>'<option value="'+n+'">'+n+'</option>').join('')+'</select></label></section>').join('')+'<button class="primary" id="triangle-save">Сохранить результат</button><p id="triangle-result" aria-live="polite"></p><p>Максимум: '+max+' баллов.</p></article>';
+ document.getElementById('triangle-save').addEventListener('click',()=>{const scores=[...document.querySelectorAll('[data-triangle-score]')].map(el=>Number(el.value));const total=scores.reduce((a,b)=>a+b,0);let entries=[];try{const old=JSON.parse(localStorage.getItem(key)||'[]');if(Array.isArray(old))entries=old}catch{}entries.push({date:new Date().toISOString(),scores,total,max});localStorage.setItem(key,JSON.stringify(entries.slice(-30)));document.getElementById('triangle-result').textContent='Самооценка сохранена: '+total+' из '+max+' баллов.'})
+};
+})();
