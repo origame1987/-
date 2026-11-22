@@ -48,7 +48,7 @@ for(const f of ['geometry-textbook-view.js','geometry-quarter1-course.js','geome
  assert(html.includes('./'+f+'?v='),'Missing HTML include: '+f);
  new vm.Script(fs.readFileSync(path.join(root,f),'utf8'),{filename:f});
 }
-assert(html.includes('klassiki-textbook-quiz-v1'),'Existing quiz progress key missing');
-assert(html.includes('geometry7-q1-v1'),'Existing lesson progress key missing');
+assert(fs.readFileSync(path.join(root,'geometry-textbook-view.js'),'utf8').includes("const key='klassiki-textbook-quiz-v1'"),'Existing quiz progress key missing');
+assert(fs.readFileSync(path.join(root,'geometry-quarter1-course.js'),'utf8').includes('geometry7-q1-v1'),'Existing lesson progress key missing');
 console.log('PASS: 16 chapters; '+sections+' sections; '+examples+' examples; '+exercises+' solved exercises; '+questions+' quizzes; SVG in each; progress keys retained.');
 console.log('NOTE: structural checks do not prove mathematical correctness or live GitHub Pages availability.');
