@@ -533,21 +533,21 @@ assert.ok(planIndex.indexOf('informatics-year-view.js')<planIndex.indexOf('study
 vm.runInContext(planIndex.slice(planIndex.indexOf('const SUBJECTS='),planIndex.indexOf('const KEY=')),ctx);
 vm.runInContext(planIndex.slice(planIndex.indexOf('function validatedProgress'),planIndex.indexOf('async function importData')),ctx);
 ctx.progress={};
-let planClock='2026-11-23T21:05:00Z';
+let planClock='2026-11-22T21:05:00Z';
 ctx.Date=class extends Date{constructor(...args){super(...(args.length?args:[planClock]));}};
 ctx.window.location={hash:'#plan'};
 ctx.window.addEventListener=()=>{};
 new vm.Script(fs.readFileSync(path.join(base,'study-plan.js'),'utf8'),{filename:'study-plan.js'}).runInContext(ctx);
 assert.equal(ctx.page,'studyPlan');
-assert.match(app.innerHTML,/Сегодня · /);
-assert.match(app.innerHTML,/value="2026-11-24"/);
+assert.match(app.innerHTML,/Сегодня · понедельник, 23 ноября 2026/);
+assert.match(app.innerHTML,/value="2026-11-23"/);
 
 const planIds=()=>Array.from(app.innerHTML.matchAll(/studyPlanOpen\('(study-plan-task-\d+-\d+)'\)/g),m=>m[1]);
 const calendar=new Set();
 const nextBySubject=new Map();
 let teachingDays=0;
 let worldHistoryCompleted=false;
-for(const day=new Date('2026-11-24T00:00:00Z');day<=new Date('2027-05-31T00:00:00Z');day.setUTCDate(day.getUTCDate()+1)){
+for(const day=new Date('2026-11-23T00:00:00Z');day<=new Date('2027-05-31T00:00:00Z');day.setUTCDate(day.getUTCDate()+1)){
  const iso=day.toISOString().slice(0,10);
  ctx.window.studyPlanSelect(iso);
  assert.ok(app.innerHTML.includes('value="'+iso+'"'));
@@ -567,13 +567,13 @@ for(const day=new Date('2026-11-24T00:00:00Z');day<=new Date('2027-05-31T00:00:0
   if(subjectId===4)assert.ok(worldHistoryCompleted,'Russian history must follow world history');
  }
 }
-assert.equal(teachingDays,125);
+assert.equal(teachingDays,126);
 assert.equal(calendar.size,508);
 assert.equal(nextBySubject.size,11);
 ctx.window.studyPlanSelect('2027-02-30');
 assert.match(app.innerHTML,/value="2027-05-31"/);
 ctx.window.studyPlanToday();
-assert.match(app.innerHTML,/value="2026-11-24"/);
+assert.match(app.innerHTML,/value="2026-11-23"/);
 assert.ok(planIds().includes('study-plan-task-0-0'));
 const lessonMark={checked:true},taskMark={checked:true};
 ctx.window.studyPlanToggle(lessonMark,'study-plan-task-0-0',false);
@@ -607,4 +607,4 @@ assert.equal(failed.checked,true);
 assert.equal(ctx.progress['study-plan-task-0-0'],true);
 assert.match(nodes.get('study-plan-status').textContent,/Браузер не сохранил/);
 ctx.save=originalSave;
-console.log('PASS: 508 calendar entries, 125 school days, Moscow dates, lesson routing, progress restore and failed-save rollback');
+console.log('PASS: 508 calendar entries, 126 school days, Moscow dates, lesson routing, progress restore and failed-save rollback');

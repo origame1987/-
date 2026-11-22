@@ -1,7 +1,7 @@
 /* Календарь по годовым курсам. Задания и отметки привязаны к урокам, а не к датам. */
 (function(){
 'use strict';
-const firstDate='2026-11-24';
+const firstDate='2026-11-23';
 const lastDate='2027-05-31';
 const winterBreak=['2026-12-28','2027-01-10'];
 const currentDate=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Moscow',year:'numeric',month:'2-digit',day:'2-digit'});
@@ -117,7 +117,7 @@ function showPlan(){
   '<p id="study-plan-day">'+esc(daySummary())+'</p><p id="study-plan-year" class="muted">'+esc(yearSummary())+'</p>'+
   '<div id="study-plan-missed">'+missedButton(selectedDate)+'</div>'+
   '<p id="study-plan-status" role="status"></p>'+rest+day.map(renderEntry).join('')+
-  '<details><summary>Как устроен план</summary><p>С 24 ноября 2026 по 31 мая 2027 года. Занятия по будням, зимняя пауза с 28 декабря по 10 января. '+
+  '<details><summary>Как устроен план</summary><p>С 23 ноября 2026 по 31 мая 2027 года. Занятия по будням, зимняя пауза с 28 декабря по 10 января. '+
   'Даты по московскому времени. В плане '+all.length+' уроков 7 класса и по одному заданию к каждому. '+
   'Отметки хранятся в этом браузере и входят в резервную копию прогресса.</p></details></section>';
 }
