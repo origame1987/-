@@ -43,6 +43,11 @@ state=JSON.parse(saved.get(key));
 assert.equal(state[0].length,2,'Previous attempt overwritten');
 assert.equal(state[0][1].score,0,'Wrong answers scored incorrectly');
 assert.equal(state[0][0].score,chapter.quiz.length,'Previous attempt mutated');
+ctx.window.geometryTextbookOpen(0);
+assert.match(app.innerHTML,/Мои предыдущие попытки/,'History panel missing');
+assert.match(app.innerHTML,/2 из /,'Saved score not shown on reopening');
+assert.match(app.innerHTML,/0 из /,'Second attempt not shown on reopening');
+
 saved.set(key,'{invalid json');
 submit(true);
 state=JSON.parse(saved.get(key));
