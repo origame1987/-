@@ -503,19 +503,33 @@ for(const subject of [4,5]){
  }
 }
 const romanovs=ctx.window.klassikiLessonReadings(4,'Михаил Фёдорович',23);
+const courseLessons=[algebra.flat(),year.flat(),russian.flat(),literature.flat(),
+ ctx.window.KlassikiHistoryYear[4].quarters.flat(),ctx.window.KlassikiHistoryYear[5].quarters.flat(),
+ biology.flat(),geography.flat(),physics.flat(),english.flat(),informatics.flat()];
+let expandedLessonCount=year.flat().length;
 for(const [subjectId,namespace] of ['algebra',null,'russian','literature','history','history','biology','geography','physics','english','informatics'].entries()){
  if(!namespace)continue;
  if(namespace==='history')ctx.window.historyYearStart(subjectId);
- for(const number of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27]){
+ const entries=ctx.window.KlassikiYearExplanations[subjectId];
+ assert.equal(Object.keys(entries).length,courseLessons[subjectId].length,namespace+' lesson count');
+ for(const [index,[title]] of courseLessons[subjectId].entries()){
+  const number=index+1;
+  assert.ok(entries[number],namespace+' missing explanation for '+number);
   ctx.window[namespace+'YearOpen'](number-1);
-  const [goal,theory,[prompt,...steps],exercises]=ctx.window.KlassikiYearExplanations[subjectId][number];
-  for(const text of [goal,theory,prompt,...steps,...exercises.flat()])assert.ok(app.innerHTML.includes(text),namespace+': '+text);
+  const [goal,theory,[prompt,...steps],exercises]=entries[number];
+  assert.ok(app.innerHTML.includes(ctx.esc(title)),namespace+' wrong lesson');
+  assert.ok(steps.length>=2,namespace+' worked example needs two steps');
+  assert.equal(exercises.length,2);
+  assert.notEqual(exercises[0][0],exercises[1][0]);
+  for(const text of [goal,theory,prompt,...steps,...exercises.flat()]){
+   assert.ok(text.trim()&&app.innerHTML.includes(ctx.esc(text)),namespace+': '+text);
+  }
   assert.equal((app.innerHTML.match(/<summary>Проверить решение<\/summary>/g)||[]).length,2);
+  expandedLessonCount++;
  }
- ctx.window[namespace+'YearOpen'](27);
- assert.doesNotMatch(app.innerHTML,/Разбор по шагам/);
 }
-console.log('PASS: expanded lessons render for all eleven subjects');
+assert.equal(expandedLessonCount,508);
+console.log('PASS: all 508 expanded lessons render across eleven courses');
 assert.match(romanovs,/interneturok\.ru/);
 const fallback=ctx.window.klassikiLessonReadings(1,'Контрольная работа № 2',30);
 const fallbackQuery=new URL(fallback.match(/href="([^"]+)"/)[1]).searchParams.get('search_query');
