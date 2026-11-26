@@ -506,13 +506,13 @@ const romanovs=ctx.window.klassikiLessonReadings(4,'Михаил Фёдоров�
 for(const [subjectId,namespace] of ['algebra',null,'russian','literature','history','history','biology','geography','physics','english','informatics'].entries()){
  if(!namespace)continue;
  if(namespace==='history')ctx.window.historyYearStart(subjectId);
- for(const number of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]){
+ for(const number of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27]){
   ctx.window[namespace+'YearOpen'](number-1);
   const [goal,theory,[prompt,...steps],exercises]=ctx.window.KlassikiYearExplanations[subjectId][number];
   for(const text of [goal,theory,prompt,...steps,...exercises.flat()])assert.ok(app.innerHTML.includes(text),namespace+': '+text);
   assert.equal((app.innerHTML.match(/<summary>Проверить решение<\/summary>/g)||[]).length,2);
  }
- ctx.window[namespace+'YearOpen'](25);
+ ctx.window[namespace+'YearOpen'](27);
  assert.doesNotMatch(app.innerHTML,/Разбор по шагам/);
 }
 console.log('PASS: expanded lessons render for all eleven subjects');
